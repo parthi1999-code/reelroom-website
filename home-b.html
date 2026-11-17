@@ -31,7 +31,12 @@ a{color:#F4E4E6}a:hover{color:#FFFFFF}
 @keyframes ah-marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .ah-marq{animation:ah-marq 38s linear infinite}
 @media (prefers-reduced-motion: reduce){.ah-marq{animation:none}.ah-rev,.ah-in{transition:none}}
-@media (max-width: 860px){.ah-stats4{grid-template-columns:repeat(2,minmax(0,1fr))!important}.ah-shows{grid-template-columns:1fr!important}.ah-navlinks{display:none!important}.ah-split{grid-template-columns:1fr!important}.ah-divider{display:none!important}}
+.hb-idx{transition:background .2s}.hb-idx:hover,.hb-idx:focus-visible{background:rgba(194,82,94,.16)}
+.hb-row{transition:background .25s}.hb-row:hover{background:rgba(194,82,94,.08)}
+@keyframes hb-open{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}.hb-panel{animation:hb-open .35s ease-out both}
+@media (max-width: 1000px){.hb-hero{grid-template-columns:1fr!important;padding:140px 22px 90px!important}#hb-services,#hb-stats,#hb-shows,#hb-cta,.hb-strip,#hb-centre .ah-rev{padding-left:22px!important;padding-right:22px!important}.hb-row{grid-template-columns:44px minmax(0,1fr) 44px!important;gap:14px!important}.hb-strip>div{border-left:none!important;padding-left:0!important}.hb-tag{display:none}.hb-bento>*{grid-column:span 4!important;grid-row:auto!important}.hb-tl{grid-template-columns:repeat(2,minmax(0,1fr))!important}.hb-strip,.hb-acts,.hb-foot{grid-template-columns:1fr!important}.hb-panel{grid-template-columns:1fr!important}}
+@media (max-width: 600px){header{left:20px!important;right:20px!important;top:30px!important}header .ah-chamfer-l{display:none!important}}
+@media (max-width: 860px){.ah-navlinks{display:none!important}.ah-split{grid-template-columns:1fr!important}.ah-divider{display:none!important}}
 </style>
 <script src="vendor/three.min.js"></script>
 <script src="vendor/morphdom-umd.min.js"></script>
@@ -120,151 +125,211 @@ a{color:#F4E4E6}a:hover{color:#FFFFFF}
   <!-- ===== content ===== -->
   <main style="position: relative; z-index: 2">
 
-    <!-- hero -->
-    <section style="height: min(100vh, 1000px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; text-align: center; padding: 0 40px; box-sizing: border-box">
-      <span class="ah-in" style="font: 700 11px/1.5 'JetBrains Mono', monospace; letter-spacing: .16em; {{ hin.a }}">ENGAGE · INSPIRE · ENTERTAIN</span>
-      <h1 style="margin: 0; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; font-size: clamp(68px, 10.5vw, 176px); line-height: .86; text-transform: uppercase; text-shadow: 0 6px 60px rgba(11,7,9,.6)">
-        <span class="ah-in" style="display: block; {{ hin.b }}">We bring live</span>
-        <span class="ah-in" style="display: block; {{ hin.c }}">events to life</span>
-      </h1>
-      <p class="ah-in" style="margin: 0; max-width: 560px; font-size: 17px; line-height: 1.6; color: #D4C0C4; {{ hin.d }}">Full-service live event production, high-end A/V rental and integration, from first design to final load-out, in venues of any size.</p>
-      <div class="ah-in" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; {{ hin.e }}">
-        <a href="#hb-services" class="ah-chamfer-cta" style="background: #F4E4E6; color: #0B0709; text-decoration: none; padding: 0 26px; height: 48px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px"><svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>EXPLORE OUR SERVICES</a>
-        <a href="contact.html" class="ah-chamfer-cta ah-btn" style="text-decoration: none; background: rgba(50,22,30,.7); border: 1px solid rgba(230,170,178,.2); padding: 0 26px; height: 48px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px"><svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>BOOK A SERVICE</a>
-      </div>
-    </section>
-
-    <!-- statement -->
-    <section id="hb-st" style="min-height: min(100vh, 1000px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px; text-align: center; padding: 120px 40px; box-sizing: border-box">
-      <span class="ah-rev" style="font: 700 11px/1.5 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A; {{ rv.st }}">■ SINCE 2008 · BENGALURU, INDIA</span>
-      <h2 class="ah-rev" style="margin: 0; max-width: 1180px; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; font-size: clamp(44px, 6vw, 96px); line-height: .98; text-transform: uppercase; {{ rv.st2 }}">From the first design to the final load-out, we make every show sound and look its best.</h2>
-      <p class="ah-rev" style="margin: 0; max-width: 580px; font-size: 16px; line-height: 1.7; color: #BBA5A9; {{ rv.st3 }}">Sound engineers, lighting designers, technicians and artist managers under one roof, for clubs, festivals, auditoriums and brand experiences.</p>
-    </section>
-
-    <!-- services -->
-    <section id="hb-services" style="position: relative; max-width: 1480px; margin: 0 auto; padding: 120px 56px 180px; box-sizing: border-box">
-      <div class="ah-divider" aria-hidden="true" style="position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: rgba(230,170,178,.12)"></div>
-      <div class="ah-split" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 80px; align-items: center; padding-bottom: 110px; border-bottom: 1px solid rgba(230,170,178,.12)">
-        <h2 class="ah-rev" style="margin: 0; padding-left: 8%; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; font-size: clamp(64px, 8vw, 140px); line-height: .88; text-transform: uppercase; {{ rv.svc }}">What<br>we do</h2>
-        <p class="ah-rev" style="margin: 0; padding-right: 8%; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 14px; line-height: 1.6; {{ rv.svc2 }}">Six ways we keep your show running: production, rental, sales and integration, acoustics, an authorised service centre and talent management.</p>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding-top: 80px">
-        <div style="display: flex; flex-direction: column; gap: 48px; padding: 0 3%">
-          <sc-for list="{{ svcL }}" as="v" hint-placeholder-count="3">
-            <div style="display: flex; justify-content: flex-end">
-              <article class="ah-rev ah-card-l ah-svc" style="width: min(420px, 100%); min-height: 300px; background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 24px 26px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; {{ v.st }}">
-                <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .12em; color: #A8939A">■ {{ v.n }}</span>
-                <div style="display: flex; flex-direction: column; gap: 14px; text-align: right; align-items: flex-end">
-                  <span style="font-weight: 800; font-size: 26px; letter-spacing: .02em; text-transform: uppercase">{{ v.title }}</span>
-                  <span style="font-size: 14px; line-height: 1.7; color: #BBA5A9">{{ v.body }}</span>
-                  <a href="{{ v.href }}" class="ah-link" style="text-decoration: none; display: flex; align-items: center; gap: 8px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #F4E4E6; min-height: 32px">{{ v.cta }}<svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg></a>
-                </div>
-              </article>
-            </div>
-          </sc-for>
+    <!-- hero: left-aligned editorial, with a service index -->
+    <section style="min-height: min(100vh, 1000px); display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: 48px; align-items: end; padding: 150px 72px 130px; box-sizing: border-box" class="hb-hero">
+      <div style="display: flex; flex-direction: column; gap: 26px">
+        <span class="ah-in" style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; {{ hin.a }}">■ AUDIOHEADS · BENGALURU · SINCE 2008</span>
+        <h1 style="margin: 0; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; text-transform: uppercase; font-size: clamp(72px, 9.2vw, 164px); line-height: .84; text-shadow: 0 6px 60px rgba(11,7,9,.6)">
+          <span class="ah-in" style="display: block; {{ hin.b }}">We bring</span>
+          <span class="ah-in" style="display: block; {{ hin.c }}">live events</span>
+          <span class="ah-in" style="display: block; color: transparent; -webkit-text-stroke: 1.5px #F4E4E6; {{ hin.d }}">to life</span>
+        </h1>
+        <div class="ah-in" style="display: flex; align-items: flex-end; gap: 36px; flex-wrap: wrap; {{ hin.e }}">
+          <p style="margin: 0; max-width: 420px; font-size: 16px; line-height: 1.65; color: #D4C0C4">Full-service live event production, high-end A/V rental and integration, from first design to final load-out.</p>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap">
+            <a href="#hb-services" class="ah-chamfer-cta" style="background: #F4E4E6; color: #0B0709; text-decoration: none; padding: 0 24px; height: 48px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px"><svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>OUR SERVICES</a>
+            <a href="contact.html" class="ah-chamfer-cta ah-btn" style="text-decoration: none; background: rgba(50,22,30,.7); border: 1px solid rgba(230,170,178,.2); padding: 0 24px; height: 48px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px">BOOK A SERVICE</a>
+          </div>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 48px; padding: 170px 3% 0">
-          <sc-for list="{{ svcR }}" as="v" hint-placeholder-count="3">
-            <div style="display: flex; justify-content: flex-start">
-              <article class="ah-rev ah-card ah-svc" style="width: min(420px, 100%); min-height: 300px; background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 24px 26px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; {{ v.st }}">
-                <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .12em; color: #A8939A; text-align: right">■ {{ v.n }}</span>
-                <div style="display: flex; flex-direction: column; gap: 14px">
-                  <span style="font-weight: 800; font-size: 26px; letter-spacing: .02em; text-transform: uppercase">{{ v.title }}</span>
-                  <span style="font-size: 14px; line-height: 1.7; color: #BBA5A9">{{ v.body }}</span>
-                  <a href="{{ v.href }}" class="ah-link" style="text-decoration: none; display: flex; align-items: center; gap: 8px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #F4E4E6; min-height: 32px">{{ v.cta }}<svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg></a>
-                </div>
-              </article>
+      </div>
+      <nav aria-label="Services index" class="ah-card ah-in" style="background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 22px 0 10px; {{ hin.f }}">
+        <div style="display: flex; justify-content: space-between; padding: 0 22px 14px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A"><span>■ INDEX</span><span>06</span></div>
+        <sc-for list="{{ index }}" as="x" hint-placeholder-count="6">
+          <button type="button" onClick="{{ x.go }}" class="hb-idx" style="width: 100%; background: transparent; border: none; border-top: 1px solid rgba(230,170,178,.1); color: #F4E4E6; cursor: pointer; display: flex; align-items: center; gap: 16px; padding: 0 22px; min-height: 48px; text-align: left">
+            <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #7A6268; width: 24px">{{ x.n }}</span>
+            <span style="flex: 1; font-weight: 700; font-size: 15px">{{ x.title }}</span>
+            <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10L10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg>
+          </button>
+        </sc-for>
+      </nav>
+    </section>
+
+    <!-- brands band -->
+    <section id="hb-brands" aria-label="Brands we work with" style="padding: 0 0 130px; overflow: hidden">
+      <div class="ah-rev" style="border-top: 1px solid rgba(230,170,178,.12); border-bottom: 1px solid rgba(230,170,178,.12); background: rgba(11,7,9,.55); backdrop-filter: blur(6px); {{ rv.brands }}">
+        <div style="display: flex; align-items: stretch">
+          <span style="flex: none; display: flex; align-items: center; padding: 0 28px; border-right: 1px solid rgba(230,170,178,.12); font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A; background: #0B0709; position: relative; z-index: 1">BRANDS ■</span>
+          <div style="overflow: hidden; flex: 1; padding: 22px 0">
+            <div class="ah-marq" style="display: flex; width: max-content">
+              <sc-for list="{{ brands }}" as="b" hint-placeholder-count="20">
+                <span style="display: flex; align-items: center; gap: 34px; padding-right: 34px; white-space: nowrap; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; text-transform: uppercase; font-size: clamp(30px, 3vw, 46px); line-height: 1; {{ b.st }}">{{ b.name }}<span aria-hidden="true" style="width: 8px; height: 8px; background: {{ accent }}"></span></span>
+              </sc-for>
             </div>
-          </sc-for>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- numbers -->
-    <section id="hb-stats" style="max-width: 1240px; margin: 0 auto; padding: 120px 40px 160px; box-sizing: border-box">
-      <div class="ah-stats4" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid rgba(230,170,178,.14); border-bottom: 1px solid rgba(230,170,178,.14)">
-        <sc-for list="{{ stats }}" as="c" hint-placeholder-count="4">
-          <div class="ah-rev" style="padding: 34px 26px 38px; display: flex; flex-direction: column; gap: 26px; {{ c.st }}">
-            <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A">■ {{ c.label }}</span>
-            <span style="font: 400 clamp(56px, 6vw, 92px)/1 'JetBrains Mono', monospace; letter-spacing: -.04em">{{ c.num }}</span>
-            <span style="font-size: 14px; line-height: 1.6; color: #BBA5A9">{{ c.body }}</span>
+    <!-- services: full-width expanding list -->
+    <section id="hb-services" style="max-width: 1360px; margin: 0 auto; padding: 60px 56px 170px; box-sizing: border-box">
+      <div class="ah-rev" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; padding-bottom: 46px; {{ rv.svc }}">
+        <div style="display: flex; flex-direction: column; gap: 18px">
+          <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A">■ SERVICES</span>
+          <h2 style="margin: 0; max-width: 760px; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; text-transform: uppercase; font-size: clamp(48px, 5.2vw, 86px); line-height: .9">Six ways we keep your show running</h2>
+        </div>
+        <p style="margin: 0; max-width: 360px; font-size: 15px; line-height: 1.7; color: #BBA5A9">Open any service to see what’s included. Everything is run by our own crew out of Bengaluru.</p>
+      </div>
+      <div style="border-bottom: 1px solid rgba(230,170,178,.14)">
+        <sc-for list="{{ svc }}" as="v" hint-placeholder-count="6">
+          <div id="{{ v.id }}" class="ah-rev" style="border-top: 1px solid rgba(230,170,178,.14); {{ v.rowSt }}">
+            <button type="button" onClick="{{ v.toggle }}" aria-expanded="{{ v.exp }}" aria-controls="{{ v.pid }}" class="hb-row" style="width: 100%; background: transparent; border: none; color: #F4E4E6; cursor: pointer; display: grid; grid-template-columns: 72px minmax(0, 1fr) auto 44px; align-items: center; gap: 24px; padding: 26px 8px; text-align: left">
+              <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: {{ v.numC }}">{{ v.n }}</span>
+              <span style="font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; text-transform: uppercase; font-size: clamp(34px, 4.2vw, 68px); line-height: .95; {{ v.titleSt }}">{{ v.title }}</span>
+              <span class="hb-tag" style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A; white-space: nowrap">{{ v.tag }}</span>
+              <span aria-hidden="true" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(230,170,178,.22); {{ v.iconSt }}">
+                <svg width="12" height="12" viewBox="0 0 12 12"><path d="{{ v.icon }}" stroke="currentColor" stroke-width="1.6" fill="none"></path></svg>
+              </span>
+            </button>
+            <sc-if value="{{ v.open }}" hint-placeholder-val="{{ false }}">
+              <div id="{{ v.pid }}" class="hb-panel" style="display: grid; grid-template-columns: 72px minmax(0, 1.2fr) minmax(0, 1fr); gap: 24px; padding: 0 8px 34px">
+                <span></span>
+                <div style="display: flex; flex-direction: column; gap: 22px">
+                  <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #E6D3D6; max-width: 560px">{{ v.body }}</p>
+                  <a href="{{ v.href }}" class="ah-chamfer-cta" style="align-self: flex-start; background: #F4E4E6; color: #0B0709; text-decoration: none; padding: 0 24px; height: 48px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px"><svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>{{ v.cta }}</a>
+                </div>
+                <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column">
+                  <sc-for list="{{ v.points }}" as="pt" hint-placeholder-count="3">
+                    <li style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid rgba(230,170,178,.1); font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #D4C0C4"><span style="width: 6px; height: 6px; background: {{ accent }}"></span>{{ pt }}</li>
+                  </sc-for>
+                </ul>
+              </div>
+            </sc-if>
           </div>
         </sc-for>
       </div>
     </section>
 
-    <!-- selected shows -->
-    <section id="hb-shows" style="max-width: 1240px; margin: 0 auto; padding: 120px 40px 170px; box-sizing: border-box; display: flex; flex-direction: column; gap: 48px">
-      <div class="ah-rev" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; {{ rv.shows }}">
-        <h2 style="margin: 0; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; font-size: clamp(48px, 5.5vw, 88px); line-height: .9; text-transform: uppercase">Selected shows</h2>
-        <a href="projects.html" class="ah-chamfer-cta ah-btn" style="text-decoration: none; background: rgba(50,22,30,.7); border: 1px solid rgba(230,170,178,.2); padding: 0 22px; height: 44px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px"><svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>OPEN THE PROJECT MAP</a>
+    <!-- numbers: bento grid -->
+    <section id="hb-stats" style="max-width: 1360px; margin: 0 auto; padding: 40px 56px 170px; box-sizing: border-box">
+      <div class="hb-bento" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(210px, auto); gap: 14px">
+        <article class="ah-card ah-rev" style="grid-column: span 2; grid-row: span 2; background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 28px; display: flex; flex-direction: column; justify-content: space-between; {{ bento.a }}">
+          <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A">■ SHOW CAPACITY</span>
+          <div style="display: flex; flex-direction: column; gap: 18px">
+            <span style="font: 400 clamp(110px, 13vw, 200px)/.9 'JetBrains Mono', monospace; letter-spacing: -.06em">{{ num.cap }}</span>
+            <span style="max-width: 380px; font-size: 16px; line-height: 1.6; color: #BBA5A9">Music events for 500 to 15,000 people, produced end to end: sound, light, rigging and video.</span>
+          </div>
+        </article>
+        <article class="ah-card-l ah-rev" style="background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 24px; display: flex; flex-direction: column; justify-content: space-between; {{ bento.b }}">
+          <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A">■ SINCE</span>
+          <span style="font: 400 clamp(52px, 5vw, 76px)/1 'JetBrains Mono', monospace; letter-spacing: -.04em">{{ num.since }}</span>
+        </article>
+        <article class="ah-card ah-rev" style="background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 24px; display: flex; flex-direction: column; justify-content: space-between; {{ bento.c }}">
+          <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A">■ BRANDS SERVICED</span>
+          <span style="font: 400 clamp(52px, 5vw, 76px)/1 'JetBrains Mono', monospace; letter-spacing: -.04em; color: {{ accent }}">{{ num.brands }}</span>
+        </article>
+        <article class="ah-card-b ah-rev" style="grid-column: span 2; background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 22px; {{ bento.d }}">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px">
+            <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A">■ TALENT CITIES</span>
+            <span style="font: 400 clamp(52px, 5vw, 76px)/1 'JetBrains Mono', monospace; letter-spacing: -.04em">{{ num.cities }}</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <sc-for list="{{ cities }}" as="c" hint-placeholder-count="8">
+              <span style="padding: 7px 12px; border: 1px solid rgba(230,170,178,.2); font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #D4C0C4">{{ c }}</span>
+            </sc-for>
+          </div>
+        </article>
+        <article class="ah-rev" style="grid-column: span 4; border: 1px solid rgba(230,170,178,.14); padding: 34px 32px; display: flex; justify-content: space-between; align-items: center; gap: 32px; flex-wrap: wrap; background: linear-gradient(90deg, rgba(194,82,94,.16), rgba(32,16,21,.5)); {{ bento.e }}">
+          <span style="font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; text-transform: uppercase; font-size: clamp(34px, 3.8vw, 60px); line-height: .95">Great people. Great products. Great service.</span>
+          <a href="about.html" class="ah-chamfer-cta ah-btn" style="text-decoration: none; background: rgba(50,22,30,.7); border: 1px solid rgba(230,170,178,.2); padding: 0 24px; height: 48px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px"><svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>ABOUT AUDIOHEADS</a>
+        </article>
       </div>
-      <div class="ah-shows" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: start">
-        <sc-for list="{{ shows }}" as="w" hint-placeholder-count="3">
-          <a href="projects.html" class="ah-card ah-rev ah-svc" style="text-decoration: none; color: #F4E4E6; background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 24px; min-height: 360px; display: flex; flex-direction: column; justify-content: space-between; gap: 30px; {{ w.st }}">
-            <div style="display: flex; justify-content: space-between; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A"><span>■ {{ w.n }}</span><span>{{ w.city }}</span></div>
-            <span style="font: 400 76px/1 'JetBrains Mono', monospace; letter-spacing: -.04em; color: {{ accent }}">{{ w.year }}</span>
-            <div style="display: flex; flex-direction: column; gap: 8px">
-              <span style="font-weight: 800; font-size: 24px; line-height: 1.15">{{ w.name }}</span>
-              <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #BBA5A9">{{ w.type }}</span>
-            </div>
+    </section>
+
+    <!-- timeline -->
+    <section id="hb-shows" style="max-width: 1360px; margin: 0 auto; padding: 40px 56px 180px; box-sizing: border-box">
+      <div class="ah-rev" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; padding-bottom: 70px; {{ rv.shows }}">
+        <div style="display: flex; flex-direction: column; gap: 18px">
+          <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A">■ TIMELINE</span>
+          <h2 style="margin: 0; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; text-transform: uppercase; font-size: clamp(48px, 5.2vw, 86px); line-height: .9">Shows that built us</h2>
+        </div>
+        <a href="projects.html" class="ah-chamfer-cta ah-btn" style="text-decoration: none; background: rgba(50,22,30,.7); border: 1px solid rgba(230,170,178,.2); padding: 0 24px; height: 48px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px"><svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>OPEN THE PROJECT MAP</a>
+      </div>
+      <div style="position: relative">
+        <div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 74px; height: 1px; background: rgba(230,170,178,.14)"></div>
+        <div aria-hidden="true" style="position: absolute; left: 0; top: 74px; height: 1px; background: {{ accent }}; box-shadow: 0 0 12px {{ accent }}; transition: width 2.2s cubic-bezier(.3,.6,.2,1); width: {{ lineW }}"></div>
+        <ol class="hb-tl" style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px">
+          <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="4">
+            <li class="ah-rev" style="display: flex; flex-direction: column; gap: 22px; {{ t.st }}">
+              <span style="font: 400 48px/1 'JetBrains Mono', monospace; letter-spacing: -.04em; height: 52px; {{ t.yearSt }}">{{ t.year }}</span>
+              <span aria-hidden="true" style="width: 13px; height: 13px; margin-top: 2px; background: #0B0709; border: 2px solid {{ accent }}; box-shadow: 0 0 14px {{ accent }}"></span>
+              <div class="ah-card" style="background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 22px; min-height: 170px; display: flex; flex-direction: column; justify-content: space-between; gap: 20px">
+                <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A">{{ t.city }}</span>
+                <div style="display: flex; flex-direction: column; gap: 8px">
+                  <span style="font-weight: 800; font-size: 21px; line-height: 1.2">{{ t.name }}</span>
+                  <span style="font-size: 13px; line-height: 1.6; color: #BBA5A9; min-height: 42px">{{ t.body }}</span>
+                </div>
+              </div>
+            </li>
+          </sc-for>
+        </ol>
+      </div>
+    </section>
+
+    <!-- service centre band -->
+    <section id="hb-centre" style="padding: 0 0 170px">
+      <div style="border-top: 1px solid rgba(230,170,178,.14); border-bottom: 1px solid rgba(230,170,178,.14); background: rgba(11,7,9,.6); backdrop-filter: blur(8px)">
+        <div class="ah-rev" style="max-width: 1360px; margin: 0 auto; padding: 70px 56px 56px; box-sizing: border-box; display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; {{ rv.centre }}">
+          <h2 style="margin: 0; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; text-transform: uppercase; font-size: clamp(56px, 7.4vw, 128px); line-height: .86">We keep the<br>booth running</h2>
+          <p style="margin: 0; max-width: 380px; font-size: 15px; line-height: 1.7; color: #BBA5A9">Authorised service centre for Pioneer DJ, Turbosound, Lab Gruppen, TC Electronic, Yamaha, Grundig and Kenwood, with trained technicians on site.</p>
+        </div>
+        <div class="hb-strip ah-rev" style="max-width: 1360px; margin: 0 auto; padding: 0 56px; box-sizing: border-box; display: grid; grid-template-columns: 1.3fr 1fr 1fr 1.2fr; border-top: 1px solid rgba(230,170,178,.12); {{ rv.centre2 }}">
+          <div style="padding: 26px 24px 30px 0; display: flex; flex-direction: column; gap: 10px"><span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A">ADDRESS</span><span style="font-size: 15px; line-height: 1.55">657, 6th Cross Road, HAL 3rd Stage, New Tippasandra, Bengaluru 560075</span></div>
+          <div style="padding: 26px 24px 30px; border-left: 1px solid rgba(230,170,178,.12); display: flex; flex-direction: column; gap: 10px"><span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A">PHONE</span><a href="tel:+919686416156" style="text-decoration: none; font-weight: 700; font-size: 17px">+91 96864 16156</a></div>
+          <div style="padding: 26px 24px 30px; border-left: 1px solid rgba(230,170,178,.12); display: flex; flex-direction: column; gap: 10px"><span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A">EMAIL</span><a href="mailto:naresh@audioheads.in" style="text-decoration: none; font-weight: 700; font-size: 17px">naresh@audioheads.in</a></div>
+          <div style="padding: 22px 0 26px 24px; border-left: 1px solid rgba(230,170,178,.12); display: flex; gap: 10px; align-items: center; flex-wrap: wrap">
+            <a href="contact.html" class="ah-chamfer-cta" style="background: #F4E4E6; color: #0B0709; text-decoration: none; padding: 0 24px; height: 48px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px"><svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>BOOK A REPAIR</a>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=AUDIOHEADS+Pioneer+DJ+Service+New+Thippasandra+Bengaluru" target="_blank" rel="noopener" class="ah-chamfer-cta ah-btn" style="text-decoration: none; background: rgba(50,22,30,.7); border: 1px solid rgba(230,170,178,.2); padding: 0 24px; height: 48px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px">MAP</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- closing + footer -->
+    <section id="hb-cta" style="max-width: 1360px; margin: 0 auto; padding: 40px 56px 0; box-sizing: border-box">
+      <h2 class="ah-rev" style="margin: 0 0 56px; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; text-transform: uppercase; font-size: clamp(80px, 12vw, 210px); line-height: .82; {{ rv.cta }}">Let’s make<br><span style="color: transparent; -webkit-text-stroke: 1.5px #F4E4E6">it loud</span></h2>
+      <div class="hb-acts" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px">
+        <sc-for list="{{ actions }}" as="a" hint-placeholder-count="3">
+          <a href="{{ a.href }}" class="ah-card ah-rev ah-svc" style="text-decoration: none; color: #F4E4E6; background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 24px; min-height: 190px; display: flex; flex-direction: column; justify-content: space-between; {{ a.st }}">
+            <span style="display: flex; justify-content: space-between; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A"><span>■ {{ a.n }}</span><svg width="14" height="14" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10L10 2M4 2h6v6" fill="none" stroke="#F4E4E6" stroke-width="1.5"></path></svg></span>
+            <span style="display: flex; flex-direction: column; gap: 8px"><span style="font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; text-transform: uppercase; font-size: 38px; line-height: .95">{{ a.title }}</span><span style="font-size: 14px; color: #BBA5A9">{{ a.body }}</span></span>
           </a>
         </sc-for>
       </div>
-    </section>
-
-    <!-- brands -->
-    <section id="hb-brands" aria-label="Brands we work with" style="padding: 80px 0 150px; overflow: hidden">
-      <div class="ah-rev" style="max-width: 1240px; margin: 0 auto 36px; padding: 0 40px; box-sizing: border-box; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; {{ rv.brands }}">
-        <span>■ BRANDS WE SELL, INSTALL AND SERVICE</span><span style="color: #A8939A">AUTHORISED SERVICE CENTRE</span>
-      </div>
-      <div class="ah-rev" style="border-top: 1px solid rgba(230,170,178,.12); border-bottom: 1px solid rgba(230,170,178,.12); padding: 26px 0; {{ rv.brands2 }}">
-        <div class="ah-marq" style="display: flex; width: max-content">
-          <sc-for list="{{ brands }}" as="b" hint-placeholder-count="20">
-            <span style="display: flex; align-items: center; gap: 40px; padding-right: 40px; white-space: nowrap; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; font-size: clamp(40px, 4.4vw, 68px); line-height: 1; text-transform: uppercase; {{ b.st }}">{{ b.name }}<span aria-hidden="true" style="width: 10px; height: 10px; background: {{ accent }}"></span></span>
-          </sc-for>
+      <footer class="hb-foot" style="margin-top: 110px; padding: 48px 0 150px; border-top: 1px solid rgba(230,170,178,.14); display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px">
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <span style="font-family: Tektur, sans-serif; font-weight: 800; font-size: 22px; letter-spacing: .22em">AUDIOHEADS</span>
+          <span style="font-size: 14px; line-height: 1.6; color: #A8939A; max-width: 300px">Engage. Inspire. Entertain. Live events and pro audio from Bengaluru since 2008.</span>
         </div>
-      </div>
-    </section>
-
-    <!-- service centre -->
-    <section id="hb-centre" style="position: relative; max-width: 1480px; margin: 0 auto; padding: 120px 56px 160px; box-sizing: border-box">
-      <div class="ah-divider" aria-hidden="true" style="position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: rgba(230,170,178,.12)"></div>
-      <div class="ah-split" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 80px; align-items: center">
-        <div class="ah-rev" style="padding-left: 8%; display: flex; flex-direction: column; gap: 22px; {{ rv.centre }}">
-          <span style="font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A">■ AUTHORISED SERVICE CENTRE</span>
-          <h2 style="margin: 0; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; font-size: clamp(56px, 7vw, 120px); line-height: .88; text-transform: uppercase">We keep<br>the booth<br>running</h2>
+        <nav aria-label="Footer pages" style="display: flex; flex-direction: column; gap: 10px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em">
+          <span style="color: #7A6268; margin-bottom: 4px">PAGES</span>
+          <a href="about.html" style="text-decoration: none; color: #D4C0C4">ABOUT US</a>
+          <a href="projects.html" style="text-decoration: none; color: #D4C0C4">PROJECTS</a>
+          <a href="contact.html" style="text-decoration: none; color: #D4C0C4">CONTACT</a>
+          <a href="index.html" style="text-decoration: none; color: #D4C0C4">3D HOME</a>
+        </nav>
+        <div style="display: flex; flex-direction: column; gap: 10px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em">
+          <span style="color: #7A6268; margin-bottom: 4px">CONTACT</span>
+          <a href="tel:+919686416156" style="text-decoration: none; color: #D4C0C4">+91 96864 16156</a>
+          <a href="mailto:naresh@audioheads.in" style="text-decoration: none; color: #D4C0C4">NARESH@AUDIOHEADS.IN</a>
+          <span style="color: #D4C0C4">BENGALURU 560075</span>
         </div>
-        <div class="ah-card ah-rev" style="margin-right: 8%; background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 30px; display: flex; flex-direction: column; gap: 26px; {{ rv.centre2 }}">
-          <p style="margin: 0; font-weight: 700; font-size: 19px; line-height: 1.5">Trained technicians repair and service Pioneer DJ, Turbosound, Lab Gruppen, TC Electronic, Yamaha, Grundig and Kenwood gear.</p>
-          <dl style="margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 12px 18px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .1em">
-            <dt>ADDRESS</dt><dd style="margin: 0; color: #A8939A; line-height: 1.6">657, 6TH CROSS ROAD, HAL 3RD STAGE,<br>NEW TIPPASANDRA, BENGALURU 560075</dd>
-            <dt>PHONE</dt><dd style="margin: 0"><a href="tel:+919686416156" style="color: #A8939A; text-decoration: none">+91 96864 16156</a></dd>
-            <dt>EMAIL</dt><dd style="margin: 0"><a href="mailto:naresh@audioheads.in" style="color: #A8939A; text-decoration: none">NARESH@AUDIOHEADS.IN</a></dd>
-          </dl>
-          <div style="display: flex; gap: 10px; flex-wrap: wrap">
-            <a href="contact.html" class="ah-chamfer-cta" style="background: #F4E4E6; color: #0B0709; text-decoration: none; padding: 0 22px; height: 46px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px"><svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>BOOK A REPAIR</a>
-            <a href="https://www.google.com/maps/search/?api=1&amp;query=AUDIOHEADS+Pioneer+DJ+Service+New+Thippasandra+Bengaluru" target="_blank" rel="noopener" class="ah-chamfer-cta ah-btn" style="text-decoration: none; background: rgba(50,22,30,.7); border: 1px solid rgba(230,170,178,.2); padding: 0 22px; height: 46px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px">VIEW ON MAP</a>
-          </div>
+        <div style="display: flex; flex-direction: column; gap: 10px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em">
+          <span style="color: #7A6268; margin-bottom: 4px">FOLLOW</span>
+          <a href="https://www.instagram.com/audioheadsofficial" style="text-decoration: none; color: #D4C0C4">INSTAGRAM</a>
+          <a href="https://www.facebook.com/Audioheads" style="text-decoration: none; color: #D4C0C4">FACEBOOK</a>
+          <a href="https://wa.me/919686416156" style="text-decoration: none; color: #D4C0C4">WHATSAPP</a>
         </div>
-      </div>
-    </section>
-
-    <!-- closing -->
-    <section id="hb-cta" style="position: relative; min-height: min(100vh, 1000px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; text-align: center; padding: 140px 40px 200px; box-sizing: border-box">
-      <h2 class="ah-rev" style="margin: 0; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; font-size: clamp(72px, 10vw, 170px); line-height: .86; text-transform: uppercase; {{ rv.cta }}">Let’s make<br>it loud</h2>
-      <p class="ah-rev" style="margin: 0; max-width: 520px; font-size: 16px; line-height: 1.7; color: #BBA5A9; {{ rv.cta2 }}">Planning a show, need gear serviced, or want to book an artist? Tell us what you need.</p>
-      <div class="ah-rev" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; {{ rv.cta3 }}">
-        <a href="contact.html" class="ah-chamfer-cta" style="background: #F4E4E6; color: #0B0709; text-decoration: none; padding: 0 26px; height: 48px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px"><svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>GET IN TOUCH</a>
-        <a href="https://wa.me/919686416156" class="ah-chamfer-cta ah-btn" style="text-decoration: none; background: rgba(50,22,30,.7); border: 1px solid rgba(230,170,178,.2); padding: 0 26px; height: 48px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px">WHATSAPP</a>
-      </div>
-      <nav aria-label="Links" style="position: absolute; left: 60px; bottom: 120px; display: flex; flex-direction: column; gap: 8px; text-align: left; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em">
-        <span style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px"><span style="width: 6px; height: 6px; background: #A8939A"></span>LINKS</span>
-        <a href="about.html" style="text-decoration: none; color: #A8939A">ABOUT US</a>
-        <a href="projects.html" style="text-decoration: none; color: #A8939A">PROJECTS</a>
-        <a href="contact.html" style="text-decoration: none; color: #A8939A">CONTACT US</a>
-        <a href="index.html" style="text-decoration: none; color: #A8939A">HOME (3D JOURNEY)</a>
-      </nav>
+      </footer>
     </section>
   </main>
 </div>
@@ -273,12 +338,12 @@ a{color:#F4E4E6}a:hover{color:#FFFFFF}
 <script>
 
 var HB_SVC = [
-  { n: '001', title: 'Live show production', body: 'End-to-end sound, light, rigging and video for music events of 500 to 15,000 people.', cta: 'SEE OUR SHOWS', href: 'projects.html' },
-  { n: '002', title: 'Equipment rental', body: 'Pro-sound, pro-light and DJ gear for clubs, festivals, conferences and brand experiences.', cta: 'ENQUIRE', href: 'contact.html' },
-  { n: '003', title: 'Sales & integration', body: 'We design, sell and install systems from Pioneer, Novation, Traktor and Native Instruments in clubs, auditoriums, conference rooms and command centres.', cta: 'GET A QUOTE', href: 'contact.html' },
-  { n: '004', title: 'Acoustic treatment', body: 'Rooms treated acoustically, backed by a consultant’s report.', cta: 'TALK TO US', href: 'contact.html' },
-  { n: '005', title: 'Service centre', body: 'Authorised repairs for Pioneer DJ, Turbosound, Lab Gruppen, TC Electronic, Yamaha, Grundig and Kenwood.', cta: 'BOOK A REPAIR', href: 'contact.html' },
-  { n: '006', title: 'Talent management', body: 'Artist and DJ management in India and abroad, from Bangalore and Goa to Dubai, London and Toronto.', cta: 'SEE TALENT CITIES', href: 'projects.html' }
+  { n: '001', title: 'Live show production', tag: '500–15,000 PEOPLE', body: 'End-to-end sound, light, rigging and video for music events of 500 to 15,000 people.', cta: 'SEE OUR SHOWS', href: 'projects.html', points: ['SOUND', 'LIGHT', 'RIGGING', 'VIDEO'] },
+  { n: '002', title: 'Equipment rental', tag: 'PRO SOUND · LIGHT · DJ', body: 'Pro-sound, pro-light and DJ gear for clubs, festivals, conferences and brand experiences.', cta: 'ENQUIRE', href: 'contact.html', points: ['CLUBS & FESTIVALS', 'CONFERENCES', 'BRAND EXPERIENCES'] },
+  { n: '003', title: 'Sales & integration', tag: 'DESIGN · SUPPLY · INSTALL', body: 'We design, sell and install systems from Pioneer, Novation, Traktor and Native Instruments in clubs, auditoriums, conference rooms and command centres.', cta: 'GET A QUOTE', href: 'contact.html', points: ['CLUBS', 'AUDITORIUMS', 'CONFERENCE ROOMS', 'COMMAND CENTRES'] },
+  { n: '004', title: 'Acoustic treatment', tag: 'CONSULTANT REPORT', body: 'Rooms treated acoustically, backed by a consultant’s report.', cta: 'TALK TO US', href: 'contact.html', points: ['ROOM ANALYSIS', 'TREATMENT PLAN', 'CONSULTANT’S REPORT'] },
+  { n: '005', title: 'Service centre', tag: '7 BRANDS', body: 'Authorised repairs for Pioneer DJ, Turbosound, Lab Gruppen, TC Electronic, Yamaha, Grundig and Kenwood.', cta: 'BOOK A REPAIR', href: 'contact.html', points: ['PIONEER DJ', 'TURBOSOUND · LAB GRUPPEN', 'TC ELECTRONIC · YAMAHA', 'GRUNDIG · KENWOOD'] },
+  { n: '006', title: 'Talent management', tag: '8 CITIES', body: 'Artist and DJ management in India and abroad, from Bangalore and Goa to Dubai, London and Toronto.', cta: 'SEE TALENT CITIES', href: 'projects.html', points: ['INDIA', 'MIDDLE EAST', 'EUROPE · NORTH AMERICA', 'ASIA'] }
 ];
 var HB_STATS = [
   { label: 'SINCE', target: 2008, pad: 4, suffix: '', body: 'Live shows, rentals and installs out of Bengaluru.' },
@@ -286,18 +351,25 @@ var HB_STATS = [
   { label: 'BRANDS SERVICED', target: 7, pad: 2, suffix: '', body: 'As an authorised service centre.' },
   { label: 'TALENT CITIES', target: 8, pad: 2, suffix: '', body: 'Across India, the Middle East, Europe, North America and Asia.' }
 ];
-var HB_SHOWS = [
-  { n: '001', year: '2011', name: 'John Digweed', type: 'SHOW PRODUCTION', city: 'BENGALURU' },
-  { n: '002', year: '2009', name: 'SULTAN by Submerge', type: 'SHOW PRODUCTION', city: 'HYDERABAD' },
-  { n: '003', year: '2008', name: 'Tiësto After Party', type: 'SHOW PRODUCTION', city: 'HYDERABAD' }
+var HB_TIMELINE = [
+  { year: '2008', city: 'HYDERABAD', name: 'Tiësto After Party', body: 'One of our first big nights: full show production.' },
+  { year: '2009', city: 'HYDERABAD', name: 'SULTAN by Submerge', body: 'Sound and light for the Submerge night.' },
+  { year: '2011', city: 'BENGALURU', name: 'John Digweed', body: 'Show production for the Bedrock legend.' },
+  { year: 'TODAY', city: 'BENGALURU + 8 CITIES', name: 'Service centre & talent', body: 'Authorised service for 7 brands, and artists booked across 8 cities.' }
 ];
+var HB_ACTIONS = [
+  { n: '01', title: 'Book a show', body: 'Production for 500 to 15,000 people.', href: 'contact.html' },
+  { n: '02', title: 'Book a repair', body: 'Authorised service for 7 brands.', href: 'contact.html' },
+  { n: '03', title: 'Book an artist', body: 'DJs and artists across 8 cities.', href: 'contact.html' }
+];
+var HB_CITIES = ['BENGALURU', 'GOA', 'DUBAI', 'QATAR', 'LONDON', 'TORONTO', 'MONTREAL', 'MANILA'];
 var HB_BRANDS = ['Pioneer DJ', 'Turbosound', 'Lab Gruppen', 'TC Electronic', 'Yamaha', 'Grundig', 'Kenwood', 'Novation', 'Traktor', 'Native Instruments'];
-var HB_IDS = ['hb-st', 'hb-services', 'hb-stats', 'hb-shows', 'hb-brands', 'hb-centre', 'hb-cta'];
+var HB_IDS = ['hb-services', 'hb-stats', 'hb-shows', 'hb-brands', 'hb-centre', 'hb-cta'];
 
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { loaded: false, fading: false, heroIn: false, sound: false, p: 0, endZone: false, vis: {}, counts: [0, 0, 0, 0] };
+    this.state = { loaded: false, fading: false, heroIn: false, sound: false, p: 0, endZone: false, vis: {}, counts: [0, 0, 0, 0], openSvc: 0 };
     this.mouse = { x: 0, y: 0, sx: 0, sy: 0 };
     this.sy = 0; this.ssy = 0;
   }
@@ -475,33 +547,58 @@ class Component extends DCLogic {
   }
 
 
+  goSvc(i) {
+    this.setState({ openSvc: i });
+    try { var el = document.getElementById('hb-svc-' + i); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
+  }
   renderVals() {
     var s = this.state, v = s.vis, acc = this.props.accent ?? '#C2525E';
     var rev = (on, d) => 'opacity: ' + (on ? 1 : 0) + '; transform: translateY(' + (on ? 0 : 40) + 'px); transition-delay: ' + (d || 0) + 'ms';
     var hin = (d) => 'opacity: ' + (s.heroIn ? 1 : 0) + '; transform: translateY(' + (s.heroIn ? 0 : 28) + 'px); filter: blur(' + (s.heroIn ? 0 : 8) + 'px); transition-delay: ' + d + 'ms';
-    var svc = HB_SVC.map((x, i) => Object.assign({}, x, { left: i % 2 === 0, st: rev(v['hb-services'], 200 + i * 120) }));
     var brands = HB_BRANDS.concat(HB_BRANDS).map((n, i) => ({ name: n, st: i % 2 ? 'color: transparent; -webkit-text-stroke: 1px rgba(244,228,230,.55)' : 'color: #F4E4E6' }));
+    var svc = HB_SVC.map((x, i) => {
+      var open = s.openSvc === i;
+      return {
+        id: 'hb-svc-' + i, pid: 'hb-svc-p' + i, open: open, exp: open ? 'true' : 'false',
+        rowSt: rev(v['hb-services'], 150 + i * 90) + '; scroll-margin-top: 110px',
+        toggle: () => this.setState({ openSvc: this.state.openSvc === i ? -1 : i }),
+        numC: open ? acc : '#7A6268',
+        titleSt: open ? 'color: #F4E4E6' : 'color: transparent; -webkit-text-stroke: 1px rgba(244,228,230,.7)',
+        iconSt: open ? 'background: ' + acc + '; border-color: ' + acc + '; color: #0B0709' : 'color: #F4E4E6',
+        icon: open ? 'M2 6h8' : 'M6 2v8M2 6h8',
+        n: x.n, title: x.title, tag: x.tag, body: x.body, href: x.href, cta: x.cta, points: x.points
+      };
+    });
+    var c = s.counts, done = c[1] === 15;
     return {
       accent: acc,
       showLoader: !s.loaded, loaderOpacity: s.fading ? 0 : 1,
       maskOp: s.scrolled ? 1 : 0,
-      hin: { a: hin(0), b: hin(120), c: hin(240), d: hin(400), e: hin(540) },
-      rv: {
-        st: rev(v['hb-st'], 0), st2: rev(v['hb-st'], 150), st3: rev(v['hb-st'], 300),
-        svc: rev(v['hb-services'], 0), svc2: rev(v['hb-services'], 150),
-        shows: rev(v['hb-shows'], 0),
-        brands: rev(v['hb-brands'], 0), brands2: rev(v['hb-brands'], 150),
-        centre: rev(v['hb-centre'], 0), centre2: rev(v['hb-centre'], 200),
-        cta: rev(v['hb-cta'], 0), cta2: rev(v['hb-cta'], 150), cta3: rev(v['hb-cta'], 300)
-      },
-      svcL: svc.filter((x) => x.left), svcR: svc.filter((x) => !x.left),
-      stats: HB_STATS.map((c, i) => ({
-        label: c.label, body: c.body,
-        num: String(s.counts[i] || (c.target > 100 ? 1990 : 0)).padStart(c.pad, '0') + (s.counts[i] === c.target ? c.suffix : ''),
-        st: rev(v['hb-stats'], i * 140) + (i ? '; border-left: 1px solid rgba(230,170,178,.14)' : '')
-      })),
-      shows: HB_SHOWS.map((w, i) => Object.assign({}, w, { st: rev(v['hb-shows'], 150 + i * 150) + '; margin-top: ' + (i * 60) + 'px' })),
+      hin: { a: hin(0), b: hin(120), c: hin(240), d: hin(380), e: hin(540), f: hin(680) },
+      index: HB_SVC.map((x, i) => ({ n: x.n, title: x.title, go: () => this.goSvc(i) })),
       brands,
+      rv: {
+        brands: rev(v['hb-brands'], 0),
+        svc: rev(v['hb-services'], 0),
+        shows: rev(v['hb-shows'], 0),
+        centre: rev(v['hb-centre'], 0), centre2: rev(v['hb-centre'], 220),
+        cta: rev(v['hb-cta'], 0)
+      },
+      svc,
+      bento: { a: rev(v['hb-stats'], 0), b: rev(v['hb-stats'], 120), c: rev(v['hb-stats'], 240), d: rev(v['hb-stats'], 360), e: rev(v['hb-stats'], 480) },
+      num: {
+        cap: String(c[1] || 0).padStart(2, '0') + (done ? 'K' : ''),
+        since: String(c[0] || 1990),
+        brands: String(c[2] || 0).padStart(2, '0'),
+        cities: String(c[3] || 0).padStart(2, '0')
+      },
+      cities: HB_CITIES,
+      lineW: v['hb-shows'] ? '100%' : '0%',
+      timeline: HB_TIMELINE.map((t, i) => ({
+        st: rev(v['hb-shows'], 250 + i * 220), year: t.year, city: t.city, name: t.name, body: t.body,
+        yearSt: t.year === 'TODAY' ? 'color: ' + acc : 'color: #F4E4E6'
+      })),
+      actions: HB_ACTIONS.map((a, i) => Object.assign({}, a, { st: rev(v['hb-cta'], 150 + i * 120) })),
       glOp: s.p < 0.05 ? 1 : Math.max(0.62, 1 - (s.p - 0.05) * 6),
       progW: (s.p * 100).toFixed(2) + '%',
       showCue: s.p < 0.03, isEnd: s.endZone, notEnd: !s.endZone,
