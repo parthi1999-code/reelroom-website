@@ -1,0 +1,981 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audioheads — Live events, sound and service, Bengaluru</title>
+<meta name="description" content="Audioheads: live show production, A/V rental and integration, an authorised Pioneer DJ service centre and artist management in Bengaluru since 2008.">
+<meta name="theme-color" content="#0B0709">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect width='22' height='22' fill='%230B0709'/%3E%3Crect x='2' y='2' width='18' height='18' fill='none' stroke='%23C2525E' stroke-width='2'/%3E%3Ccircle cx='11' cy='13' r='4.5' fill='%23C2525E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Tektur:wght@600;800&amp;display=swap">
+<style>
+body{margin:0;background:#0B0709}
+a{color:#F4E4E6}a:hover{color:#FFFFFF}
+.ah-chamfer-l{clip-path:polygon(12px 0,100% 0,100% 100%,0 100%,0 12px)}
+.ah-chamfer-r{clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%)}
+.ah-chamfer-cta{clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.ah-btn{transition:background .25s,color .25s}
+.ah-btn:hover{background:rgba(194,82,94,.35)!important}
+.ah-rail-btn{transition:color .3s}
+.ah-rail-btn:hover{color:#F4E4E6!important}
+@keyframes ah-bob{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(3px);opacity:1}}
+.ah-bob{animation:ah-bob 1.4s ease-in-out infinite}
+@media (max-width: 860px){.ah-rail{display:none!important}.ah-navlinks{display:none!important}}
+</style>
+<script src="vendor/three.min.js"></script>
+<script src="vendor/morphdom-umd.min.js"></script>
+<script src="dc-lite.js"></script>
+</head>
+<body>
+<template id="dc-tpl">
+<div style="background: #0B0709; color: #F4E4E6; font-family: 'Schibsted Grotesk', system-ui, sans-serif; position: relative">
+
+  <!-- ================= LOADER ================= -->
+  <sc-if value="{{ showLoader }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 80; background: #0B0709; display: flex; align-items: center; justify-content: center; transition: opacity .8s ease; opacity: {{ loaderOpacity }}">
+      <div style="display: flex; flex-direction: column; gap: 10px; width: 176px">
+        <span style="align-self: flex-end; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .12em; color: #A8939A">{{ pct }}%</span>
+        <div style="display: flex; justify-content: space-between">
+          <sc-for list="{{ squares }}" as="q" hint-placeholder-count="13">
+            <span style="width: 6px; height: 6px; transition: background .2s; {{ q.st }}"></span>
+          </sc-for>
+        </div>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: #A8939A">{{ loaderLabel }}</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ================= MENU OVERLAY ================= -->
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 70; background: rgba(11,7,9,.96); backdrop-filter: blur(12px); overflow-y: auto">
+      <div style="min-height: 100%; box-sizing: border-box; padding: 40px 56px; display: flex; flex-direction: column; gap: 56px">
+        <div style="display: flex; justify-content: space-between; align-items: center">
+          <span style="font-family: Tektur, sans-serif; font-weight: 800; font-size: 22px; letter-spacing: .22em">AUDIOHEADS</span>
+          <button type="button" onClick="{{ closeMenu }}" class="ah-chamfer-r" style="background: #F4E4E6; color: #0B0709; border: none; padding: 14px 22px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .16em; cursor: pointer; min-height: 44px">CLOSE</button>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 56px; justify-content: space-between; flex: 1">
+          <nav aria-label="Menu" style="display: flex; flex-direction: column; gap: 4px; flex: 1 1 420px">
+            <sc-for list="{{ menuLinks }}" as="m" hint-placeholder-count="6">
+              <sc-if value="{{ m.isLink }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ m.href }}" style="text-decoration: none; color: #F4E4E6; padding: 6px 0; display: flex; align-items: baseline; gap: 20px; min-height: 44px">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; color: #7A6268">{{ m.n }}</span>
+                <span style="font-weight: 700; font-size: clamp(36px, 5.4vw, 72px); line-height: 1.04; letter-spacing: -.01em; text-transform: uppercase">{{ m.label }}</span>
+              </a>
+              </sc-if>
+              <sc-if value="{{ m.isBtn }}" hint-placeholder-val="{{ true }}">
+              <button type="button" onClick="{{ m.go }}" style="background: none; border: none; color: #F4E4E6; text-align: left; padding: 6px 0; cursor: pointer; display: flex; align-items: baseline; gap: 20px; min-height: 44px">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; color: #7A6268">{{ m.n }}</span>
+                <span style="font-weight: 700; font-size: clamp(36px, 5.4vw, 72px); line-height: 1.04; letter-spacing: -.01em; text-transform: uppercase">{{ m.label }}</span>
+              </button>
+              </sc-if>
+            </sc-for>
+          </nav>
+          <div style="flex: 0 1 360px; display: flex; flex-direction: column; gap: 28px; font-size: 15px; line-height: 1.6">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .18em; color: #7A6268">VISIT</span>
+              <span>657, 6th Cross Road, HAL 3rd Stage,<br>New Tippasandra, Bengaluru 560075</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .18em; color: #7A6268">TALK</span>
+              <a href="tel:+919686416156" style="text-decoration: none">+91 96864 16156</a>
+              <a href="mailto:naresh@audioheads.in" style="text-decoration: none">naresh@audioheads.in</a>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .18em; color: #7A6268">FOLLOW</span>
+              <a href="https://www.facebook.com/Audioheads" style="text-decoration: none">Facebook</a>
+              <a href="https://www.instagram.com/audioheadsofficial" style="text-decoration: none">Instagram</a>
+            </div>
+            <a href="https://wa.me/919686416156" class="ah-chamfer-cta" style="text-decoration: none; background: rgba(110,40,52,.45); border: 1px solid rgba(230,170,178,.25); padding: 16px 22px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: .16em; align-self: flex-start; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center">CHAT ON WHATSAPP</a>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 24px; border-top: 1px solid rgba(230,170,178,.14); padding-top: 24px">
+          <div style="display: flex; align-items: baseline; gap: 12px"><span style="font-weight: 700; font-size: 30px">2008</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #A8939A">FOUNDED</span></div>
+          <div style="display: flex; align-items: baseline; gap: 12px"><span style="font-weight: 700; font-size: 30px">15K</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #A8939A">MAX CROWD</span></div>
+          <div style="display: flex; align-items: baseline; gap: 12px"><span style="font-weight: 700; font-size: 30px">07</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #A8939A">BRANDS SERVICED</span></div>
+          <div style="display: flex; align-items: baseline; gap: 12px"><span style="font-weight: 700; font-size: 30px">08</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #A8939A">TALENT CITIES</span></div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ================= STAGE (sticky) ================= -->
+  <div id="ah-stage" style="position: sticky; top: 0; height: min(100vh, 1000px); overflow: hidden; background: radial-gradient(ellipse 60% 50% at 50% 55%, #5A1E26 0%, #1E0C10 50%, #0B0709 85%)">
+
+    <canvas id="ah-gl" onClick="{{ stageClick }}" aria-label="3D journey through the Audioheads world" role="img" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: {{ canvasCursor }}"></canvas>
+
+    <!-- HUD frame -->
+    <div aria-hidden="true" style="position: absolute; inset: 28px; border: 1px solid rgba(230,170,178,.14); border-radius: 16px; pointer-events: none"></div>
+
+    <!-- header -->
+    <header style="position: absolute; top: 44px; left: 56px; right: 52px; display: flex; align-items: center; justify-content: space-between; gap: 24px; z-index: 5">
+      <button type="button" onClick="{{ goTop }}" aria-label="Audioheads home" style="background: none; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; gap: 12px; color: #F4E4E6; min-height: 44px">
+        <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"></rect><circle cx="11" cy="13" r="4.5" fill="currentColor"></circle><rect x="9" y="4" width="4" height="3" fill="currentColor"></rect></svg>
+        <span style="font-family: Tektur, sans-serif; font-weight: 800; font-size: 21px; letter-spacing: .24em">AUDIOHEADS</span>
+      </button>
+      <div style="display: flex; align-items: center; gap: 22px">
+        <nav aria-label="Main" class="ah-navlinks" style="display: flex; gap: 20px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: .1em">
+          <sc-for list="{{ navLinks }}" as="n" hint-placeholder-count="5">
+            <sc-if value="{{ n.isLink }}" hint-placeholder-val="{{ false }}"><a href="{{ n.href }}" style="text-decoration: none; color: #F4E4E6; padding: 14px 0; min-height: 44px; box-sizing: border-box">{{ n.label }}</a></sc-if>
+            <sc-if value="{{ n.isBtn }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ n.go }}" style="background: none; border: none; color: #F4E4E6; font: inherit; letter-spacing: inherit; cursor: pointer; padding: 12px 0; min-height: 44px">{{ n.label }}</button></sc-if>
+          </sc-for>
+        </nav>
+        <div style="display: flex">
+          <a href="contact.html" class="ah-chamfer-l ah-btn" style="background: rgba(40,20,26,.85); color: #F4E4E6; text-decoration: none; padding: 0 20px; height: 44px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .12em; display: flex; align-items: center; gap: 8px">
+            <svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>
+            BOOK A SERVICE
+          </a>
+          <button type="button" onClick="{{ openMenu }}" aria-expanded="{{ menuExpanded }}" class="ah-chamfer-r" style="background: #F4E4E6; color: #0B0709; border: none; padding: 0 22px; height: 44px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; cursor: pointer; display: flex; align-items: center; gap: 8px">
+            <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><rect x="0" y="0" width="4" height="4" fill="currentColor"></rect><rect x="6" y="0" width="4" height="4" fill="currentColor"></rect><rect x="0" y="6" width="4" height="4" fill="currentColor"></rect><rect x="6" y="6" width="4" height="4" fill="currentColor"></rect></svg>
+            MENU
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- legibility scrims -->
+    <div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 190px; z-index: 3; pointer-events: none; background: linear-gradient(rgba(11,7,9,.82), rgba(11,7,9,.45) 50%, rgba(11,7,9,0))"></div>
+    <div aria-hidden="true" style="position: absolute; left: 0; top: 0; bottom: 0; width: 240px; z-index: 3; pointer-events: none; background: linear-gradient(90deg, rgba(11,7,9,.8), rgba(11,7,9,.4) 55%, rgba(11,7,9,0))"></div>
+    <div aria-hidden="true" style="position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%); width: min(1100px, 100%); height: 460px; z-index: 3; pointer-events: none; opacity: {{ scrimOp }}; transition: opacity .25s linear; background: radial-gradient(ellipse 50% 50% at 50% 62%, rgba(11,7,9,.88) 0%, rgba(11,7,9,.7) 45%, rgba(11,7,9,0) 100%)"></div>
+
+    <!-- left chapter rail -->
+    <nav aria-label="Chapters" class="ah-rail" style="position: absolute; left: 32px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 2px; z-index: 5; padding: 10px 16px 10px 12px; background: rgba(11,7,9,.62); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.08)">
+      <sc-for list="{{ rail }}" as="r" hint-placeholder-count="6">
+        <button type="button" onClick="{{ r.go }}" class="ah-rail-btn" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 10px; padding: 7px 0; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 10px; letter-spacing: .2em; text-align: left; {{ r.st }}">
+          <span style="width: 6px; height: 6px; {{ r.dot }}"></span>{{ r.label }}
+        </button>
+      </sc-for>
+    </nav>
+
+    <!-- chapter text -->
+    <div style="position: absolute; left: 50%; bottom: 128px; transform: translate(-50%, {{ textLift }}); width: min(640px, 86%); display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; z-index: 4; pointer-events: none; opacity: {{ textOp }}; filter: blur({{ textBlur }}); transition: opacity .18s linear, filter .18s linear, transform .18s linear; will-change: opacity, transform, filter">
+      <h1 style="margin: 0; font-weight: 700; font-size: clamp(26px, 2.7vw, 38px); line-height: 1.08; letter-spacing: .035em; text-transform: uppercase; color: #F4E4E6; white-space: pre; text-shadow: 0 2px 24px rgba(11,7,9,.9), 0 0 2px rgba(11,7,9,.8)"><span style="display: block">{{ l1 }}</span><span style="display: block">{{ l2 }}</span></h1>
+      <p style="margin: 0; max-width: 490px; font-size: 14px; line-height: 1.6; color: #D4C0C4; opacity: {{ bodyOp }}; text-shadow: 0 1px 12px rgba(11,7,9,1), 0 0 3px rgba(11,7,9,.9)">{{ body }}</p>
+      <sc-if value="{{ hasCta }}" hint-placeholder-val="{{ true }}">
+        <button type="button" onClick="{{ ctaGo }}" class="ah-chamfer-cta ah-btn" style="pointer-events: auto; margin-top: 10px; background: rgba(50,22,30,.6); backdrop-filter: blur(6px); border: 1px solid rgba(230,170,178,.2); color: #F4E4E6; padding: 0 24px; height: 44px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: opacity .4s; opacity: {{ bodyOp }}">
+          <svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>
+          {{ cta }}
+        </button>
+      </sc-if>
+    </div>
+
+    <!-- bottom HUD bar -->
+    <div style="position: absolute; left: 28px; right: 28px; bottom: 28px; height: 52px; border-top: 1px solid rgba(230,170,178,.14); display: flex; z-index: 5">
+      <sc-if value="{{ notEnd }}" hint-placeholder-val="{{ true }}">
+        <button type="button" onClick="{{ toggleSound }}" aria-pressed="{{ soundPressed }}" style="width: 132px; flex: none; background: none; border: none; border-right: 1px solid rgba(230,170,178,.14); color: #F4E4E6; display: flex; align-items: center; justify-content: center; gap: 10px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; cursor: pointer">
+          <svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path d="M1 4h3l4-3v10L4 8H1z" fill="currentColor"></path><path d="{{ soundIconPath }}" stroke="currentColor" stroke-width="1.4" fill="none"></path></svg>
+          {{ soundLabel }}
+        </button>
+      </sc-if>
+      <sc-if value="{{ isEnd }}" hint-placeholder-val="{{ false }}">
+        <span style="width: 200px; flex: none; display: flex; align-items: center; padding-left: 28px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em">AUDIOHEADS.IN</span>
+      </sc-if>
+      <div style="flex: 1; position: relative">
+        <div aria-hidden="true" style="position: absolute; left: 0; top: 0; bottom: 0; background: rgba(194,82,94,.12); width: {{ progW }}"></div>
+        <sc-if value="{{ showCue }}" hint-placeholder-val="{{ true }}">
+          <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 10px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #F4E4E6">
+            <svg class="ah-bob" width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="5" y="0" width="3" height="3" fill="currentColor"></rect><rect x="2.5" y="5" width="3" height="3" fill="currentColor"></rect></svg>
+            SCROLL TO EXPLORE
+          </div>
+        </sc-if>
+      </div>
+      <sc-if value="{{ notEnd }}" hint-placeholder-val="{{ true }}">
+        <a href="https://wa.me/919686416156" style="width: 160px; flex: none; border-left: 1px solid rgba(230,170,178,.14); text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em">
+          CHAT WITH US
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-5.2A8 8 0 1 1 21 12z"></path></svg>
+        </a>
+      </sc-if>
+      <sc-if value="{{ isEnd }}" hint-placeholder-val="{{ false }}">
+        <div style="flex: none; border-left: 1px solid rgba(230,170,178,.14); display: flex; align-items: center; gap: 8px; padding: 0 20px">
+          <a href="https://www.facebook.com/Audioheads" aria-label="Audioheads on Facebook" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #A8939A">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"></path></svg>
+          </a>
+          <a href="https://www.instagram.com/audioheadsofficial" aria-label="Audioheads on Instagram" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #A8939A">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle></svg>
+          </a>
+        </div>
+      </sc-if>
+    </div>
+
+    <!-- cursor tag -->
+    <sc-if value="{{ showTag }}" hint-placeholder-val="{{ false }}">
+      <div aria-hidden="true" style="position: absolute; pointer-events: none; z-index: 6; display: flex; gap: 6px; font: 700 9px/1.3 'JetBrains Mono', monospace; letter-spacing: .12em; color: #F4E4E6; transition: opacity .6s ease, transform .6s ease; opacity: {{ tagOp }}; transform: translateY({{ tagLift }}); left: {{ tagX }}; top: {{ tagY }}">
+        <span style="width: 6px; height: 6px; background: #F4E4E6; margin-top: 2px"></span>
+        <span>CLICK TO<br>ENABLE AUDIO</span>
+      </div>
+    </sc-if>
+  </div>
+
+  <!-- scroll track -->
+  <div aria-hidden="true" style="height: 8000px"></div>
+</div>
+</template>
+<div id="dc-root"></div>
+<script>
+
+var AH_CH = [
+  { k: 'ENGAGE', l1: 'WE BRING LIVE EVENTS', l2: 'TO LIFE', body: 'Since 2008, Audioheads has delivered full-service live event production, high-end A/V rental and integration, from first design to final load-out, in venues of any size.', cta: 'EXPLORE OUR SERVICES', act: 'next' },
+  { k: 'SOUND', l1: 'WE DESIGN, SELL AND', l2: 'INSTALL SOUND SYSTEMS', body: 'Pro-sound, pro-light, studio and DJ gear from Pioneer, Novation, Traktor and Native Instruments, installed in clubs, auditoriums, conference rooms and command centres. We also treat rooms acoustically, with a consultant’s report.', cta: 'GET A QUOTE', act: 'menu' },
+  { k: 'LIGHT', l1: 'WE STAGE SHOWS FOR', l2: '500 TO 15,000 PEOPLE', body: 'End-to-end production and rentals for music events, from Tiësto’s After Party and SULTAN by Submerge in Hyderabad to John Digweed in Bangalore. Registered vendor with the Government of Singapore and ITPL.', cta: 'WORK WITH US', act: 'menu' },
+  { k: 'SERVICE', l1: 'WE KEEP THE BOOTH', l2: 'RUNNING', body: 'Bangalore’s authorised service centre for Pioneer DJ, Turbosound, Lab Gruppen, TC Electronic, Yamaha, Grundig and Kenwood, with trained technicians on site.', cta: 'BOOK A REPAIR', act: 'menu' },
+  { k: 'TALENT', l1: 'WE TAKE ARTISTS', l2: 'AROUND THE WORLD', body: 'Artist and DJ management in India and abroad, across Bangalore, Goa, Dubai, Qatar, London, Toronto, Montreal and Manila.', cta: '', act: '' },
+  { k: 'LEGACY', l1: 'GREAT PEOPLE. GREAT', l2: 'PRODUCTS. GREAT SERVICE.', body: 'From an A/V services provider to a full entertainment business, built on long-term relationships and award-winning creative design. We also set up F&B venues end to end.', cta: 'CONTACT US', act: 'menu' }
+];
+var AH_GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pct: 0, loaded: false, fading: false,
+      p: 0, ch: 0, l1: AH_CH[0].l1, l2: AH_CH[0].l2, bodyOp: 1,
+      sound: false, over: false, mx: -999, my: -999, menu: false
+    };
+    this.targetP = 0; this.curP = 0;
+    this.mouse = { x: 0, y: 0, sx: 0, sy: 0 };
+  }
+
+  componentDidMount() {
+    this.alive = true;
+    var intro = this.props.showIntro ?? true;
+    if (intro) {
+      this.loadTimer = setInterval(() => {
+        var add = this.gl ? 4 : 1;
+        var p = Math.min(this.gl ? 100 : 92, this.state.pct + add);
+        if (p !== this.state.pct) this.setState({ pct: p });
+        if (p >= 100) {
+          clearInterval(this.loadTimer);
+          this.t1 = setTimeout(() => this.alive && this.setState({ fading: true }), 300);
+          this.t2 = setTimeout(() => this.alive && this.setState({ loaded: true }), 1150);
+        }
+      }, 40);
+      this.t3 = setTimeout(() => { if (this.alive && !this.state.loaded) { clearInterval(this.loadTimer); this.setState({ pct: 100, fading: true }); setTimeout(() => this.alive && this.setState({ loaded: true }), 800); } }, 9000);
+    } else {
+      this.setState({ loaded: true, pct: 100 });
+    }
+    this.onScroll = () => {
+      var de = document.documentElement;
+      var max = Math.max(1, (de.scrollHeight || 0) - window.innerHeight);
+      var y = window.scrollY || de.scrollTop || 0;
+      this.targetP = Math.max(0, Math.min(1, y / max));
+    };
+    this.onMove = (ev) => {
+      var w = window.innerWidth || 1, h = window.innerHeight || 1;
+      this.mouse.x = (ev.clientX / w) * 2 - 1;
+      this.mouse.y = -(ev.clientY / h) * 2 + 1;
+      this.mouse.cx = ev.clientX; this.mouse.cy = ev.clientY;
+      this.mouseOver = !!(ev.target && ev.target.closest && ev.target.closest('#ah-stage'));
+      this.mouseDirty = true;
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('mousemove', this.onMove, { passive: true });
+    this.onScroll();
+    this.tries = 0;
+    this.waitThree();
+    this.raf = requestAnimationFrame(() => this.tick());
+  }
+
+  componentWillUnmount() {
+    this.alive = false;
+    cancelAnimationFrame(this.raf);
+    clearInterval(this.loadTimer); clearTimeout(this.t1); clearTimeout(this.t2); clearTimeout(this.t3); clearTimeout(this.wt);
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('mousemove', this.onMove);
+    try { if (this.gl) this.gl.renderer.dispose(); } catch (e) {}
+    try { if (this.ac) this.ac.close(); } catch (e) {}
+  }
+
+  waitThree() {
+    if (!this.alive) return;
+    if (window.THREE && document.getElementById('ah-gl')) {
+      try { this.initGL(); } catch (e) { this.gl = null; this.glFailed = true; }
+      return;
+    }
+    if (this.tries++ < 120) this.wt = setTimeout(() => this.waitThree(), 100);
+    else this.glFailed = true;
+  }
+
+  /* ---------------- 3D WORLD ---------------- */
+  initGL() {
+    var T = window.THREE;
+    var canvas = document.getElementById('ah-gl');
+    var renderer = new T.WebGLRenderer({ canvas: canvas, antialias: false, powerPreference: 'high-performance' });
+    var PR = Math.min(window.devicePixelRatio || 1, 1.5);
+    renderer.setPixelRatio(PR);
+    var scene = new T.Scene();
+    scene.background = new T.Color(0x0B0709);
+    scene.fog = new T.FogExp2(0x0E0609, 0.0072);
+    var camera = new T.PerspectiveCamera(42, 1, 0.1, 800);
+    var accHex = this.props.accent ?? '#C2525E';
+    var acc = new T.Color(accHex);
+    this.accHex = accHex;
+    var hot = acc.clone().lerp(new T.Color(1, 1, 1), 0.65);
+
+    // ---------- noise ----------
+    function hash(x, z) { var s = Math.sin(x * 127.1 + z * 311.7) * 43758.5453; return s - Math.floor(s); }
+    function vnoise(x, z) {
+      var xi = Math.floor(x), zi = Math.floor(z), xf = x - xi, zf = z - zi;
+      var u = xf * xf * (3 - 2 * xf), v = zf * zf * (3 - 2 * zf);
+      var a = hash(xi, zi), b = hash(xi + 1, zi), c = hash(xi, zi + 1), d = hash(xi + 1, zi + 1);
+      return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+    }
+    function fbm(x, z) { var s = 0, a = 0.5, f = 1; for (var i = 0; i < 5; i++) { s += a * vnoise(x * f, z * f); f *= 2.03; a *= 0.5; } return s; }
+    function sstep(e0, e1, x) { var t = Math.max(0, Math.min(1, (x - e0) / (e1 - e0))); return t * t * (3 - 2 * t); }
+    function mix(a, b, t) { return a + (b - a) * t; }
+
+    // ---------- world: lake -> canyon -> dunes -> mountains -> valley ----------
+    function hLake(x, z, n) {
+      var ax = Math.abs(x), ws = 9 + 6 * sstep(-34, -50, z) + 69 * sstep(-10, 9, z);
+      var dx0 = Math.max(0, ax - ws);
+      var ridge = 0.55 + 0.9 * fbm(x * 0.018 + 7.3, z * 0.022 + 1.1);
+      var wall = (1 - Math.exp(-Math.pow(dx0 / 15, 1.6))) * 24 * ridge;
+      var h = wall * (0.75 + 0.5 * n) + (n - 0.5) * 2.4;
+      h += mix(0.5, -2.4, sstep(-26, -15, z)) * (1 - sstep(ws - 1, ws + 7, ax));
+      return h;
+    }
+    function hDunes(x, z, n) {
+      var ax = Math.abs(x), ws = 36, dx0 = Math.max(0, ax - ws);
+      var wall = (1 - Math.exp(-Math.pow(dx0 / 16, 1.6))) * 22 * (0.6 + 0.8 * fbm(x * 0.02 + 2.2, z * 0.02 + 5.1));
+      var dunes = (fbm(x * 0.03 + 5.5, z * 0.03 + 1.3) - 0.42) * 8;
+      return 0.5 + dunes + wall + (n - 0.5) * 1.2;
+    }
+    function hMount(x, z, n) {
+      var m = fbm(x * 0.028 + 9.1, z * 0.04 + 2.7);
+      var pass = 0.22 + 0.78 * sstep(7, 26, Math.abs(x - 3 * Math.sin(z * 0.05)));
+      return Math.max(0.2, (1.5 + Math.pow(m, 1.6) * 34 - 4) * pass + (n - 0.5) * 3);
+    }
+    function hValley(x, z, n) {
+      var r = Math.sqrt(x * x * 0.8 + (z + 300) * (z + 300) * 1.25);
+      var rid = 0.6 + 0.8 * fbm(x * 0.02 + 3.3, z * 0.02 + 8.8);
+      var ridge = (1 - Math.exp(-Math.pow(Math.max(0, r - 38) / 14, 1.6))) * 24 * rid;
+      return 0.35 + (n - 0.5) * 0.8 + ridge;
+    }
+    function heightAt(x, z) {
+      var n = fbm(x * 0.045 + 3.1, z * 0.045 - 1.7);
+      var h = hLake(x, z, n);
+      var t1 = sstep(-90, -104, z); if (t1 > 0) h = mix(h, hDunes(x, z, n), t1);
+      var t2 = sstep(-192, -206, z); if (t2 > 0) h = mix(h, hMount(x, z, n), t2);
+      var t3 = sstep(-248, -262, z); if (t3 > 0) h = mix(h, hValley(x, z, n), t3);
+      return h;
+    }
+    this.heightAt = heightAt;
+
+    // ---------- ribbon paths (x, z control points, width, brightness) ----------
+    var RIBBONS = [
+      [[[0, -16], [3, -26], [-4, -36], [5, -48], [-3, -60], [4, -72], [-2, -84], [1, -96], [-3, -110], [2, -124], [-1, -140], [4, -156], [0, -172], [-6, -188]], 2.8, 1.0],
+      [[[-3, -47], [-7, -59], [-2, -71], [-9, -83], [-5, -96], [-10, -109], [-6, -122], [-12, -136]], 2.3, 0.95],
+      [[[-4, -65], [1, -72], [7, -80], [5, -90], [9, -102], [4, -114], [1, -126]], 1.5, 0.8],
+      [[[-3, -72], [-8, -77], [-12, -87], [-8, -99], [-3, -109], [-7, -120]], 1.3, 0.75],
+      [[[6, -49], [10, -61], [4, -75], [11, -88], [7, -101], [12, -115], [15, -130]], 1.7, 0.85],
+      [[[10, -61], [13, -68], [12, -78], [8, -86]], 0.9, 0.7],
+      [[[-9, -83], [-12, -90], [-13, -102], [-10, -114], [-13, -126]], 1.0, 0.7],
+      [[[-14, -92], [-9, -104], [-12, -118], [-6, -132], [-14, -146], [-8, -160], [-18, -176], [-24, -192]], 1.9, 0.85],
+      [[[12, -90], [8, -106], [14, -120], [7, -134], [16, -150], [10, -166], [22, -184], [30, -196]], 2.1, 0.9],
+      [[[-30, -118], [-20, -136], [-28, -152], [-36, -168], [-30, -186]], 1.4, 0.7],
+      [[[28, -126], [24, -142], [34, -158], [40, -176], [32, -192]], 1.4, 0.7],
+      [[[-95, -212], [-55, -218], [-22, -213], [0, -222], [25, -215], [55, -226], [95, -220]], 2.6, 1.0],
+      [[[-95, -238], [-58, -230], [-25, -241], [5, -234], [35, -245], [65, -236], [95, -243]], 2.2, 0.9],
+      [[[-44, -198], [-30, -214], [-17, -229], [-7, -245], [3, -258]], 1.8, 0.8],
+      [[[44, -200], [31, -217], [21, -232], [14, -248], [8, -262]], 1.8, 0.8],
+      [[[-60, -258], [-32, -266], [-12, -261], [0, -268], [12, -262], [34, -267], [60, -259]], 3.2, 1.0],
+      [[[-2, -192], [1, -206], [-2, -220], [2, -234], [-1, -248], [1, -262]], 2.2, 1.0],
+      [[[-12, -194], [-8, -210], [-7, -226], [-4, -242], [-2, -258]], 1.5, 0.85],
+      [[[11, -194], [8, -210], [9, -226], [5, -242], [2, -258]], 1.5, 0.85],
+      [[[-26, -200], [-19, -218], [-13, -236], [-6, -254]], 1.2, 0.7],
+      [[[25, -200], [19, -218], [13, -236], [6, -254]], 1.2, 0.7],
+      [[[3, -262], [1, -274], [-5, -288], [-1, -302], [-10, -318]], 2.0, 0.85],
+      [[[9, -263], [18, -277], [27, -292], [20, -312], [30, -330]], 1.7, 0.8]
+    ];
+    var paths = RIBBONS.map(function (r) {
+      var curve = new T.CatmullRomCurve3(r[0].map(function (c) { return new T.Vector3(c[0], 0, c[1]); }), false, 'centripetal');
+      var len = curve.getLength(), n = Math.max(12, Math.floor(len / 0.6));
+      var pts = curve.getSpacedPoints(n).map(function (p) { return [p.x, p.z]; });
+      var x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9; pts.forEach(function (q) { x0 = Math.min(x0, q[0]); x1 = Math.max(x1, q[0]); z0 = Math.min(z0, q[1]); z1 = Math.max(z1, q[1]); });
+      return { pts: pts, len: len, w: r[1], b: r[2], horiz: (x1 - x0) > (z1 - z0) * 1.5, xc: (x0 + x1) / 2, zc: (z0 + z1) / 2 };
+    });
+    // reveal key: lines draw forward along -z as you scroll; cross-valley lines draw outward from their centre
+    function revealKey(pa, x, z) { return pa.horiz ? pa.zc - Math.abs(x - pa.xc) * 0.6 : z; }
+    // spatial grid of ribbon samples, used to light the ground near them
+    var GRID = 8, grid = {};
+    paths.forEach(function (pa) { pa.pts.forEach(function (q, k) { if (k % 3) return; var key = Math.floor(q[0] / GRID) + ',' + Math.floor(q[1] / GRID); (grid[key] = grid[key] || []).push([q[0], q[1], pa.w, pa.b, revealKey(pa, q[0], q[1])]); }); });
+    var glowKey = 0;
+    function ribbonGlow(x, z) {
+      var gx = Math.floor(x / GRID), gz = Math.floor(z / GRID), best = 0; glowKey = z;
+      for (var a = -1; a <= 1; a++) for (var b = -1; b <= 1; b++) {
+        var cell = grid[(gx + a) + ',' + (gz + b)]; if (!cell) continue;
+        for (var k = 0; k < cell.length; k++) { var e = cell[k], dx = x - e[0], dz = z - e[1]; var g = Math.exp(-(dx * dx + dz * dz) / (e[2] * e[2] * 9)) * e[3]; if (g > best) { best = g; glowKey = e[4]; } }
+      }
+      return best;
+    }
+
+    // ---------- terrain ----------
+    var tgeo = new T.PlaneGeometry(320, 430, 210, 290);
+    tgeo.rotateX(-Math.PI / 2);
+    tgeo.translate(0, 0, -160);
+    var tp = tgeo.attributes.position;
+    for (var i = 0; i < tp.count; i++) tp.setY(i, heightAt(tp.getX(i), tp.getZ(i)));
+    tgeo.computeVertexNormals();
+    var tn = tgeo.attributes.normal;
+    var cols = new Float32Array(tp.count * 3), rgA = new Float32Array(tp.count * 2);
+    for (var i2 = 0; i2 < tp.count; i2++) {
+      var x = tp.getX(i2), y = tp.getY(i2), z = tp.getZ(i2);
+      var ny = tn.getY(i2);
+      var base = 0.016 + 0.026 * Math.max(0, ny) * hash(x, z);
+      var rg = ribbonGlow(x, z) * 0.22; rgA[i2 * 2] = rg; rgA[i2 * 2 + 1] = glowKey;
+      var band = sstep(0.5, 5, y) * (1 - sstep(10, 26, y)) * 0.06 * (1 - sstep(-30, -6, z));
+      var gg = band;
+      cols[i2 * 3] = base * 1.5 + acc.r * gg + 0.006;
+      cols[i2 * 3 + 1] = base * 0.75 + acc.g * gg;
+      cols[i2 * 3 + 2] = base * 0.95 + acc.b * gg + 0.005;
+    }
+    tgeo.setAttribute('aCol', new T.BufferAttribute(cols, 3));
+    tgeo.setAttribute('aRG', new T.BufferAttribute(rgA, 2));
+    var LP = [new T.Vector3(0, 2.6, 0), new T.Vector3(0, 9, -172), new T.Vector3(0, -3, -300)];
+    var terrainMat = new T.ShaderMaterial({
+      clipping: true,
+      uniforms: { uLP: { value: LP }, uLI: { value: [2.1, 1.0, 2.6] }, uLK: { value: [0.3, 0.25, 0.07] }, uColor: { value: acc.clone() }, uFog: { value: new T.Color(0x0E0609) }, uFogD: { value: 0.0072 }, uLead: { value: -1e5 } },
+      vertexShader: [
+        '#include <clipping_planes_pars_vertex>',
+        'attribute vec3 aCol; attribute vec2 aRG; uniform vec3 uColor; uniform float uLead; varying vec3 vW; varying vec3 vN; varying vec3 vCol; varying float vD;',
+        'void main(){ vec4 w=modelMatrix*vec4(position,1.0); vW=w.xyz; vN=normalize(mat3(modelMatrix)*normal); float rv=smoothstep(-1.0,3.0,aRG.y-uLead); vCol=aCol+uColor*aRG.x*rv; vec4 mvPosition=viewMatrix*w; vD=-mvPosition.z; gl_Position=projectionMatrix*mvPosition;',
+        '#include <clipping_planes_vertex>',
+        '}'
+      ].join('\n'),
+      fragmentShader: [
+        '#include <clipping_planes_pars_fragment>',
+        'uniform vec3 uLP[3]; uniform float uLI[3]; uniform float uLK[3]; uniform vec3 uColor; uniform vec3 uFog; uniform float uFogD;',
+        'varying vec3 vW; varying vec3 vN; varying vec3 vCol; varying float vD;',
+        'float hh(vec2 q){ return fract(sin(dot(q,vec2(127.1,311.7)))*43758.5453); }',
+        'void main(){',
+        '#include <clipping_planes_fragment>',
+        ' vec3 n=normalize(vN); float grain=hh(floor(vW.xz*16.0)+floor(vW.y*16.0)); float grain2=hh(floor(vW.xz*3.0));',
+        ' float streak=0.5+0.5*sin(vW.y*7.0+vW.x*1.3+grain2*6.28); float snow=smoothstep(0.15,0.75,n.y+0.25*grain2);',
+        ' float g=0.0;',
+        ' for(int i=0;i<3;i++){ vec3 L=uLP[i]-vW; float d=length(L); L/=d; float lam=max(dot(n,L),0.0); float fall=uLI[i]/(1.0+d*d*0.0034); float bse=exp(-max(vW.y-uLP[i].y*0.25,0.0)*uLK[i]); g+=lam*fall*(0.005+1.35*bse); }',
+        ' g*=(0.72+0.22*grain+0.12*streak)*(0.5+0.6*snow);',
+        ' vec3 c=vCol*(0.75+0.5*grain)+uColor*g*1.05+mix(uColor,vec3(1.0),0.5)*pow(min(g,1.2),3.0)*0.12;',
+        ' float f=1.0-exp(-pow(vD*uFogD,2.0)); gl_FragColor=vec4(mix(c,uFog,f),1.0); }'
+      ].join('\n')
+    });
+    scene.add(new T.Mesh(tgeo, terrainMat));
+
+    // ---------- sky ----------
+    var skyMat = new T.ShaderMaterial({
+      side: T.BackSide, depthWrite: false, fog: false,
+      uniforms: { uColor: { value: acc.clone() }, uHor: { value: 0.07 } },
+      vertexShader: 'varying vec3 vDir; void main(){ vDir=normalize(position); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+      fragmentShader: 'uniform vec3 uColor; uniform float uHor; varying vec3 vDir; void main(){ float y=vDir.y; vec3 top=vec3(0.03,0.012,0.02); vec3 hor=mix(vec3(0.075,0.03,0.045),uColor,uHor); vec3 c=mix(hor,top,smoothstep(-0.02,0.42,y)); c+=uColor*(0.03+uHor*0.25)*exp(-abs(y)*14.0); gl_FragColor=vec4(c,1.0); }'
+    });
+    var sky = new T.Mesh(new T.SphereGeometry(500, 32, 16), skyMat);
+    sky.renderOrder = -10; scene.add(sky);
+
+    // ---- textures ----
+    function canvasTex(w, h, draw) { var c = document.createElement('canvas'); c.width = w; c.height = h; var g = c.getContext('2d'); draw(g, w, h); var t = new T.CanvasTexture(c); t.anisotropy = 4; return t; }
+    var panelTex = canvasTex(256, 448, function (g, w, h) {
+      g.fillStyle = '#9a9a9a'; g.fillRect(0, 0, w, h);
+      for (var k = 0; k < 40; k++) { var v = 140 + Math.floor(Math.random() * 60); g.fillStyle = 'rgb(' + v + ',' + v + ',' + v + ')'; g.fillRect(Math.random() * w, Math.random() * h, 12 + Math.random() * 50, 12 + Math.random() * 50); }
+    });
+    var sideTex = canvasTex(256, 448, function (g, w, h) {
+      g.fillStyle = '#5c5c5c'; g.fillRect(0, 0, w, h);
+      g.fillStyle = '#4c4c4c'; for (var s2 = 6; s2 < w; s2 += 10) g.fillRect(s2, 0, 2, h);
+      g.strokeStyle = '#e6e6e6'; g.lineWidth = 8; g.strokeRect(4, 4, w - 8, h - 8);
+      g.strokeStyle = 'rgba(255,255,255,.25)'; g.lineWidth = 2; g.strokeRect(14, 14, w - 28, h - 28);
+    });
+    var SPK = [[128, 72, 30], [128, 196, 80], [128, 332, 80]];
+    var frontTex = canvasTex(256, 448, function (g, w, h) {
+      g.fillStyle = '#6a6a6a'; g.fillRect(0, 0, w, h);
+      g.fillStyle = 'rgba(255,255,255,.07)'; for (var gy = 3; gy < h; gy += 6) for (var gx = 3; gx < w; gx += 6) g.fillRect(gx, gy, 1.5, 1.5);
+      g.strokeStyle = '#ededed'; g.lineWidth = 8; g.strokeRect(4, 4, w - 8, h - 8);
+      SPK.forEach(function (c, idx) {
+        var R = c[2];
+        g.fillStyle = '#2a2a2a'; g.beginPath(); g.arc(c[0], c[1], R + 7, 0, 7); g.fill();
+        g.lineWidth = 3; g.strokeStyle = '#d6d6d6'; g.beginPath(); g.arc(c[0], c[1], R + 7, 0, 7); g.stroke();
+        g.fillStyle = '#181818'; g.beginPath(); g.arc(c[0], c[1], R, 0, 7); g.fill();
+        var cg = g.createRadialGradient(c[0] - R * 0.15, c[1] - R * 0.2, R * 0.1, c[0], c[1], R * 0.86);
+        cg.addColorStop(0, '#5a5a5a'); cg.addColorStop(0.6, '#3a3a3a'); cg.addColorStop(1, '#222');
+        g.fillStyle = cg; g.beginPath(); g.arc(c[0], c[1], R * 0.86, 0, 7); g.fill();
+        g.strokeStyle = 'rgba(255,255,255,.12)'; g.lineWidth = 1;
+        for (var rr = 0.4; rr < 0.86; rr += 0.12) { g.beginPath(); g.arc(c[0], c[1], R * rr, 0, 7); g.stroke(); }
+        var dg = g.createRadialGradient(c[0] - R * 0.08, c[1] - R * 0.1, 1, c[0], c[1], R * (idx === 0 ? 0.45 : 0.26));
+        dg.addColorStop(0, '#f2f2f2'); dg.addColorStop(1, '#8c8c8c');
+        g.fillStyle = dg; g.beginPath(); g.arc(c[0], c[1], R * (idx === 0 ? 0.45 : 0.26), 0, 7); g.fill();
+      });
+      g.fillStyle = '#1c1c1c'; g.beginPath(); if (g.roundRect) g.roundRect(68, 418, 120, 12, 6); else g.rect(68, 418, 120, 12); g.fill();
+      g.font = 'bold 13px monospace'; g.fillStyle = '#efefef'; g.textAlign = 'center'; g.fillText('AUDIOHEADS', 128, 132);
+    });
+    var detailTex = canvasTex(256, 448, function (g, w, h) {
+      g.fillStyle = '#000'; g.fillRect(0, 0, w, h);
+      g.strokeStyle = '#fff';
+      SPK.forEach(function (c, idx) {
+        var R = c[2];
+        g.lineWidth = 4; g.beginPath(); g.arc(c[0], c[1], R + 7, 0, 7); g.stroke();
+        g.lineWidth = 2; for (var rr = 0.4; rr < 0.9; rr += 0.12) { g.beginPath(); g.arc(c[0], c[1], R * rr, 0, 7); g.stroke(); }
+        g.fillStyle = '#fff'; g.beginPath(); g.arc(c[0], c[1], R * (idx === 0 ? 0.45 : 0.26), 0, 7); g.fill();
+      });
+    });
+    var glowTex = canvasTex(128, 128, function (g, w, h) { var gr = g.createRadialGradient(64, 64, 0, 64, 64, 64); gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(0.25, 'rgba(255,255,255,.45)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.fillRect(0, 0, w, h); });
+
+    // ---- speaker monolith ----
+    var revealMat = new T.ShaderMaterial({
+      uniforms: { uMap: { value: frontTex }, uDetail: { value: detailTex }, uColor: { value: acc.clone() }, uReveal: { value: new T.Vector2(-5, -5) }, uAmt: { value: 0 }, uTime: { value: 0 } },
+      vertexShader: 'varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+      fragmentShader: 'uniform sampler2D uMap; uniform sampler2D uDetail; uniform vec3 uColor; uniform vec2 uReveal; uniform float uAmt; uniform float uTime; varying vec2 vUv;' +
+        'void main(){ vec3 base=texture2D(uMap,vUv).rgb*uColor*1.55; float d=distance(vUv*vec2(1.0,1.75),uReveal*vec2(1.0,1.75)); float m=smoothstep(0.34,0.0,d)*uAmt; vec3 det=texture2D(uDetail,vUv).rgb;' +
+        ' float sh=0.06*sin(vUv.y*24.0-uTime*1.5); vec3 c=base*(1.0+sh)+det*m*vec3(0.75,0.92,1.0)*1.7+base*m*0.25; c+=det*0.04; gl_FragColor=vec4(c,1.0); }'
+    });
+    var capMat = new T.MeshBasicMaterial({ map: sideTex, color: acc.clone().multiplyScalar(1.25) });
+    var speaker = new T.Mesh(new T.BoxGeometry(2.3, 4.0, 2.0), [capMat, capMat, capMat, capMat, revealMat, capMat]);
+    speaker.position.set(0, 2.6, 0);
+    scene.add(speaker);
+    var reflMat = new T.MeshBasicMaterial({ map: sideTex, color: acc.clone(), transparent: true, opacity: 0.3, side: T.DoubleSide, depthWrite: false });
+    var reflFront = new T.MeshBasicMaterial({ map: frontTex, color: acc.clone().multiplyScalar(1.2), transparent: true, opacity: 0.32, side: T.DoubleSide, depthWrite: false });
+    var refl = new T.Mesh(speaker.geometry, [reflMat, reflMat, reflMat, reflMat, reflFront, reflMat]);
+    refl.scale.y = -1; refl.visible = false;
+    var halo = new T.Sprite(new T.SpriteMaterial({ map: glowTex, color: acc.clone(), transparent: true, opacity: 0.32, blending: T.AdditiveBlending, depthWrite: false }));
+    halo.scale.set(18, 18, 1); halo.position.set(0, 2.6, -2.5); scene.add(halo);
+    var halo2 = new T.Sprite(new T.SpriteMaterial({ map: glowTex, color: acc.clone(), transparent: true, opacity: 0.18, blending: T.AdditiveBlending, depthWrite: false }));
+    halo2.scale.set(30, 7, 1); halo2.position.set(0, 0.4, -3); scene.add(halo2);
+
+    // ---- water (planar reflection) ----
+    var reflRT = new T.WebGLRenderTarget(4, 4, { minFilter: T.LinearFilter, magFilter: T.LinearFilter });
+    var reflCam = new T.PerspectiveCamera();
+    var texMat = new T.Matrix4();
+    var waterMat = new T.ShaderMaterial({
+      uniforms: { uTime: { value: 0 }, uColor: { value: acc.clone() }, tRefl: { value: reflRT.texture }, uTexMat: { value: texMat }, uFog: { value: new T.Color(0x0E0609) } },
+      vertexShader: 'uniform mat4 uTexMat; varying vec3 vW; varying vec4 vR; varying float vD; void main(){ vec4 w=modelMatrix*vec4(position,1.0); vW=w.xyz; vR=uTexMat*w; vec4 mv=viewMatrix*w; vD=-mv.z; gl_Position=projectionMatrix*mv; }',
+      fragmentShader: 'uniform float uTime; uniform vec3 uColor; uniform sampler2D tRefl; uniform vec3 uFog; varying vec3 vW; varying vec4 vR; varying float vD;' +
+        'void main(){ vec2 p=vW.xz;' +
+        ' float n1=sin(p.y*2.4-uTime*1.05+sin(p.x*0.33+uTime*0.21)*2.2); float n2=sin(p.y*5.6+p.x*0.45-uTime*1.7); float n3=sin(p.y*12.0-p.x*0.8-uTime*2.7); float n4=sin(p.y*23.0+p.x*1.7-uTime*3.4);' +
+        ' float dx=n1*0.5+n2*0.32+n3*0.15+n4*0.03; float dy=n2*0.5+n3*0.5;' +
+        ' float k=clamp(0.006+vD*0.0008,0.0,0.03); vec4 r=vR; r.x+=dx*k*r.w*1.6; r.y+=dy*k*r.w*0.6;' +
+        ' vec3 refl=texture2DProj(tRefl,r).rgb;' +
+        ' float bands=smoothstep(-0.1,0.9,n1*0.55+n2*0.45); float fine=smoothstep(0.3,1.0,n3*0.6+n4*0.4);' +
+        ' vec3 base=vec3(0.012,0.006,0.009); vec3 c=base+refl*(0.3+0.7*bands)*0.95+refl*fine*0.2; float colm=exp(-abs(p.x)*0.42)*smoothstep(-1.0,22.0,p.y)*smoothstep(46.0,6.0,p.y); c+=uColor*colm*(0.06+0.9*bands*fine+0.35*bands);' +
+        ' c+=uColor*0.02*bands; float f=1.0-exp(-pow(vD*0.0072,2.0)); gl_FragColor=vec4(mix(c,uFog,f),1.0); }'
+    });
+    var water = new T.Mesh(new T.PlaneGeometry(220, 120).rotateX(-Math.PI / 2), waterMat);
+    water.position.set(0, 0, -10);
+    scene.add(water);
+    var clipPlane = new T.Plane(new T.Vector3(0, 1, 0), 0.02);
+
+    var ptsMats = [];
+    function makePoints(n, gen, size, opacity) {
+      var pos = new Float32Array(n * 3), seed = new Float32Array(n);
+      for (var k = 0; k < n; k++) { var v = gen(k); pos[k * 3] = v[0]; pos[k * 3 + 1] = v[1]; pos[k * 3 + 2] = v[2]; seed[k] = Math.random(); }
+      var g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(pos, 3)); g.setAttribute('aSeed', new T.BufferAttribute(seed, 1));
+      var m = new T.ShaderMaterial({
+        transparent: true, depthWrite: false, blending: T.AdditiveBlending,
+        uniforms: { uTime: { value: 0 }, uSize: { value: size * PR }, uColor: { value: acc.clone() }, uOp: { value: opacity }, uLead: { value: -1e5 } },
+        vertexShader: 'uniform float uTime; uniform float uSize; uniform float uLead; attribute float aSeed; varying float vA; void main(){ vec4 mv=modelViewMatrix*vec4(position,1.0); float tw=0.5+0.5*sin(uTime*(1.2+aSeed*2.0)+aSeed*40.0); vA=tw*exp(-(-mv.z)*0.012)*smoothstep(-1.0,1.0,position.z-uLead); gl_PointSize=min(uSize*(0.5+tw)*(26.0/max(1.0,-mv.z)), uSize*0.75); gl_Position=projectionMatrix*mv; }',
+        fragmentShader: 'uniform vec3 uColor; uniform float uOp; varying float vA; void main(){ float d=length(gl_PointCoord-0.5); float a=smoothstep(0.5,0.1,d)*vA*uOp; gl_FragColor=vec4(mix(uColor,vec3(1.0),0.5)*a,a); }'
+      });
+      ptsMats.push(m);
+      var pts = new T.Points(g, m); scene.add(pts); return pts;
+    }
+    makePoints(5200, function () { var zz = -22 + Math.pow(Math.random(), 0.7) * 52; return [(Math.random() - 0.5) * (40 + (zz + 22) * 2.2), 0.05 + Math.random() * 0.25, zz]; }, 6, 1.0);
+    makePoints(900, function () { return [(Math.random() - 0.5) * 60, 0.4 + Math.random() * 7, -20 + Math.random() * 40]; }, 4, 0.55);
+    makePoints(2400, function () { return [(Math.random() - 0.5) * 160, 1 + Math.random() * 30, 40 - Math.random() * 380]; }, 4, 0.45);
+    makePoints(1200, function () { return [(Math.random() - 0.5) * 600, 50 + Math.random() * 130, 100 - Math.random() * 600]; }, 8, 0.8);
+
+    // ---------- light ribbons (bundles of glowing strands) ----------
+    var ribbonMat = new T.ShaderMaterial({
+      transparent: true, depthWrite: false, blending: T.AdditiveBlending, side: T.DoubleSide,
+      uniforms: { uTime: { value: 0 }, uColor: { value: acc.clone() }, uHot: { value: hot.clone() }, uI: { value: 1 }, uLead: { value: -1e5 } },
+      vertexShader: [
+        'attribute float aU; attribute float aN; attribute float aV; attribute float aS; attribute float aB; attribute float aK;',
+        'varying float vU; varying float vN; varying float vV; varying float vS; varying float vB; varying float vD; varying float vK;',
+        'void main(){ vU=aU; vN=aN; vV=aV; vS=aS; vB=aB; vK=aK; vec4 mv=modelViewMatrix*vec4(position,1.0); vD=-mv.z; gl_Position=projectionMatrix*mv; }'
+      ].join('\n'),
+      fragmentShader: [
+        'uniform float uTime; uniform vec3 uColor; uniform vec3 uHot; uniform float uI; uniform float uLead;',
+        'varying float vU; varying float vN; varying float vV; varying float vS; varying float vB; varying float vD; varying float vK;',
+        'float h1(float x){ return fract(sin(x*127.1)*43758.5453); }',
+        'float h2(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }',
+        'void main(){',
+        ' float v=vV; float vi=v/0.42; float inner=1.0-smoothstep(0.85,1.05,abs(vi));',
+        ' float N=12.0; float x=(vi*0.5+0.5)*N; float id=floor(x);',
+        ' float wob=sin(vU*0.09+id*1.7+vS*6.0)*0.2+sin(vU*0.021+id*0.7)*0.3;',
+        ' float f=fract(x+wob)-0.5; float sb=0.2+0.8*pow(h1(id+vS*31.0),1.6);',
+        ' float line=(1.0-smoothstep(0.035,0.12,abs(f)))*sb*inner;',
+        ' float core=exp(-vi*vi*6.0)*inner; float halo=exp(-v*v*4.0);',
+        ' float ph=fract(vU*0.011-uTime*0.25*(0.7+vS)+h1(id+3.0)); float dash=exp(-ph*28.0)*line;',
+        ' vec2 cell=floor(vec2(vU*2.4,x*2.0)); float dots=step(0.972,h2(cell+vS*13.0))*inner*(0.55+0.45*sin(uTime*3.0+cell.x*1.3));',
+        ' float ends=smoothstep(0.0,0.05,vN)*smoothstep(1.0,0.95,vN); float fade=exp(-vD*0.0062)*(0.35+0.65*smoothstep(2.0,10.0,vD));',
+        ' float dk=vK-uLead; float drawn=smoothstep(-0.2,2.2,dk);',
+        ' float tipG=exp(-dk*dk*0.9)*step(-0.4,dk)*(core*0.9+line*0.9);',
+        ' float I=(line*1.0+core*0.6*uI+halo*0.18*uI+dash*2.4+dots*1.6)*vB*ends*fade*mix(0.55,1.0,uI)*drawn + tipG*vB*ends*fade*0.45;',
+        ' vec3 col=mix(uColor,uHot,clamp(core*0.6+dash*0.7+dots*0.6+line*0.15+tipG*0.35,0.0,1.0));',
+        ' gl_FragColor=vec4(col*I,1.0); }'
+      ].join('\n')
+    });
+    var ribPos = [], ribU = [], ribN = [], ribV = [], ribS = [], ribB = [], ribK = [], ribIdx = [], vbase = 0, sparks = [];
+    paths.forEach(function (pa) {
+      var P = pa.pts, N = P.length, W = pa.w * 2.4, seed = Math.random(), dist = 0;
+      for (var k = 0; k < N; k++) {
+        var a = P[Math.max(0, k - 1)], c = P[Math.min(N - 1, k + 1)];
+        var tx = c[0] - a[0], tz = c[1] - a[1], L = Math.sqrt(tx * tx + tz * tz) || 1;
+        var sx = -tz / L, sz = tx / L;
+        if (k > 0) { var dx = P[k][0] - P[k - 1][0], dz = P[k][1] - P[k - 1][1]; dist += Math.sqrt(dx * dx + dz * dz); }
+        for (var side = -1; side <= 1; side += 2) {
+          var Wk = W * (0.7 + 0.55 * (0.5 + 0.5 * Math.sin(dist * 0.11 + seed * 6.28)) * (0.6 + 0.4 * Math.sin(dist * 0.037 + seed * 3.1)));
+          var px = P[k][0] + sx * side * Wk * 0.5, pz = P[k][1] + sz * side * Wk * 0.5;
+          ribPos.push(px, Math.max(heightAt(px, pz), heightAt(P[k][0], P[k][1])) + 0.25, pz);
+          ribU.push(dist); ribN.push(k / (N - 1)); ribV.push(side); ribS.push(seed); ribB.push(pa.b); ribK.push(revealKey(pa, P[k][0], P[k][1]));
+        }
+        if (k > 0) { var o = vbase + (k - 1) * 2; ribIdx.push(o, o + 1, o + 2, o + 1, o + 3, o + 2); }
+        var nsp = Math.random() < 0.9 ? 2 : 0;
+        for (var q = 0; q < nsp; q++) { var off = (Math.random() - 0.5) * pa.w * 1.1; var qx = P[k][0] + sx * off, qz = P[k][1] + sz * off; sparks.push([qx, heightAt(qx, qz) + 0.35 + Math.random() * 0.8, qz]); }
+      }
+      vbase += N * 2;
+    });
+    var rgeo = new T.BufferGeometry();
+    rgeo.setAttribute('position', new T.Float32BufferAttribute(ribPos, 3));
+    rgeo.setAttribute('aU', new T.Float32BufferAttribute(ribU, 1));
+    rgeo.setAttribute('aN', new T.Float32BufferAttribute(ribN, 1));
+    rgeo.setAttribute('aV', new T.Float32BufferAttribute(ribV, 1));
+    rgeo.setAttribute('aS', new T.Float32BufferAttribute(ribS, 1));
+    rgeo.setAttribute('aB', new T.Float32BufferAttribute(ribB, 1));
+    rgeo.setAttribute('aK', new T.Float32BufferAttribute(ribK, 1));
+    rgeo.setIndex(ribIdx);
+    var ribbons = new T.Mesh(rgeo, ribbonMat); ribbons.frustumCulled = false; ribbons.renderOrder = 3;
+    scene.add(ribbons);
+    var sparkPts = makePoints(sparks.length, function (k) { return sparks[k]; }, 5, 1.0);
+
+    // ---------- speaker cabinets: big ones on the dunes, small "lights" across the hills ----------
+    // frosted-glass cabinets (mosaic panels, vertical gradient, fresnel rim, faint driver rings on the front)
+    var cabSide = new T.MeshBasicMaterial({ map: sideTex, color: acc.clone().multiplyScalar(1.2), fog: true });
+    var cabFront = new T.MeshBasicMaterial({ map: frontTex, color: acc.clone().multiplyScalar(1.3), fog: true });
+    var BIG = [[-27, -150, 5.5, 0], [14, -156, 4.2, 1.5], [10, -170, 2.6, 0], [26, -170, 5, 0], [-32, -176, 4.5, 2], [8, -186, 3, 0], [-27, -197, 3.6, 0], [34, -150, 3.2, 2.5], [-36, -146, 3.8, 0], [18, -140, 2.4, 1], [-22, -160, 2.2, 0], [40, -186, 4.4, 0]];
+    var cabs = new T.InstancedMesh(new T.BoxGeometry(1, 1, 1), [cabSide, cabSide, cabSide, cabSide, cabFront, cabSide], BIG.length);
+    var dummy = new T.Object3D();
+    BIG.forEach(function (b, k) { var s = b[2]; dummy.position.set(b[0], heightAt(b[0], b[1]) + s * 0.62 + b[3], b[1]); dummy.rotation.set(0, (Math.random() - 0.5) * 0.7, 0); dummy.scale.set(s * 0.8, s * 1.3, s * 0.72); dummy.updateMatrix(); cabs.setMatrixAt(k, dummy.matrix); });
+    scene.add(cabs);
+    var smallList = [];
+    var CAMPATH = [[0, -134], [-5, -158], [-14, -182], [0, -196]];
+    function nearPath(x, z) { for (var q = 0; q < CAMPATH.length - 1; q++) { var a = CAMPATH[q], b = CAMPATH[q + 1], dx = b[0] - a[0], dz = b[1] - a[1], L = dx * dx + dz * dz, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L)), ex = a[0] + dx * u - x, ez = a[1] + dz * u - z; if (ex * ex + ez * ez < 36) return true; } return false; }
+    for (var sm = 0; sm < 420 && smallList.length < 340; sm++) { var sx2 = (Math.random() - 0.5) * 150, sz2 = -146 - Math.random() * 62; if (nearPath(sx2, sz2)) continue; smallList.push([sx2, sz2, 0.18 + Math.random() * 0.3]); }
+    var smallMat = new T.MeshBasicMaterial({ color: acc.clone().multiplyScalar(1.1), fog: true });
+    var small = new T.InstancedMesh(new T.BoxGeometry(1, 1, 1), smallMat, smallList.length);
+    smallList.forEach(function (b, k) { dummy.position.set(b[0], heightAt(b[0], b[1]) + b[2] * 0.5 + (Math.random() < 0.05 ? Math.random() * 1.2 : 0), b[1]); dummy.rotation.set(0, Math.random() * 3, 0); dummy.scale.set(b[2], b[2], b[2]); dummy.updateMatrix(); small.setMatrixAt(k, dummy.matrix); });
+    scene.add(small);
+
+    // ---------- valley network (talent cities) ----------
+    var nodes = [];
+    for (var nn = 0; nn < 300; nn++) { var ang = Math.random() * Math.PI * 2, rr = Math.sqrt(Math.random()) * 36; var x0 = Math.cos(ang) * rr * 1.15, z0 = -300 + Math.sin(ang) * rr * 0.9; nodes.push([x0, heightAt(x0, z0) + 0.25, z0]); }
+    var cities = [[-22, -290], [-9, -312], [4, -286], [17, -300], [26, -318], [-28, -318], [10, -326], [-2, -300]];
+    cities.forEach(function (c) { nodes.push([c[0], heightAt(c[0], c[1]) + 0.5, c[1]]); });
+    var nodeMesh = new T.InstancedMesh(new T.BoxGeometry(1, 1, 1), new T.MeshBasicMaterial({ color: acc.clone().multiplyScalar(1.35), fog: true }), nodes.length);
+    nodes.forEach(function (p, idx) { var isCity = idx >= nodes.length - cities.length; var s = isCity ? 1.2 : 0.35 + Math.random() * 0.3; dummy.position.set(p[0], p[1] + s * 0.3, p[2]); dummy.rotation.set(0, Math.random(), 0); dummy.scale.set(s, s, s); dummy.updateMatrix(); nodeMesh.setMatrixAt(idx, dummy.matrix); });
+    scene.add(nodeMesh);
+    var cityGlowMat = new T.SpriteMaterial({ map: glowTex, color: acc.clone(), transparent: true, opacity: 0.7, blending: T.AdditiveBlending, depthWrite: false });
+    cities.forEach(function (c) { var sp = new T.Sprite(cityGlowMat); sp.scale.set(5, 5, 1); sp.position.set(c[0], heightAt(c[0], c[1]) + 1, c[1]); scene.add(sp); });
+    var road = [];
+    nodes.forEach(function (p, idx) {
+      var d = nodes.map(function (q, j) { return [j, (q[0] - p[0]) * (q[0] - p[0]) + (q[2] - p[2]) * (q[2] - p[2])]; }).filter(function (e) { return e[0] !== idx; }).sort(function (a, b) { return a[1] - b[1]; });
+      for (var m2 = 0; m2 < 2; m2++) {
+        var q = nodes[d[m2][0]], prevPt = null;
+        for (var st = 0; st <= 6; st++) { var tt = st / 6, xx = p[0] + (q[0] - p[0]) * tt, zz = p[2] + (q[2] - p[2]) * tt, pt = [xx, heightAt(xx, zz) + 0.12, zz]; if (prevPt) road.push(prevPt[0], prevPt[1], prevPt[2], pt[0], pt[1], pt[2]); prevPt = pt; }
+      }
+    });
+    var roadMat = new T.LineBasicMaterial({ color: acc.clone(), transparent: true, opacity: 0.55, blending: T.AdditiveBlending, depthWrite: false });
+    scene.add(new T.LineSegments(new T.BufferGeometry().setAttribute('position', new T.Float32BufferAttribute(road, 3)), roadMat));
+
+    // ---------- post: bloom, RGB split, motion smear, block glitch, grain ----------
+    var rt = new T.WebGLRenderTarget(4, 4, { minFilter: T.LinearFilter, magFilter: T.LinearFilter });
+    var postMat = new T.ShaderMaterial({
+      depthTest: false, depthWrite: false,
+      uniforms: { tDiffuse: { value: rt.texture }, uGlass: { value: 0 }, uAb: { value: 0 }, uFlash: { value: 0 }, uVel: { value: 0 }, uGlitch: { value: 0 }, uTime: { value: 0 }, uRes: { value: new T.Vector2(4, 4) }, uFlashC: { value: acc.clone() } },
+      vertexShader: 'varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.0,1.0); }',
+      fragmentShader: [
+        'uniform sampler2D tDiffuse; uniform float uGlass; uniform float uAb; uniform float uFlash; uniform float uVel; uniform float uGlitch; uniform float uTime; uniform vec2 uRes; uniform vec3 uFlashC; varying vec2 vUv;',
+        'float hs(vec2 p){ return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453); }',
+        'void main(){',
+        ' vec2 uv=vUv;',
+        ' if(uGlitch>0.002){ vec2 blk=floor(uv*vec2(16.0,9.0)); float tq=floor(uTime*14.0); float r=hs(blk+tq);',
+        '   if(r<uGlitch*0.75){ uv.x+=(hs(blk*1.7+tq)-0.5)*0.22*uGlitch; uv.y+=(hs(blk*2.3+tq)-0.5)*0.06*uGlitch; }',
+        '   vec2 fine=floor(uv*vec2(80.0,45.0)); if(hs(fine+tq)<uGlitch*0.25){ uv=(floor(uv*vec2(40.0,22.0))+0.5)/vec2(40.0,22.0); } }',
+        ' float pane=0.0; if(uGlass>0.002){ vec2 gA=uv*vec2(3.0,2.0)+vec2(0.0,0.31); vec2 cA=floor(gA); float rA=hs(cA+4.0);',
+        '   vec2 gB=uv*vec2(6.0+floor(rA*3.0),4.0+floor(hs(cA+9.0)*3.0))+vec2(rA*0.5,0.17); vec2 cB=floor(gB); float rB=hs(cB+cA*7.0+11.0);',
+        '   float on=step(0.45,rB); vec2 o=(vec2(hs(cB+cA),hs(cB+cA+3.1))-0.5)*0.11*on+(vec2(hs(cA+2.0),hs(cA+7.0))-0.5)*0.05; uv+=o*uGlass;',
+        '   vec2 eB=abs(fract(gB)-0.5); pane=smoothstep(0.475,0.5,max(eB.x,eB.y))*on; }',
+        ' vec2 dir=uv-0.5; float ab=0.0016+uAb*0.045+uVel*0.03+uGlitch*0.035+uGlass*0.012;',
+        ' vec3 c=vec3(0.0);',
+        ' for(int i=0;i<6;i++){ float o=(float(i)/5.0-0.5)*uVel*0.045; vec2 q=uv+vec2(0.0,o); c.r+=texture2D(tDiffuse,q+dir*ab).r; c.g+=texture2D(tDiffuse,q).g; c.b+=texture2D(tDiffuse,q-dir*ab).b; }',
+        ' c/=6.0;',
+        ' vec2 px=1.0/uRes; vec3 b=vec3(0.0);',
+        ' for(int i=0;i<12;i++){ float an=float(i)*0.5236; vec2 o=vec2(cos(an),sin(an)); b+=max(texture2D(tDiffuse,uv+o*px*6.0).rgb-0.45,0.0); b+=max(texture2D(tDiffuse,uv+o*px*16.0).rgb-0.4,0.0)*0.8; b+=max(texture2D(tDiffuse,uv+o*px*34.0).rgb-0.4,0.0)*0.5; }',
+        ' c+=b*0.075; c=mix(c,c*mix(vec3(1.0),mix(uFlashC,vec3(1.0),0.4),0.5)*1.12,uGlass); c+=mix(uFlashC,vec3(1.0),0.55)*pane*uGlass*0.07;',
+        ' float v=smoothstep(0.95,0.25,length(dir*vec2(1.1,1.0))); c*=mix(0.5,1.0,v);',
+        ' float g=hs(uv*uRes+uTime*61.0); c+=(g-0.5)*0.035; c+=uFlashC*uFlash*0.55;',
+        ' gl_FragColor=vec4(c,1.0); }'
+      ].join('\n')
+    });
+    var postScene = new T.Scene(); var postCam = new T.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    postScene.add(new T.Mesh(new T.PlaneGeometry(2, 2), postMat));
+
+    // ---------- camera journey (mirrors the reference flight) ----------
+    var KP = [0, 0.12, 0.17, 0.2, 0.25, 0.3, 0.355, 0.41, 0.47, 0.54, 0.61, 0.67, 0.72, 0.8, 0.88, 0.94, 1.0];
+    var POS = [[0, 2.3, 20], [0, 2.5, 10], [0, 2.85, 1.3], [0, 7.5, -12], [-1.5, 6.5, -26], [1, 17, -54], [-2, 17, -72], [0, 3.0, -96], [1, 4.8, -120], [0, 5.5, -134], [-5, 4.2, -158], [-14, 6, -182], [0, 34, -196], [8, 30, -208], [0, 26, -226], [0, 24, -244], [0, 25, -240]];
+    var TGT = [[0, 0.75, 0], [0, 1.3, 0], [0, 2.85, -6], [0.5, 0.6, -32], [1, 0.3, -46], [1.5, 0, -57.5], [-1.5, 0, -75.5], [0, 1.2, -122], [0, 3, -152], [0, 3.5, -164], [6, 3, -180], [24, 2, -192], [0, 0, -222], [-6, 0, -236], [0, 0, -262], [0, 0, -296], [0, 0, -302]];
+    function gmax(x, z) { var mx = -1e9; for (var a = -4; a <= 4; a += 2) for (var b = -4; b <= 4; b += 2) mx = Math.max(mx, heightAt(x + a, z + b)); return Math.max(mx, 0.5); }
+    POS[12] = [-3, gmax(-3, -198) + 4.5, -198]; TGT[12] = [0, heightAt(0, -224) + 0.5, -224];
+    POS[13] = [2, gmax(2, -214) + 4.2, -214];   TGT[13] = [-1, heightAt(-1, -240) + 0.5, -240];
+    POS[14] = [-1, gmax(-1, -232) + 5.0, -232]; TGT[14] = [0, heightAt(0, -258) + 0.5, -258];
+    POS[15] = [0, gmax(0, -248) + 12, -248];   TGT[15] = [0, 0, -288];
+    POS[16] = [0, gmax(0, -254) + 16, -254];   TGT[16] = [0, 0, -300];
+    var posCurve = new T.CatmullRomCurve3(POS.map(function (v) { return new T.Vector3(v[0], v[1], v[2]); }), false, 'centripetal');
+    var tgtCurve = new T.CatmullRomCurve3(TGT.map(function (v) { return new T.Vector3(v[0], v[1], v[2]); }), false, 'centripetal');
+    var ROLL = [0, 0, 0, 0, 0, 0.55, -0.4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    function rollAt(p) { for (var k = 0; k < KP.length - 1; k++) { if (p <= KP[k + 1]) { var u = (p - KP[k]) / (KP[k + 1] - KP[k]); u = u * u * (3 - 2 * u); return ROLL[k] + (ROLL[k + 1] - ROLL[k]) * u; } } return 0; }
+    function toT(p) { for (var k = 0; k < KP.length - 1; k++) { if (p <= KP[k + 1]) return (k + (p - KP[k]) / (KP[k + 1] - KP[k])) / (KP.length - 1); } return 1; }
+    var LEADN = 600, LEAD = new Float32Array(LEADN + 1), lp = new T.Vector3(), lt = new T.Vector3();
+    for (var li = 0; li <= LEADN; li++) {
+      var lpp = li / LEADN, ltt = toT(lpp); posCurve.getPoint(ltt, lp); tgtCurve.getPoint(ltt, lt);
+      var ldy = (lt.y - lp.y) / (lt.distanceTo(lp) || 1), ldown = sstep(0.55, 0.92, -ldy);
+      var lz = lt.z - (6 + sstep(0.955, 1.0, lpp) * 45);
+      LEAD[li] = li ? Math.min(lz, LEAD[li - 1]) : lz;
+    }
+    function leadAt(p) { var f = Math.max(0, Math.min(1, p)) * LEADN, i0 = Math.floor(f), i1 = Math.min(LEADN, i0 + 1); return LEAD[i0] + (LEAD[i1] - LEAD[i0]) * (f - i0); }
+
+    this.gl = {
+      T: T, renderer: renderer, scene: scene, camera: camera, rt: rt, postScene: postScene, postCam: postCam, postMat: postMat, PR: PR,
+      canvas: canvas, cabs: cabs, small: small, nodeMesh: nodeMesh, speaker: speaker, refl: refl, terrainMat: terrainMat, skyMat: skyMat, sky: sky, water: water,
+      reflRT: reflRT, reflCam: reflCam, texMat: texMat, clipPlane: clipPlane, revealMat: revealMat, halo: halo, halo2: halo2, waterMat: waterMat, ptsMats: ptsMats, ribbonMat: ribbonMat,
+      posCurve: posCurve, tgtCurve: tgtCurve, toT: toT, rollAt: rollAt, leadAt: leadAt, sparkMat: sparkPts.material, upTmp: new T.Vector3(), dirTmp: new T.Vector3(), raycaster: new T.Raycaster(), ndc: new T.Vector2(), look: new T.Vector3(),
+      colorTargets: [revealMat.uniforms.uColor.value, waterMat.uniforms.uColor.value, terrainMat.uniforms.uColor.value, skyMat.uniforms.uColor.value, postMat.uniforms.uFlashC.value, ribbonMat.uniforms.uColor.value, reflMat.color, halo.material.color, halo2.material.color, cityGlowMat.color, roadMat.color].concat(ptsMats.map(function (m) { return m.uniforms.uColor.value; })),
+      scaledTargets: [[capMat.color, 1.25], [reflFront.color, 1.2], [cabSide.color, 1.2], [cabFront.color, 1.3], [smallMat.color, 1.1], [nodeMesh.material.color, 1.35]],
+      hotTargets: [ribbonMat.uniforms.uHot.value],
+      w: 0, h: 0, start: performance.now()
+    };
+  }
+
+  applyAccent(hex) {
+    var g = this.gl; if (!g) return;
+    var c = new g.T.Color(hex);
+    g.colorTargets.forEach(function (t) { t.copy(c); });
+    g.scaledTargets.forEach(function (t) { t[0].copy(c).multiplyScalar(t[1]); });
+    g.hotTargets.forEach(function (t) { t.copy(c).lerp(new g.T.Color(1, 1, 1), 0.65); });
+    this.accHex = hex;
+  }
+
+  renderGL(now) {
+    var g = this.gl; if (!g) return;
+    var w = g.canvas.clientWidth | 0, h = g.canvas.clientHeight | 0;
+    if (w < 2 || h < 2) return;
+    if (w !== g.w || h !== g.h) {
+      g.w = w; g.h = h;
+      g.renderer.setSize(w, h, false);
+      g.rt.setSize(Math.floor(w * g.PR), Math.floor(h * g.PR));
+      g.reflRT.setSize(Math.floor(w * g.PR * 0.6), Math.floor(h * g.PR * 0.6));
+      g.postMat.uniforms.uRes.value.set(w * g.PR, h * g.PR);
+      g.camera.aspect = w / h; g.camera.updateProjectionMatrix();
+    }
+    var acc = this.props.accent ?? '#C2525E';
+    if (acc !== this.accHex) this.applyAccent(acc);
+    var t = (now - g.start) / 1000, p = this.curP;
+    var m = this.mouse;
+    m.sx += (m.x - m.sx) * 0.05; m.sy += (m.y - m.sy) * 0.05;
+    function sst(a, b, x) { var k = Math.max(0, Math.min(1, (x - a) / (b - a))); return k * k * (3 - 2 * k); }
+
+    var tt = g.toT(p);
+    g.posCurve.getPoint(tt, g.camera.position);
+    g.tgtCurve.getPoint(tt, g.look);
+    g.camera.position.x += m.sx * 0.9; g.camera.position.y += m.sy * 0.45;
+    if (p > 0.66) { var gyMin = this.heightAt(g.camera.position.x, g.camera.position.z) + 2.4; if (g.camera.position.y < gyMin) g.camera.position.y = gyMin; }
+    // when looking down at the ground, steer "up" by a roll angle so the light bundles sweep and turn across the screen
+    var dir = g.dirTmp.copy(g.look).sub(g.camera.position).normalize();
+    var downness = sst(0.55, 0.92, -dir.y), roll = g.rollAt(p) + m.sx * 0.06 * downness;
+    g.upTmp.set(Math.sin(roll) * downness, 1 - downness, -Math.cos(roll) * downness).normalize();
+    g.camera.up.copy(g.upTmp);
+    g.ribbonMat.uniforms.uI.value = 1 - 0.55 * downness;
+    var lead = g.leadAt(p); g.ribbonMat.uniforms.uLead.value = lead; g.terrainMat.uniforms.uLead.value = lead; g.sparkMat.uniforms.uLead.value = lead;
+    g.camera.lookAt(g.look);
+
+    var sp = g.speaker;
+    var turn = Math.min(1, p / 0.16); turn = turn * turn * (3 - 2 * turn);
+    var settle = 1 - turn;
+    sp.position.y = 2.6 + Math.sin(t * 0.8) * 0.1 * settle;
+    sp.rotation.y = -0.38 * settle + turn * Math.PI * 2 + (m.sx * 0.3 + Math.sin(t * 0.25) * 0.06) * settle;
+    sp.rotation.x = m.sy * 0.06 * settle;
+    var vis = p < 0.178; sp.visible = vis; g.halo.visible = vis; g.halo2.visible = vis;
+    g.cabs.visible = p > 0.3 && p < 0.74; g.small.visible = p > 0.3 && p < 0.8; g.nodeMesh.visible = p > 0.7;
+
+    var amt = g.revealMat.uniforms.uAmt;
+    if (vis && p < 0.17 && this.state.over) {
+      g.ndc.set(m.x, m.y);
+      g.raycaster.setFromCamera(g.ndc, g.camera);
+      var hit = g.raycaster.intersectObject(sp, false)[0];
+      if (hit && hit.uv && hit.face && hit.face.materialIndex === 4) { g.revealMat.uniforms.uReveal.value.copy(hit.uv); amt.value += (1 - amt.value) * 0.12; }
+      else amt.value += (0 - amt.value) * 0.08;
+    } else amt.value += (0 - amt.value) * 0.08;
+    g.revealMat.uniforms.uTime.value = t;
+
+    var li = g.terrainMat.uniforms.uLI.value;
+    li[0] = 2.1 * (1 - sst(0.15, 0.19, p));
+    li[1] = 1.0;
+    li[2] = 2.6;
+    g.terrainMat.uniforms.uLP.value[0].set(0, sp.position.y, 0);
+    g.skyMat.uniforms.uHor.value = 0.07 + 0.16 * sst(0.36, 0.46, p) * (1 - sst(0.69, 0.73, p)) + 0.12 * sst(0.86, 0.96, p);
+
+    g.waterMat.uniforms.uTime.value = t;
+    g.ptsMats.forEach(function (mm) { mm.uniforms.uTime.value = t; });
+    g.ribbonMat.uniforms.uTime.value = t;
+
+    var dive = Math.exp(-Math.pow((p - 0.172) / 0.02, 2));
+    var vel = Math.min(0.45, Math.abs(this.targetP - this.curP) * 9);
+    var glitch = 0;
+    g.postMat.uniforms.uAb.value = dive * 0.3;
+    g.postMat.uniforms.uVel.value = vel;
+    g.postMat.uniforms.uGlitch.value = Math.min(1, glitch);
+    g.postMat.uniforms.uFlash.value = dive * 0.22;
+    g.postMat.uniforms.uTime.value = t;
+
+    var cam = g.camera, rc = g.reflCam;
+    g.sky.position.copy(cam.position);
+    if (p < 0.185 && cam.position.y > 0.05) {
+      rc.fov = cam.fov; rc.aspect = cam.aspect; rc.near = cam.near; rc.far = cam.far; rc.updateProjectionMatrix();
+      rc.position.set(cam.position.x, -cam.position.y, cam.position.z);
+      rc.up.set(0, 1, 0);
+      rc.lookAt(g.look.x, -g.look.y, g.look.z);
+      rc.updateMatrixWorld();
+      g.texMat.set(0.5, 0, 0, 0.5, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0.5, 0, 0, 0, 1);
+      g.texMat.multiply(rc.projectionMatrix); g.texMat.multiply(rc.matrixWorldInverse);
+      g.water.visible = false; g.sky.position.copy(rc.position);
+      g.renderer.clippingPlanes = [g.clipPlane];
+      g.renderer.setRenderTarget(g.reflRT);
+      g.renderer.render(g.scene, rc);
+      g.renderer.clippingPlanes = [];
+      g.water.visible = true; g.sky.position.copy(cam.position);
+    } else {
+      g.water.visible = false;
+    }
+    g.renderer.setRenderTarget(g.rt);
+    g.renderer.render(g.scene, g.camera);
+    g.renderer.setRenderTarget(null);
+    g.renderer.render(g.postScene, g.postCam);
+
+    if (this.ac && this.filter) {
+      var f = 380 + p * 1300 + dive * 1800 + glitch * 1200;
+      this.filter.frequency.setTargetAtTime(f, this.ac.currentTime, 0.2);
+    }
+  }
+
+  tick() {
+    if (!this.alive) return;
+    this.raf = requestAnimationFrame(() => this.tick());
+    var now = performance.now();
+    this.curP += (this.targetP - this.curP) * 0.07;
+    if (Math.abs(this.targetP - this.curP) < 0.00005) this.curP = this.targetP;
+    try { this.renderGL(now); } catch (e) { this.gl = null; }
+
+    var up = {};
+    if (Math.abs(this.curP - this.state.p) > 0.0015) up.p = this.curP;
+    var ch = 0; [0.195, 0.375, 0.545, 0.72, 0.915].forEach((th) => { if (this.curP >= th) ch++; });
+    if (ch !== this.state.ch) { up.ch = ch; up.l1 = AH_CH[ch].l1; up.l2 = AH_CH[ch].l2; up.bodyOp = 1; }
+    // smooth scroll-driven fade: text dissolves out before each section boundary and back in after it
+    var TH = [0.195, 0.375, 0.545, 0.72, 0.915], cp = this.curP;
+    var sst = function (a, b, x) { var q = Math.max(0, Math.min(1, (x - a) / (b - a))); return q * q * (3 - 2 * q); };
+    var cS = ch > 0 ? TH[ch - 1] : -9, cE = ch < 5 ? TH[ch] : 9;
+    var fin = sst(cS + 0.004, cS + 0.05, cp), fout = 1 - sst(cE - 0.055, cE - 0.004, cp);
+    var op = fin * fout, lift = (1 - fout) * -22 + (1 - fin) * 22;
+    if (Math.abs(op - (this.state.tOp ?? 1)) > 0.004 || Math.abs(lift - (this.state.tLift ?? 0)) > 0.3) { up.tOp = op; up.tLift = lift; }
+    if (!!this.mouseOver !== this.state.over) up.over = !!this.mouseOver;
+    if (this.mouseDirty && this.mouseOver && !this.state.sound) { up.mx = this.mouse.cx; up.my = this.mouse.cy; this.mouseDirty = false; }
+    if (Object.keys(up).length) this.setState(up);
+  }
+
+  scramble(str, k) {
+    var out = '';
+    for (var i = 0; i < str.length; i++) {
+      var ch = str[i];
+      if (ch === ' ' || i / str.length < k) out += ch;
+      else out += Math.random() < 0.4 ? ' ' : AH_GLYPHS[Math.floor(Math.random() * AH_GLYPHS.length)];
+    }
+    return out;
+  }
+
+  goTo(i) {
+    this.setState({ menu: false });
+    var de = document.documentElement;
+    var max = Math.max(0, (de.scrollHeight || 0) - window.innerHeight);
+    window.scrollTo({ top: max * [0, 0.21, 0.4, 0.56, 0.8, 1][i], behavior: 'smooth' });
+  }
+
+  toggleSound() {
+    try {
+      if (!this.ac) {
+        var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+        var ac = new AC(); this.ac = ac;
+        var master = ac.createGain(); master.gain.value = 0; master.connect(ac.destination); this.master = master;
+        var filter = ac.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 420; filter.Q.value = 0.8; filter.connect(master); this.filter = filter;
+        [[55, 'sine', 0.55, 0], [82.41, 'sawtooth', 0.12, 6], [110, 'triangle', 0.22, -5], [164.81, 'sine', 0.08, 3]].forEach(function (o) {
+          var osc = ac.createOscillator(); osc.type = o[1]; osc.frequency.value = o[0]; osc.detune.value = o[3];
+          var gg = ac.createGain(); gg.gain.value = o[2]; osc.connect(gg); gg.connect(filter); osc.start();
+        });
+        var lfo = ac.createOscillator(); lfo.frequency.value = 0.08; var lg = ac.createGain(); lg.gain.value = 160; lfo.connect(lg); lg.connect(filter.frequency); lfo.start();
+      }
+      var on = !this.state.sound;
+      if (on) { this.ac.resume(); this.master.gain.setTargetAtTime(0.09, this.ac.currentTime, 0.8); }
+      else { this.master.gain.setTargetAtTime(0, this.ac.currentTime, 0.25); }
+      this.setState({ sound: on });
+    } catch (e) {}
+  }
+
+  renderVals() {
+    var textOp = this.state.tOp ?? 1, textLift = this.state.tLift ?? 0;
+    var s = this.state;
+    var intro = this.props.showIntro ?? true;
+    var c = AH_CH[s.ch];
+    var lit = Math.round(s.pct / 100 * 13);
+    var squares = [];
+    for (var i = 0; i < 13; i++) squares.push({ st: 'background: ' + (i < lit ? '#F4E4E6' : '#3A2328') });
+    var rail = AH_CH.map((x, i) => ({
+      label: x.k,
+      st: 'color: ' + (i === s.ch ? '#F4E4E6' : '#5E4950'),
+      dot: 'background: ' + (i === s.ch ? '#F4E4E6' : 'transparent'),
+      go: () => this.goTo(i)
+    }));
+    var navLinks = [['ABOUT', 'about.html'], ['SERVICES', 1], ['PROJECTS', 'projects.html'], ['SERVICE CENTRE', 3], ['CONTACT', 'contact.html']].map((n) => ({ label: n[0], isLink: typeof n[1] === 'string', isBtn: typeof n[1] !== 'string', href: typeof n[1] === 'string' ? n[1] : '#', go: () => this.goTo(n[1]) }));
+    var menuLinks = [['01', 'About us', 'about.html'], ['02', 'Services', 1], ['03', 'Projects', 'projects.html'], ['04', 'Service centre', 3], ['05', 'Talent', 4], ['06', 'Contact', 'contact.html']].map((n) => ({ n: n[0], label: n[1], isLink: typeof n[2] === 'string', isBtn: typeof n[2] !== 'string', href: typeof n[2] === 'string' ? n[2] : '#', go: () => { this.setState({ menu: false }); this.goTo(n[2]); } }));
+    var isEnd = s.p > 0.965;
+    return {
+      showLoader: intro && !s.loaded,
+      pct: String(s.pct).padStart(2, '0'),
+      squares,
+      loaderLabel: s.pct >= 100 ? 'READY TO EXPLORE' : 'LOADING CONTENT',
+      loaderOpacity: s.fading ? 0 : 1,
+
+      menuOpen: s.menu,
+      menuExpanded: s.menu ? 'true' : 'false',
+      openMenu: () => this.setState({ menu: true }),
+      closeMenu: () => this.setState({ menu: false }),
+      navLinks, menuLinks, rail,
+      goTop: () => this.goTo(0),
+
+      l1: s.l1, l2: s.l2, body: c.body, bodyOp: s.bodyOp,
+      textOp: textOp.toFixed(3), textBlur: ((1 - textOp) * 4).toFixed(2) + 'px', textLift: textLift.toFixed(1) + 'px', scrimOp: (0.3 + 0.7 * textOp).toFixed(3),
+      hasCta: !!c.cta, cta: c.cta,
+      ctaGo: () => { if (c.act === 'next') this.goTo(Math.min(5, s.ch + 1)); else this.setState({ menu: true }); },
+
+      progW: (s.p * 100).toFixed(2) + '%',
+      showCue: s.p < 0.03,
+      isEnd, notEnd: !isEnd,
+      soundLabel: s.sound ? 'SOUND ON' : 'SOUND OFF',
+      soundPressed: s.sound ? 'true' : 'false',
+      soundIconPath: s.sound ? 'M11 3.5c1.2 1 1.2 4 0 5M13 1.5c2.3 2 2.3 7 0 9' : 'M11 4l4 4M15 4l-4 4',
+      toggleSound: () => this.toggleSound(),
+      stageClick: () => { if (!s.sound && s.p < 0.15) this.toggleSound(); },
+      canvasCursor: (s.sound || s.p >= 0.15) ? 'default' : 'pointer',
+      showTag: s.over && !s.sound && s.loaded && !s.menu && s.mx > 0 && s.p < 0.3,
+      tagOp: s.p < 0.15 ? 1 : 0,
+      tagLift: s.p < 0.15 ? '0px' : '-8px',
+      tagX: (s.mx + 16) + 'px',
+      tagY: (s.my - 30) + 'px'
+    };
+  }
+}
+
+</script>
+<script>DC.mount(Component, {"accent": "#C2525E", "showIntro": true});</script>
+</body>
+</html>

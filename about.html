@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audioheads — About us</title>
+<meta name="description" content="Audioheads: live show production, A/V rental and integration, an authorised Pioneer DJ service centre and artist management in Bengaluru since 2008.">
+<meta name="theme-color" content="#0B0709">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect width='22' height='22' fill='%230B0709'/%3E%3Crect x='2' y='2' width='18' height='18' fill='none' stroke='%23C2525E' stroke-width='2'/%3E%3Ccircle cx='11' cy='13' r='4.5' fill='%23C2525E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Tektur:wght@600;800&amp;family=Barlow+Semi+Condensed:wght@500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#0B0709}
+a{color:#F4E4E6}a:hover{color:#FFFFFF}
+.ah-chamfer-l{clip-path:polygon(12px 0,100% 0,100% 100%,0 100%,0 12px)}
+.ah-chamfer-r{clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%)}
+.ah-chamfer-cta{clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.ah-card{clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,0 100%)}
+.ah-card-l{clip-path:polygon(22px 0,100% 0,100% 100%,0 100%,0 22px)}
+.ah-btn{transition:background .25s,color .25s}
+.ah-btn:hover{background:rgba(194,82,94,.35)!important}
+.ah-rev{transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
+@keyframes ah-bob{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(3px);opacity:1}}
+.ah-bob{animation:ah-bob 1.4s ease-in-out infinite}
+@media (max-width: 860px){.ah-navlinks{display:none!important}.ah-split{grid-template-columns:1fr!important}.ah-divider{display:none!important}}
+</style>
+<script src="vendor/three.min.js"></script>
+<script src="vendor/morphdom-umd.min.js"></script>
+<script src="dc-lite.js"></script>
+</head>
+<body>
+<template id="dc-tpl">
+<div style="background: #0B0709; color: #F4E4E6; font-family: 'Schibsted Grotesk', system-ui, sans-serif; position: relative">
+
+  <!-- loader -->
+  <sc-if value="{{ showLoader }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 80; background: #0B0709; display: flex; align-items: center; justify-content: center; transition: opacity .7s ease; opacity: {{ loaderOpacity }}">
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <span style="font-family: Tektur, sans-serif; font-weight: 800; font-size: 40px; letter-spacing: .22em">AUDIOHEADS</span>
+        <span style="font: 700 10px/1.5 'JetBrains Mono', monospace; letter-spacing: .14em; color: #F4E4E6">100% LOADED<br>READY TO EXPLORE</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== sticky stage: 3D background + HUD ===== -->
+  <div aria-hidden="true" style="position: sticky; top: 0; height: min(100vh, 1000px); margin-bottom: calc(-1 * min(100vh, 1000px)); z-index: 0; pointer-events: none; background: radial-gradient(ellipse 70% 60% at 50% 45%, #2A0F15 0%, #12080B 55%, #0B0709 90%)">
+    <canvas id="ab-gl" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block; transition: opacity .4s; opacity: {{ glOp }}"></canvas>
+  </div>
+  <div style="position: sticky; top: 0; height: min(100vh, 1000px); margin-bottom: calc(-1 * min(100vh, 1000px)); z-index: 5; pointer-events: none">
+    <div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 180px; transition: opacity .3s; opacity: {{ maskOp }}; background: linear-gradient(#0B0709 0%, #0B0709 52%, rgba(11,7,9,0) 100%)"></div>
+    <div aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: 0; height: 130px; transition: opacity .3s; opacity: {{ maskOp }}; background: linear-gradient(rgba(11,7,9,0) 0%, #0B0709 62%)"></div>
+    <div aria-hidden="true" style="position: absolute; inset: 28px; border: 1px solid rgba(230,170,178,.14); border-radius: 16px"></div>
+    <header style="position: absolute; top: 44px; left: 56px; right: 52px; display: flex; align-items: center; justify-content: space-between; gap: 24px; pointer-events: auto">
+      <a href="index.html" aria-label="Audioheads home" style="text-decoration: none; display: flex; align-items: center; gap: 12px; min-height: 44px">
+        <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"></rect><circle cx="11" cy="13" r="4.5" fill="currentColor"></circle><rect x="9" y="4" width="4" height="3" fill="currentColor"></rect></svg>
+        <span style="font-family: Tektur, sans-serif; font-weight: 800; font-size: 21px; letter-spacing: .24em">AUDIOHEADS</span>
+      </a>
+      <div style="display: flex; align-items: center; gap: 22px">
+        <nav aria-label="Main" class="ah-navlinks" style="display: flex; gap: 20px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: .1em">
+          <a href="about.html" aria-current="page" style="text-decoration: none; padding: 14px 0; color: #F4E4E6; border-bottom: 1px solid #C2525E">ABOUT</a>
+          <a href="projects.html" style="text-decoration: none; padding: 14px 0; color: #F4E4E6">PROJECTS</a>
+          <a href="index.html" style="text-decoration: none; padding: 14px 0; color: #F4E4E6">SERVICES</a>
+          <a href="contact.html" style="text-decoration: none; padding: 14px 0; color: #F4E4E6">CONTACT</a>
+        </nav>
+        <div style="display: flex">
+          <a href="contact.html" class="ah-chamfer-l ah-btn" style="background: rgba(40,20,26,.85); color: #F4E4E6; text-decoration: none; padding: 0 20px; height: 44px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .12em; display: flex; align-items: center; gap: 8px">
+            <svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>
+            BOOK A SERVICE
+          </a>
+          <a href="index.html" class="ah-chamfer-r" style="background: #F4E4E6; color: #0B0709; text-decoration: none; padding: 0 22px; height: 44px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 8px">
+            <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><rect x="0" y="0" width="4" height="4" fill="currentColor"></rect><rect x="6" y="0" width="4" height="4" fill="currentColor"></rect><rect x="0" y="6" width="4" height="4" fill="currentColor"></rect><rect x="6" y="6" width="4" height="4" fill="currentColor"></rect></svg>
+            HOME
+          </a>
+        </div>
+      </div>
+    </header>
+    <div style="position: absolute; left: 28px; right: 28px; bottom: 28px; height: 52px; border-top: 1px solid rgba(230,170,178,.14); display: flex; pointer-events: auto">
+      <sc-if value="{{ notEnd }}" hint-placeholder-val="{{ true }}">
+        <button type="button" onClick="{{ toggleSound }}" aria-pressed="{{ soundPressed }}" style="width: 132px; flex: none; background: none; border: none; border-right: 1px solid rgba(230,170,178,.14); color: #F4E4E6; display: flex; align-items: center; justify-content: center; gap: 10px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; cursor: pointer">
+          <svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path d="M1 4h3l4-3v10L4 8H1z" fill="currentColor"></path><path d="{{ soundIconPath }}" stroke="currentColor" stroke-width="1.4" fill="none"></path></svg>
+          {{ soundLabel }}
+        </button>
+      </sc-if>
+      <sc-if value="{{ isEnd }}" hint-placeholder-val="{{ false }}">
+        <span style="width: 200px; flex: none; display: flex; align-items: center; padding-left: 28px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em">AUDIOHEADS.IN</span>
+      </sc-if>
+      <div style="flex: 1; position: relative">
+        <div aria-hidden="true" style="position: absolute; left: 0; top: 0; bottom: 0; background: rgba(194,82,94,.12); width: {{ progW }}"></div>
+        <sc-if value="{{ showCue }}" hint-placeholder-val="{{ true }}">
+          <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 10px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em">
+            <svg class="ah-bob" width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="5" y="0" width="3" height="3" fill="currentColor"></rect><rect x="2.5" y="5" width="3" height="3" fill="currentColor"></rect></svg>
+            SCROLL TO EXPLORE
+          </div>
+        </sc-if>
+      </div>
+      <sc-if value="{{ notEnd }}" hint-placeholder-val="{{ true }}">
+        <a href="https://wa.me/919686416156" style="width: 160px; flex: none; border-left: 1px solid rgba(230,170,178,.14); text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em">
+          CHAT WITH US
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-5.2A8 8 0 1 1 21 12z"></path></svg>
+        </a>
+      </sc-if>
+      <sc-if value="{{ isEnd }}" hint-placeholder-val="{{ false }}">
+        <div style="flex: none; border-left: 1px solid rgba(230,170,178,.14); display: flex; align-items: center; gap: 8px; padding: 0 20px">
+          <a href="https://www.facebook.com/Audioheads" aria-label="Audioheads on Facebook" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #A8939A"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"></path></svg></a>
+          <a href="https://www.instagram.com/audioheadsofficial" aria-label="Audioheads on Instagram" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #A8939A"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle></svg></a>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <!-- ===== content ===== -->
+  <main style="position: relative; z-index: 2">
+
+    <!-- hero -->
+    <section style="height: min(100vh, 1000px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 34px; text-align: center; padding: 0 40px; box-sizing: border-box">
+      <h1 style="margin: 0; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; font-size: clamp(72px, 11.5vw, 190px); line-height: .86; letter-spacing: .005em; text-transform: uppercase; white-space: pre; text-shadow: 0 6px 60px rgba(11,7,9,.6)"><span style="display: block">{{ h1a }}</span><span style="display: block">{{ h1b }}</span></h1>
+      <p style="margin: 0; font-weight: 700; font-size: 15px; line-height: 1.45; letter-spacing: .08em; text-transform: uppercase; max-width: 520px">Bangalore’s live event and<br>pro-audio specialists since 2008</p>
+    </section>
+
+    <!-- statement -->
+    <section id="ab-st" style="min-height: min(100vh, 1000px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px; text-align: center; padding: 120px 40px; box-sizing: border-box">
+      <div class="ah-rev" style="display: flex; flex-direction: column; align-items: center; gap: 10px; {{ rv.st }}">
+        <svg width="10" height="8" viewBox="0 0 10 8" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="#F4E4E6"></rect><rect x="7" y="0" width="3" height="3" fill="#F4E4E6"></rect><rect x="3.5" y="4" width="3" height="3" fill="#F4E4E6"></rect></svg>
+        <span style="font: 700 11px/1.5 'JetBrains Mono', monospace; letter-spacing: .14em">ENGAGE · INSPIRE · ENTERTAIN<br>UNIT OF XCLAIM VENTURE</span>
+      </div>
+      <h2 class="ah-rev" style="margin: 0; max-width: 1160px; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; font-size: clamp(44px, 6vw, 96px); line-height: .98; text-transform: uppercase; {{ rv.st2 }}">Audioheads has powered live shows since 2008 and we’re just getting started.</h2>
+      <p class="ah-rev" style="margin: 0; max-width: 560px; font-size: 16px; line-height: 1.6; color: #BBA5A9; {{ rv.st3 }}">With every show we aim to create experiences people remember, and it takes exceptional people to bring that to life.</p>
+    </section>
+
+    <!-- information split -->
+    <section id="ab-info" style="position: relative; max-width: 1480px; margin: 0 auto; padding: 160px 56px; box-sizing: border-box">
+      <div class="ah-divider" aria-hidden="true" style="position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: rgba(230,170,178,.12)"></div>
+      <div class="ah-split" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 80px">
+        <div class="ah-rev" style="padding-left: 8%; display: flex; flex-direction: column; gap: 28px; {{ rv.info }}">
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <span style="font-weight: 700; font-size: 15px">ABOUT AUDIOHEADS</span>
+            <span style="font: 500 11px 'JetBrains Mono', monospace; letter-spacing: .12em; color: #A8939A">INFORMATION DATA</span>
+          </div>
+          <dl style="margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 10px 16px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .1em">
+            <dt>FOUNDED</dt><dd style="margin: 0; color: #A8939A">2008</dd>
+            <dt>PART OF</dt><dd style="margin: 0; color: #A8939A">XCLAIM VENTURE</dd>
+            <dt>FOUNDER &amp; CEO</dt><dd style="margin: 0; color: #A8939A">NARESH SUKUMAR</dd>
+            <dt>BASE</dt><dd style="margin: 0; color: #A8939A">BENGALURU, INDIA</dd>
+          </dl>
+        </div>
+        <div class="ah-rev" style="padding-right: 8%; display: flex; flex-direction: column; gap: 32px; {{ rv.info2 }}">
+          <p style="margin: 0; font-weight: 700; font-size: 20px; line-height: 1.45">Audioheads opened in 2008 as an audio-visual services provider. Today we are a full-service entertainment business: equipment rental, end-to-end live production, sales, custom integration, talent management and brand experiences.</p>
+          <p style="margin: 0; font-size: 16px; line-height: 1.8; color: #A8939A">Our goal has always been to deliver top-quality services and production for live shows and events, and to enhance the sensory experience of everyone in the room.</p>
+          <a href="contact.html" class="ah-chamfer-cta ah-btn" style="align-self: flex-start; text-decoration: none; background: rgba(50,22,30,.7); border: 1px solid rgba(230,170,178,.2); padding: 0 26px; height: 46px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px">
+            <svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>
+            GET IN TOUCH
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- stats -->
+    <section id="ab-stats" style="position: relative; max-width: 1100px; margin: 0 auto; padding: 140px 40px 220px; box-sizing: border-box; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 28px; align-items: start">
+      <sc-for list="{{ stats }}" as="c" hint-placeholder-count="3">
+        <article class="ah-card ah-rev" style="background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 22px 22px 26px; min-height: 420px; display: flex; flex-direction: column; justify-content: space-between; {{ c.st }}">
+          <div style="display: flex; align-items: center; gap: 10px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .12em">
+            <span style="width: 14px; height: 14px; border: 1.5px solid #F4E4E6; box-sizing: border-box; {{ c.icon }}"></span>{{ c.label }}
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 22px">
+            <span style="font: 400 96px/1 'JetBrains Mono', monospace; letter-spacing: -.04em">{{ c.num }}</span>
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <span style="font-weight: 700; font-size: 13px; letter-spacing: .04em">{{ c.title }}</span>
+              <span style="font-size: 14px; line-height: 1.6; color: #BBA5A9">{{ c.body }}</span>
+            </div>
+          </div>
+        </article>
+      </sc-for>
+    </section>
+
+    <!-- values -->
+    <section id="ab-values" style="position: relative; max-width: 1480px; margin: 0 auto; padding: 120px 56px 160px; box-sizing: border-box">
+      <div class="ah-divider" aria-hidden="true" style="position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: rgba(230,170,178,.12)"></div>
+      <div class="ah-split" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 80px; align-items: center; padding-bottom: 120px; border-bottom: 1px solid rgba(230,170,178,.12)">
+        <h2 class="ah-rev" style="margin: 0; padding-left: 8%; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; font-size: clamp(64px, 8vw, 140px); line-height: .88; text-transform: uppercase; {{ rv.val }}">Our<br>values</h2>
+        <p class="ah-rev" style="margin: 0; padding-right: 8%; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 14px; line-height: 1.6; {{ rv.val2 }}">Audioheads runs on three ideas: great people, great products and great service. Long-term client and vendor relationships, the ability to adapt, and award-winning creative design have carried us from our first show to today.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 0; padding-top: 80px">
+        <div style="display: flex; flex-direction: column; gap: 48px; padding: 0 3%">
+          <sc-for list="{{ valuesL }}" as="v" hint-placeholder-count="3">
+            <div style="display: flex; {{ v.wrap }}">
+              <article class="ah-rev {{ v.cls }}" style="width: min(400px, 100%); min-height: 260px; background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 22px 26px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; {{ v.st }}">
+              <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .12em; color: #A8939A; {{ v.numAlign }}">■ {{ v.n }}</span>
+              <div style="display: flex; flex-direction: column; gap: 14px; {{ v.textAlign }}">
+                <span style="font-weight: 800; font-size: 26px; letter-spacing: .02em">{{ v.title }}</span>
+                <span style="font-size: 14px; line-height: 1.7; color: #BBA5A9">{{ v.body }}</span>
+              </div>
+            </article>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 48px; padding: 160px 3% 0">
+          <sc-for list="{{ valuesR }}" as="v" hint-placeholder-count="3">
+            <div style="display: flex; {{ v.wrap }}">
+              <article class="ah-rev {{ v.cls }}" style="width: min(400px, 100%); min-height: 260px; background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 22px 26px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; {{ v.st }}">
+              <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .12em; color: #A8939A; {{ v.numAlign }}">■ {{ v.n }}</span>
+              <div style="display: flex; flex-direction: column; gap: 14px; {{ v.textAlign }}">
+                <span style="font-weight: 800; font-size: 26px; letter-spacing: .02em">{{ v.title }}</span>
+                <span style="font-size: 14px; line-height: 1.7; color: #BBA5A9">{{ v.body }}</span>
+              </div>
+            </article>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- crew -->
+    <section id="ab-team" style="max-width: 1100px; margin: 0 auto; padding: 120px 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 48px">
+      <div class="ah-rev" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; {{ rv.team }}">
+        <h2 style="margin: 0; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; font-size: clamp(48px, 5.5vw, 88px); line-height: .9; text-transform: uppercase">The crew</h2>
+        <span style="font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A">GREAT PEOPLE · GREAT PRODUCTS · GREAT SERVICE</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px">
+        <article class="ah-card ah-rev" style="background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 26px; min-height: 240px; display: flex; flex-direction: column; justify-content: space-between; {{ rv.team2 }}">
+          <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .12em; color: #A8939A">■ 001</span>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <span style="font-weight: 800; font-size: 26px">Naresh Sukumar</span>
+            <span style="font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .12em; color: #C2525E">FOUNDER &amp; CEO</span>
+          </div>
+        </article>
+        <article class="ah-card ah-rev" style="background: rgba(32,16,21,.78); backdrop-filter: blur(8px); border: 1px solid rgba(230,170,178,.1); padding: 26px; min-height: 240px; display: flex; flex-direction: column; justify-content: space-between; {{ rv.team3 }}">
+          <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .12em; color: #A8939A">■ 002</span>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <span style="font-weight: 800; font-size: 26px">Cyruz</span>
+            <span style="font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .12em; color: #C2525E">MARKETING</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- work with us -->
+    <section id="ab-work" style="position: relative; min-height: min(100vh, 1000px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; text-align: center; padding: 140px 40px 200px; box-sizing: border-box">
+      <h2 class="ah-rev" style="margin: 0; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; font-size: clamp(72px, 10vw, 170px); line-height: .86; text-transform: uppercase; {{ rv.work }}">Work<br>with us</h2>
+      <p class="ah-rev" style="margin: 0; max-width: 540px; font-size: 16px; line-height: 1.7; color: #BBA5A9; {{ rv.work2 }}">We are not just an event company. We are sound engineers, lighting designers, technicians, artist managers and creators, all coming together to make your next show unforgettable.</p>
+      <a href="contact.html" class="ah-chamfer-cta ah-btn ah-rev" style="text-decoration: none; background: rgba(50,22,30,.7); border: 1px solid rgba(230,170,178,.2); padding: 0 26px; height: 46px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px; {{ rv.work3 }}">
+        <svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>
+        GET IN TOUCH
+      </a>
+      <nav aria-label="Links" style="position: absolute; left: 60px; bottom: 120px; display: flex; flex-direction: column; gap: 8px; text-align: left; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em">
+        <span style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px"><span style="width: 6px; height: 6px; background: #A8939A"></span>LINKS</span>
+        <a href="index.html" style="text-decoration: none; color: #A8939A">HOME</a>
+        <a href="projects.html" style="text-decoration: none; color: #A8939A">PROJECTS</a>
+        <a href="contact.html" style="text-decoration: none; color: #A8939A">CONTACT US</a>
+        <a href="https://wa.me/919686416156" style="text-decoration: none; color: #A8939A">WHATSAPP</a>
+      </nav>
+    </section>
+  </main>
+</div>
+</template>
+<div id="dc-root"></div>
+<script>
+
+var AB_STATS = [
+  { label: 'SHOW CAPACITY', target: 15, suffix: 'K', title: '500 TO 15,000 PEOPLE', body: 'Music events produced end to end, from sound and light to rigging and video.', delay: 0, offset: 0 },
+  { label: 'BRANDS SERVICED', target: 7, suffix: '', title: 'AUTHORISED SERVICE CENTRE', body: 'Pioneer DJ, Turbosound, Lab Gruppen, TC Electronic, Yamaha, Grundig and Kenwood.', delay: 180, offset: 180 },
+  { label: 'TALENT CITIES', target: 8, suffix: '', title: 'ARTISTS AND DJS', body: 'Talent operations from Bangalore and Goa to Dubai, London, Toronto and beyond.', delay: 360, offset: 300 }
+];
+var AB_VALUES = [
+  { n: '001', title: 'PEOPLE', body: 'Trained technicians and a crew that has run shows for audiences of 500 to 15,000.' },
+  { n: '002', title: 'PRODUCTS', body: 'Pro-sound, pro-light, studio and DJ gear from the brands the industry trusts.' },
+  { n: '003', title: 'SERVICE', body: 'An authorised service centre in Bengaluru that keeps booths and stages running.' },
+  { n: '004', title: 'RELATIONSHIPS', body: 'Long-term relationships with clients and vendors, built show after show.' },
+  { n: '005', title: 'ADAPTABILITY', body: 'Clubs, festivals, auditoriums or command centres: we adapt to the room.' },
+  { n: '006', title: 'CREATIVITY', body: 'Award-winning creative designs that make every event feel like an experience.' }
+];
+var AB_GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { loaded: false, fading: false, sound: false, p: 0, endZone: false, vis: {}, counts: [0, 0, 0], h1a: 'ENGAGE &', h1b: 'ENTERTAIN' };
+    this.mouse = { x: 0, y: 0, sx: 0, sy: 0 };
+    this.sy = 0; this.ssy = 0;
+  }
+  componentDidMount() {
+    this.alive = true;
+    this.t1 = setTimeout(() => this.alive && this.setState({ fading: true }), 900);
+    this.t2 = setTimeout(() => { if (this.alive) { this.setState({ loaded: true }); this.scrambleHero(); } }, 1500);
+    this.onScroll = () => {
+      var de = document.documentElement;
+      var max = Math.max(1, (de.scrollHeight || 0) - window.innerHeight);
+      this.sy = window.scrollY || de.scrollTop || 0;
+      var p = Math.min(1, this.sy / max);
+      var end = this.sy > max - 80;
+      var sc = this.sy > 120;
+      if (Math.abs(p - this.state.p) > 0.002 || end !== this.state.endZone || sc !== this.state.scrolled) this.setState({ p: p, endZone: end, scrolled: sc });
+    };
+    this.onMove = (ev) => { this.mouse.x = (ev.clientX / (window.innerWidth || 1)) * 2 - 1; this.mouse.y = -(ev.clientY / (window.innerHeight || 1)) * 2 + 1; };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('mousemove', this.onMove, { passive: true });
+    this.onScroll();
+    // reveal on scroll
+    try {
+      this.io = new IntersectionObserver((entries) => {
+        var vis = Object.assign({}, this.state.vis), changed = false;
+        entries.forEach((e) => { if (e.isIntersecting && !vis[e.target.id]) { vis[e.target.id] = true; changed = true; if (e.target.id === 'ab-stats') this.countUp(); } });
+        if (changed) this.setState({ vis: vis });
+      }, { threshold: 0.18 });
+      ['ab-st', 'ab-info', 'ab-stats', 'ab-values', 'ab-team', 'ab-work'].forEach((id) => { var el = document.getElementById(id); if (el) this.io.observe(el); });
+    } catch (e) { this.setState({ vis: { 'ab-st': 1, 'ab-info': 1, 'ab-stats': 1, 'ab-values': 1, 'ab-team': 1, 'ab-work': 1 }, counts: [15, 7, 8] }); }
+    this.tries = 0; this.waitThree();
+    this.raf = requestAnimationFrame(() => this.tick());
+  }
+  componentWillUnmount() {
+    this.alive = false; cancelAnimationFrame(this.raf); clearTimeout(this.t1); clearTimeout(this.t2); clearTimeout(this.wt); clearInterval(this.cu); clearInterval(this.sc);
+    window.removeEventListener('scroll', this.onScroll); window.removeEventListener('mousemove', this.onMove);
+    try { this.io && this.io.disconnect(); } catch (e) {}
+    try { this.gl && this.gl.renderer.dispose(); } catch (e) {}
+    try { this.ac && this.ac.close(); } catch (e) {}
+  }
+  scrambleHero() {
+    var A = 'ENGAGE &', B = 'ENTERTAIN', t0 = performance.now();
+    clearInterval(this.sc);
+    this.sc = setInterval(() => {
+      var k = (performance.now() - t0) / 900;
+      var f = (str, kk) => str.split('').map((c, i) => (c === ' ' || i / str.length < kk) ? c : AB_GLYPHS[Math.floor(Math.random() * AB_GLYPHS.length)]).join('');
+      if (k >= 1.1) { clearInterval(this.sc); this.setState({ h1a: A, h1b: B }); }
+      else this.setState({ h1a: f(A, k), h1b: f(B, k - 0.1) });
+    }, 40);
+  }
+  countUp() {
+    var t0 = performance.now();
+    clearInterval(this.cu);
+    this.cu = setInterval(() => {
+      var k = Math.min(1, (performance.now() - t0) / 1600), e = 1 - Math.pow(1 - k, 3);
+      this.setState({ counts: AB_STATS.map((s) => Math.round(s.target * e)) });
+      if (k >= 1) clearInterval(this.cu);
+    }, 40);
+  }
+  waitThree() {
+    if (!this.alive) return;
+    if (window.THREE && document.getElementById('ab-gl')) { try { this.initGL(); } catch (e) { this.gl = null; } return; }
+    if (this.tries++ < 120) this.wt = setTimeout(() => this.waitThree(), 100);
+  }
+  initGL() {
+    var T = window.THREE;
+    var canvas = document.getElementById('ab-gl');
+    var renderer = new T.WebGLRenderer({ canvas: canvas, antialias: false, alpha: true });
+    var PR = Math.min(window.devicePixelRatio || 1, 1.5); renderer.setPixelRatio(PR);
+    renderer.setClearColor(0x000000, 0);
+    var scene = new T.Scene();
+    var camera = new T.PerspectiveCamera(40, 1, 0.1, 400); camera.position.set(0, 0, 34);
+    var acc = new T.Color(this.props.accent ?? '#C2525E'); this.accHex = this.props.accent ?? '#C2525E';
+    var hot = acc.clone().lerp(new T.Color(1, 1, 1), 0.65);
+    // bundles: amp, freq, phase, yOff, width, speed, seed, bright, parallax, zOff
+    var B = [[6, 5.0, 0.0, 2, 8.0, 0.22, 0.11, 1.0, 16, 0], [7, 4.2, 1.7, -2, 5.5, 0.18, 0.43, 0.75, 11, -4], [4, 6.2, 3.1, 6, 3.2, 0.28, 0.71, 0.55, 22, -8], [9, 3.1, 4.4, -7, 4.2, 0.14, 0.93, 0.5, 7, -12]];
+    var pos = [], aU = [], aV = [], aP = [], aQ = [], aR = [], idx = [], base = 0, N = 420;
+    B.forEach(function (b) {
+      for (var k = 0; k <= N; k++) {
+        for (var s = -1; s <= 1; s += 2) { pos.push(0, 0, 0); aU.push(k / N); aV.push(s); aP.push(b[0], b[1], b[2], b[3]); aQ.push(b[4], b[5], b[6], b[7]); aR.push(b[8], b[9]); }
+        if (k > 0) { var o = base + (k - 1) * 2; idx.push(o, o + 1, o + 2, o + 1, o + 3, o + 2); }
+      }
+      base += (N + 1) * 2;
+    });
+    var g = new T.BufferGeometry();
+    g.setAttribute('position', new T.Float32BufferAttribute(pos, 3));
+    g.setAttribute('aU0', new T.Float32BufferAttribute(aU, 1));
+    g.setAttribute('aV', new T.Float32BufferAttribute(aV, 1));
+    g.setAttribute('aP', new T.Float32BufferAttribute(aP, 4));
+    g.setAttribute('aQ', new T.Float32BufferAttribute(aQ, 4));
+    g.setAttribute('aR', new T.Float32BufferAttribute(aR, 2));
+    g.setIndex(idx);
+    var ribbonMat = new T.ShaderMaterial({
+      transparent: true, depthWrite: false, depthTest: false, blending: T.AdditiveBlending, side: T.DoubleSide,
+      uniforms: { uTime: { value: 0 }, uScroll: { value: 0 }, uColor: { value: acc.clone() }, uHot: { value: hot.clone() } },
+      vertexShader: [
+        'uniform float uTime; uniform float uScroll;',
+        'attribute float aU0; attribute float aV; attribute vec4 aP; attribute vec4 aQ; attribute vec2 aR;',
+        'varying float vU; varying float vN; varying float vV; varying float vS; varying float vB; varying float vD;',
+        'void main(){',
+        ' float u=aU0; float t=uTime*aQ.y; float W=110.0;',
+        ' float a1=u*aP.y+aP.z+t; float a2=u*aP.y*2.3-aP.z*1.7-t*0.7;',
+        ' float y=aP.w+aP.x*sin(a1)+aP.x*0.45*sin(a2)+uScroll*aR.x;',
+        ' float dy=(aP.x*cos(a1)*aP.y+aP.x*0.45*cos(a2)*aP.y*2.3)/W;',
+        ' vec2 n=normalize(vec2(-dy,1.0));',
+        ' float x=(u-0.5)*W; float z=aR.y+5.0*sin(u*2.4+aP.z+t*0.5);',
+        ' vec3 p=vec3(x+n.x*aV*aQ.x*0.5, y+n.y*aV*aQ.x*0.5, z);',
+        ' vU=u*260.0; vN=u; vV=aV; vS=aQ.z; vB=aQ.w;',
+        ' vec4 mv=modelViewMatrix*vec4(p,1.0); vD=-mv.z; gl_Position=projectionMatrix*mv; }'
+      ].join('\n'),
+      fragmentShader: [
+        'uniform float uTime; uniform vec3 uColor; uniform vec3 uHot;',
+        'varying float vU; varying float vN; varying float vV; varying float vS; varying float vB; varying float vD;',
+        'float h1(float x){ return fract(sin(x*127.1)*43758.5453); }',
+        'float h2(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }',
+        'void main(){',
+        ' float v=vV; float vi=v/0.42; float inner=1.0-smoothstep(0.85,1.05,abs(vi));',
+        ' float N=12.0; float x=(vi*0.5+0.5)*N; float id=floor(x);',
+        ' float wob=sin(vU*0.09+id*1.7+vS*6.0)*0.2+sin(vU*0.021+id*0.7)*0.3;',
+        ' float f=fract(x+wob)-0.5; float sb=0.2+0.8*pow(h1(id+vS*31.0),1.6);',
+        ' float line=(1.0-smoothstep(0.035,0.12,abs(f)))*sb*inner;',
+        ' float core=exp(-vi*vi*6.0)*inner; float halo=exp(-v*v*4.0);',
+        ' float ph=fract(vU*0.011-uTime*0.25*(0.7+vS)+h1(id+3.0)); float dash=exp(-ph*28.0)*line;',
+        ' vec2 cell=floor(vec2(vU*2.4,x*2.0)); float dots=step(0.972,h2(cell+vS*13.0))*inner*(0.55+0.45*sin(uTime*3.0+cell.x*1.3));',
+        ' float ends=smoothstep(0.0,0.05,vN)*smoothstep(1.0,0.95,vN); float fade=exp(-vD*0.0062)*(0.35+0.65*smoothstep(2.0,10.0,vD));',
+        ' float I=(line*1.0+core*0.6+halo*0.18+dash*2.4+dots*1.6)*vB*ends*fade;',
+        ' vec3 col=mix(uColor,uHot,clamp(core*0.6+dash*0.7+dots*0.6+line*0.15,0.0,1.0));',
+        ' gl_FragColor=vec4(col*I,1.0); }'
+      ].join('\n')
+    });
+    var rib = new T.Mesh(g, ribbonMat); rib.frustumCulled = false; scene.add(rib);
+    // dust
+    var dn = 900, dp = new Float32Array(dn * 3), ds = new Float32Array(dn);
+    for (var i = 0; i < dn; i++) { dp[i * 3] = (Math.random() - 0.5) * 120; dp[i * 3 + 1] = (Math.random() - 0.5) * 60; dp[i * 3 + 2] = -Math.random() * 30; ds[i] = Math.random(); }
+    var dg = new T.BufferGeometry(); dg.setAttribute('position', new T.BufferAttribute(dp, 3)); dg.setAttribute('aSeed', new T.BufferAttribute(ds, 1));
+    var dustMat = new T.ShaderMaterial({
+      transparent: true, depthWrite: false, blending: T.AdditiveBlending,
+      uniforms: { uTime: { value: 0 }, uColor: { value: acc.clone() }, uPR: { value: PR } },
+      vertexShader: 'uniform float uTime; uniform float uPR; attribute float aSeed; varying float vA; void main(){ vec3 p=position; p.y+=mod(uTime*0.4*(0.3+aSeed)+aSeed*60.0,60.0)-30.0; vec4 mv=modelViewMatrix*vec4(p,1.0); vA=0.4+0.6*sin(uTime*2.0+aSeed*30.0); gl_PointSize=(1.5+aSeed*2.5)*uPR; gl_Position=projectionMatrix*mv; }',
+      fragmentShader: 'uniform vec3 uColor; varying float vA; void main(){ float d=length(gl_PointCoord-0.5); float a=smoothstep(0.5,0.0,d)*max(vA,0.0)*0.7; gl_FragColor=vec4(mix(uColor,vec3(1.0),0.5)*a,a); }'
+    });
+    scene.add(new T.Points(dg, dustMat));
+    this.gl = { T: T, renderer: renderer, scene: scene, camera: camera, canvas: canvas, ribbonMat: ribbonMat, dustMat: dustMat, w: 0, h: 0, start: performance.now() };
+  }
+  tick() {
+    if (!this.alive) return;
+    this.raf = requestAnimationFrame(() => this.tick());
+    var g = this.gl; if (!g) return;
+    try {
+      var w = g.canvas.clientWidth | 0, h = g.canvas.clientHeight | 0; if (w < 2 || h < 2) return;
+      if (w !== g.w || h !== g.h) { g.w = w; g.h = h; g.renderer.setSize(w, h, false); g.camera.aspect = w / h; g.camera.updateProjectionMatrix(); }
+      var acc = this.props.accent ?? '#C2525E';
+      if (acc !== this.accHex) { var c = new g.T.Color(acc); g.ribbonMat.uniforms.uColor.value.copy(c); g.ribbonMat.uniforms.uHot.value.copy(c).lerp(new g.T.Color(1, 1, 1), 0.65); g.dustMat.uniforms.uColor.value.copy(c); this.accHex = acc; }
+      var t = (performance.now() - g.start) / 1000;
+      this.ssy += (this.sy - this.ssy) * 0.08;
+      var vh = window.innerHeight || 900;
+      var m = this.mouse; m.sx += (m.x - m.sx) * 0.04; m.sy += (m.y - m.sy) * 0.04;
+      g.ribbonMat.uniforms.uTime.value = t; g.ribbonMat.uniforms.uScroll.value = this.ssy / vh;
+      g.dustMat.uniforms.uTime.value = t;
+      g.camera.position.x = m.sx * 2.5; g.camera.position.y = m.sy * 1.5;
+      g.camera.rotation.z = Math.sin(this.ssy / vh * 0.6) * 0.12;
+      g.camera.lookAt(0, 0, 0);
+      g.renderer.render(g.scene, g.camera);
+    } catch (e) { this.gl = null; }
+  }
+  toggleSound() {
+    try {
+      if (!this.ac) {
+        var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+        var ac = new AC(); this.ac = ac;
+        var master = ac.createGain(); master.gain.value = 0; master.connect(ac.destination); this.master = master;
+        var filter = ac.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 420; filter.Q.value = 0.8; filter.connect(master); this.filter = filter;
+        [[55, 'sine', 0.55, 0], [82.41, 'sawtooth', 0.12, 6], [110, 'triangle', 0.22, -5], [164.81, 'sine', 0.08, 3]].forEach(function (o) {
+          var osc = ac.createOscillator(); osc.type = o[1]; osc.frequency.value = o[0]; osc.detune.value = o[3];
+          var gg = ac.createGain(); gg.gain.value = o[2]; osc.connect(gg); gg.connect(filter); osc.start();
+        });
+        var lfo = ac.createOscillator(); lfo.frequency.value = 0.08; var lg = ac.createGain(); lg.gain.value = 160; lfo.connect(lg); lg.connect(filter.frequency); lfo.start();
+      }
+      var on = !this.state.sound;
+      if (on) { this.ac.resume(); this.master.gain.setTargetAtTime(0.09, this.ac.currentTime, 0.8); }
+      else { this.master.gain.setTargetAtTime(0, this.ac.currentTime, 0.25); }
+      this.setState({ sound: on });
+    } catch (e) {}
+  }
+
+
+  renderVals() {
+    var s = this.state, v = s.vis;
+    var rev = (on, d) => 'opacity: ' + (on ? 1 : 0) + '; transform: translateY(' + (on ? 0 : 40) + 'px); transition-delay: ' + (d || 0) + 'ms';
+    var stats = AB_STATS.map((c, i) => ({
+      label: c.label, title: c.title, body: c.body,
+      num: String(s.counts[i]).padStart(2, '0') + (s.counts[i] === c.target ? c.suffix : ''),
+      icon: i === 0 ? 'background: #F4E4E6' : (i === 1 ? 'background: linear-gradient(135deg, #F4E4E6 50%, transparent 50%)' : 'background: radial-gradient(circle, #F4E4E6 0 22%, transparent 24%)'),
+      st: rev(v['ab-stats'], c.delay) + '; margin-top: ' + c.offset + 'px'
+    }));
+    var values = AB_VALUES.map((x, i) => {
+      var left = i % 2 === 0;
+      return {
+        n: x.n, title: x.title, body: x.body,
+        cls: left ? 'ah-card-l' : 'ah-card',
+        left: left,
+        wrap: 'justify-content: ' + (left ? 'flex-end' : 'flex-start'),
+        numAlign: left ? 'text-align: left' : 'text-align: right',
+        textAlign: left ? 'text-align: right' : 'text-align: left',
+        st: rev(v['ab-values'], 200 + i * 120)
+      };
+    });
+    return {
+      showLoader: !s.loaded, loaderOpacity: s.fading ? 0 : 1,
+      maskOp: s.scrolled ? 1 : 0,
+      h1a: s.h1a, h1b: s.h1b,
+      rv: {
+        st: rev(v['ab-st'], 0), st2: rev(v['ab-st'], 150), st3: rev(v['ab-st'], 300),
+        info: rev(v['ab-info'], 0), info2: rev(v['ab-info'], 200),
+        val: rev(v['ab-values'], 0), val2: rev(v['ab-values'], 150),
+        team: rev(v['ab-team'], 0), team2: rev(v['ab-team'], 150), team3: rev(v['ab-team'], 300),
+        work: rev(v['ab-work'], 0), work2: rev(v['ab-work'], 150), work3: rev(v['ab-work'], 300)
+      },
+      stats, valuesL: values.filter((x) => x.left), valuesR: values.filter((x) => !x.left),
+      glOp: s.p < 0.06 ? 1 : Math.max(0.4, 1 - (s.p - 0.06) * 8),
+      progW: (s.p * 100).toFixed(2) + '%',
+      showCue: s.p < 0.03, isEnd: s.endZone, notEnd: !s.endZone,
+      soundLabel: s.sound ? 'SOUND ON' : 'SOUND OFF', soundPressed: s.sound ? 'true' : 'false',
+      soundIconPath: s.sound ? 'M11 3.5c1.2 1 1.2 4 0 5M13 1.5c2.3 2 2.3 7 0 9' : 'M11 4l4 4M15 4l-4 4',
+      toggleSound: () => this.toggleSound()
+    };
+  }
+}
+
+</script>
+<script>DC.mount(Component, {"accent": "#C2525E"});</script>
+</body>
+</html>
