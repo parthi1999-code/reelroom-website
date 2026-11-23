@@ -3,462 +3,216 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Audioheads — Projects map</title>
-<meta name="description" content="Audioheads: live show production, A/V rental and integration, an authorised Pioneer DJ service centre and artist management in Bengaluru since 2008.">
-<meta name="theme-color" content="#0B0709">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect width='22' height='22' fill='%230B0709'/%3E%3Crect x='2' y='2' width='18' height='18' fill='none' stroke='%23C2525E' stroke-width='2'/%3E%3Ccircle cx='11' cy='13' r='4.5' fill='%23C2525E'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Tektur:wght@600;800&amp;family=Barlow+Semi+Condensed:wght@500;600;700&amp;display=swap">
+<title>Prashi Group — Projects</title>
+<link rel="icon" type="image/png" href="assets/img/prashi-logo.png">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&amp;display=swap">
 <style>
-body{margin:0;background:#0B0709;overflow:hidden}
-a{color:#F4E4E6}a:hover{color:#FFFFFF}
-.ah-chamfer-l{clip-path:polygon(12px 0,100% 0,100% 100%,0 100%,0 12px)}
-.ah-chamfer-r{clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%)}
-.ah-chamfer-cta{clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
-.ah-card{clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
-.ah-card-b{clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
-.ah-panel{clip-path:polygon(0 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%)}
-.ah-btn{transition:background .25s,color .25s}
-.ah-btn:hover{background:rgba(194,82,94,.35)!important}
-.ah-row{transition:background .2s}
-.ah-row:hover{background:rgba(11,7,9,.06)!important}
-.ah-pin{transition:transform .25s}
-.ah-pin:hover{transform:translate(-50%,-50%) scale(1.12)!important}
-@keyframes ah-ping{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.6);opacity:0}}
-.ah-ping{animation:ah-ping 1.8s ease-out infinite}
-@keyframes ah-fade{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.ah-fade{animation:ah-fade .6s cubic-bezier(.2,.7,.2,1) both}
-@media (max-width: 860px){.ah-navlinks{display:none!important}.ah-rail{display:none!important}}
+body{margin:0}
+a{color:inherit;text-decoration:none}
+a:hover{opacity:.85}
 </style>
 
-<script src="vendor/morphdom-umd.min.js"></script>
-<script src="dc-lite.js"></script>
+<link rel="stylesheet" href="assets/fx.css">
+<script src="assets/fx.js"></script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+
 </head>
 <body>
-<template id="dc-tpl">
-<div id="pj-root" style="position: relative; height: min(100vh, 1000px); min-height: 640px; overflow: hidden; background: #0B0709; color: #F4E4E6; font-family: 'Schibsted Grotesk', system-ui, sans-serif">
-  <canvas id="pj-map" aria-label="Interactive map of Audioheads projects and talent cities" role="img" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: {{ mapCursor }}"></canvas>
-  <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 55%, rgba(11,7,9,.75) 100%)"></div>
 
-  <!-- pins -->
-  <sc-for list="{{ pins }}" as="p" hint-placeholder-count="12">
-    <sc-if value="{{ p.show }}" hint-placeholder-val="{{ true }}">
-      <button type="button" onClick="{{ p.pick }}" class="ah-pin" aria-label="{{ p.aria }}" style="position: absolute; z-index: {{ p.z }}; width: 14px; height: 14px; background: none; border: none; padding: 0; cursor: pointer; transform: translate(-50%, -50%); {{ p.pos }}">
-        <sc-if value="{{ p.labelOn }}" hint-placeholder-val="{{ true }}">
-          <span class="ah-card" style="position: absolute; white-space: nowrap; padding: 7px 14px 7px 10px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .12em; {{ p.labPos }} {{ p.tag }}">{{ p.short }}</span>
-        </sc-if>
-        <span style="position: absolute; inset: 0; display: block">
-          <span class="ah-ping" style="position: absolute; inset: 0; border: 1.5px solid {{ accent }}"></span>
-          <span style="position: absolute; inset: 2px; {{ p.dot }}"></span>
-        </span>
-      </button>
-    </sc-if>
-  </sc-for>
 
-  <!-- HUD frame -->
-  <div aria-hidden="true" style="position: absolute; inset: 28px; border: 1px solid rgba(230,170,178,.14); border-radius: 16px; pointer-events: none; z-index: 4"></div>
+<div data-fx-root="1" style="font-family: 'Instrument Sans', Arial, sans-serif; color: #17140F; background: #FFFFFF; font-weight: 500">
+<div data-intro="1">
 
-  <!-- header -->
-  <header style="position: absolute; top: 44px; left: 56px; right: 52px; display: flex; align-items: center; justify-content: space-between; gap: 24px; z-index: 6">
-    <a href="index.html" aria-label="Audioheads home" style="text-decoration: none; display: flex; align-items: center; gap: 12px; min-height: 44px">
-      <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"></rect><circle cx="11" cy="13" r="4.5" fill="currentColor"></circle><rect x="9" y="4" width="4" height="3" fill="currentColor"></rect></svg>
-      <span style="font-family: Tektur, sans-serif; font-weight: 800; font-size: 21px; letter-spacing: .24em">AUDIOHEADS</span>
-    </a>
-    <div style="display: flex; align-items: center; gap: 22px">
-      <nav aria-label="Main" class="ah-navlinks" style="display: flex; gap: 20px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: .1em">
-        <a href="about.html" style="text-decoration: none; padding: 14px 0">ABOUT</a>
-        <a href="projects.html" aria-current="page" style="text-decoration: none; padding: 14px 0; border-bottom: 1px solid #C2525E">PROJECTS</a>
-        <a href="index.html" style="text-decoration: none; padding: 14px 0">SERVICES</a>
-        <a href="contact.html" style="text-decoration: none; padding: 14px 0">CONTACT</a>
-      </nav>
-      <div style="display: flex">
-        <a href="contact.html" class="ah-chamfer-l ah-btn" style="background: rgba(40,20,26,.85); text-decoration: none; padding: 0 20px; height: 44px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .12em; display: flex; align-items: center; gap: 8px">
-          <svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>
-          BOOK A SERVICE
-        </a>
-        <a href="index.html" class="ah-chamfer-r" style="background: #F4E4E6; color: #0B0709; text-decoration: none; padding: 0 22px; height: 44px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 8px">
-          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><rect x="0" y="0" width="4" height="4" fill="currentColor"></rect><rect x="6" y="0" width="4" height="4" fill="currentColor"></rect><rect x="0" y="6" width="4" height="4" fill="currentColor"></rect><rect x="6" y="6" width="4" height="4" fill="currentColor"></rect></svg>
-          HOME
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- region rail -->
-  <nav aria-label="Regions" class="ah-rail" style="position: absolute; left: 44px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 2px; z-index: 6">
-    <sc-for list="{{ regions }}" as="r" hint-placeholder-count="5">
-      <button type="button" onClick="{{ r.go }}" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 10px; padding: 7px 0; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .2em; text-align: left; {{ r.st }}">
-        <span style="width: 6px; height: 6px; {{ r.dot }}"></span>{{ r.label }}
-      </button>
-    </sc-for>
+<header style="font-family: 'Instrument Sans', Arial, sans-serif; color: #17140F; background: #FFFFFF; border-bottom: 1px solid #ECE7DF; font-weight: 500; box-sizing: border-box; width: 100%; padding: 24px clamp(20px, 3vw, 40px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px">
+  <a href="index.html" aria-label="Prashi Group home" style="display: flex; align-items: center; gap: 10px; color: #17140F; text-decoration: none">
+    <img src="assets/img/prashi-logo.png" alt="" style="height: 46px; width: auto; display: block">
+    <span style="font-family: 'Playfair Display', Georgia, serif; font-size: 30px; line-height: 1; letter-spacing: -0.02em">Prashi</span>
+    <span style="font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; align-self: flex-end; padding-bottom: 12px">Group</span>
+  </a>
+  <nav aria-label="Main" style="flex: 1 1 520px; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 8px 32px; max-width: 760px; font-size: 14px">
+    <a href="about.html" style="display: inline-flex; align-items: center; gap: 4px; padding: 8px 0; color: #17140F; text-decoration: none">Company <span aria-hidden="true">↓</span></a>
+    <a href="projects.html" style="display: inline-flex; align-items: center; gap: 4px; padding: 8px 0; color: #17140F; text-decoration: none">Projects <span aria-hidden="true">↓</span></a>
+    <a href="news.html" style="padding: 8px 0; color: #17140F; text-decoration: none">News</a>
+    <a href="contact.html" style="padding: 8px 0; color: #17140F; text-decoration: none">Contact</a>
   </nav>
-
-  <!-- zoom scale -->
-  <div aria-hidden="true" style="position: absolute; left: 58px; bottom: 104px; z-index: 6; display: flex; flex-direction: column; gap: 6px; font: 700 9px 'JetBrains Mono', monospace; letter-spacing: .12em; color: #F4E4E6">
-    <div style="display: flex; justify-content: space-between; gap: 30px; width: {{ scaleW }}"><span>ZOOM {{ zoomLabel }}</span><span>{{ scaleLabel }}</span></div>
-    <div style="height: 5px; border: 1px solid #F4E4E6; border-top: none; width: {{ scaleW }}"></div>
-  </div>
-
-  <!-- compass -->
-  <div aria-hidden="true" style="position: absolute; right: 62px; bottom: 98px; z-index: 6; width: 110px; height: 110px; font: 700 9px 'JetBrains Mono', monospace; color: #F4E4E6">
-    <svg width="110" height="110" viewBox="0 0 110 110" style="position: absolute; inset: 0"><circle cx="55" cy="55" r="34" fill="rgba(11,7,9,.55)" stroke="rgba(244,228,230,.35)"></circle><path d="M55 10v10M55 90v10M10 55h10M90 55h10" stroke="#F4E4E6"></path><path d="M55 26l5 9h-10z" fill="#F4E4E6"></path></svg>
-    <span style="position: absolute; left: 51px; top: 0">N</span><span style="position: absolute; left: 52px; bottom: 0">S</span><span style="position: absolute; left: 0; top: 50px">W</span><span style="position: absolute; right: 0; top: 50px">E</span>
-    <span style="position: absolute; left: 0; right: 0; top: 40px; text-align: center; font: 700 22px 'Schibsted Grotesk', sans-serif">N</span>
-    <span style="position: absolute; left: 0; right: 0; top: 66px; text-align: center">000°</span>
-  </div>
-
-  <!-- bottom bar -->
-  <div style="position: absolute; left: 28px; right: 28px; bottom: 28px; height: 52px; border-top: 1px solid rgba(230,170,178,.14); display: flex; z-index: 6">
-    <button type="button" onClick="{{ toggleSound }}" aria-pressed="{{ soundPressed }}" style="width: 132px; flex: none; background: none; border: none; border-right: 1px solid rgba(230,170,178,.14); color: #F4E4E6; display: flex; align-items: center; justify-content: center; gap: 10px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; cursor: pointer">
-      <svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path d="M1 4h3l4-3v10L4 8H1z" fill="currentColor"></path><path d="{{ soundIconPath }}" stroke="currentColor" stroke-width="1.4" fill="none"></path></svg>
-      {{ soundLabel }}
-    </button>
-    <div style="flex: 1; display: flex; align-items: center; justify-content: center">
-      <button type="button" onClick="{{ openList }}" style="background: none; border: none; color: #F4E4E6; display: flex; align-items: center; gap: 10px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; cursor: pointer; min-height: 44px; padding: 0 16px">
-        <svg width="12" height="10" viewBox="0 0 12 10" aria-hidden="true"><path d="M0 1h12M0 5h12M0 9h12" stroke="currentColor" stroke-width="1.5"></path></svg>
-        OPEN PROJECT LIST
-      </button>
-    </div>
-    <button type="button" onClick="{{ toggleFilters }}" aria-expanded="{{ filtersExpanded }}" style="width: 160px; flex: none; background: none; border: none; border-left: 1px solid rgba(230,170,178,.14); color: #F4E4E6; display: flex; align-items: center; justify-content: center; gap: 10px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; cursor: pointer">
-      <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 0v10M0 5h10" stroke="currentColor" stroke-width="1.5"></path></svg>
-      FILTERS [{{ filterCount }}]
-    </button>
-  </div>
-
-  <!-- filters popover -->
-  <sc-if value="{{ filtersOpen }}" hint-placeholder-val="{{ false }}">
-    <div class="ah-card ah-fade" style="position: absolute; right: 28px; bottom: 92px; z-index: 7; width: 300px; background: rgba(24,12,16,.95); border: 1px solid rgba(230,170,178,.18); padding: 20px; display: flex; flex-direction: column; gap: 14px">
-      <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #A8939A">FILTER BY TYPE</span>
-      <div style="display: flex; flex-wrap: wrap; gap: 8px">
-        <sc-for list="{{ chips }}" as="c" hint-placeholder-count="4">
-          <button type="button" onClick="{{ c.pick }}" aria-pressed="{{ c.pressed }}" style="padding: 0 14px; height: 36px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .12em; cursor: pointer; {{ c.st }}">{{ c.label }}</button>
-        </sc-for>
-      </div>
-    </div>
-  </sc-if>
-
-  <!-- project listing panel -->
-  <sc-if value="{{ listOpen }}" hint-placeholder-val="{{ false }}">
-    <section aria-label="Project listing" class="ah-panel ah-fade" style="position: absolute; left: 40px; top: 40px; bottom: 40px; width: min(440px, calc(100% - 80px)); z-index: 8; background: #F4E4E6; color: #0B0709; display: flex; flex-direction: column">
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 18px 18px 0 22px">
-        <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em">■ PROJECTS OPEN</span>
-        <button type="button" onClick="{{ closeList }}" class="ah-chamfer-r" style="background: #0B0709; color: #F4E4E6; border: none; height: 40px; padding: 0 18px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; cursor: pointer; display: flex; align-items: center; gap: 8px">
-          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1l-8 8" stroke="currentColor" stroke-width="1.6"></path></svg>CLOSE
-        </button>
-      </div>
-      <h2 style="margin: 0; padding: 40px 22px 34px; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 700; font-size: 64px; line-height: .86; text-transform: uppercase">Project<br>listing</h2>
-      <ul style="list-style: none; margin: 0; padding: 0; overflow-y: auto; flex: 1; border-top: 1px solid rgba(11,7,9,.12)">
-        <sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
-          <li style="border-bottom: 1px solid rgba(11,7,9,.12)">
-            <button type="button" onClick="{{ r.pick }}" class="ah-row" style="width: 100%; background: transparent; border: none; text-align: left; cursor: pointer; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; gap: 16px; color: #0B0709; min-height: 56px">
-              <span style="display: flex; flex-direction: column; gap: 3px">
-                <span style="font-weight: 700; font-size: 14px">{{ r.name }}</span>
-                <span style="font-size: 12px; color: #6B5258">{{ r.status }}</span>
-              </span>
-              <span style="font: 700 9px 'JetBrains Mono', monospace; letter-spacing: .14em; color: #6B5258">{{ r.cityU }}</span>
-            </button>
-          </li>
-        </sc-for>
-      </ul>
-      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 22px 26px; border-top: 1px solid rgba(11,7,9,.12)">
-        <span style="font: 700 9px 'JetBrains Mono', monospace; letter-spacing: .14em">FILTER BY TYPE</span>
-        <div style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end">
-          <sc-for list="{{ chipsLight }}" as="c" hint-placeholder-count="4">
-            <button type="button" onClick="{{ c.pick }}" aria-pressed="{{ c.pressed }}" style="padding: 0 10px; height: 32px; font: 700 9px 'JetBrains Mono', monospace; letter-spacing: .12em; cursor: pointer; {{ c.st }}">{{ c.label }}</button>
-          </sc-for>
-        </div>
-      </div>
-    </section>
-  </sc-if>
-
-  <!-- detail card -->
-  <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}">
-    <article class="ah-card ah-fade" aria-live="polite" style="position: absolute; right: 52px; top: 120px; z-index: 7; width: min(380px, calc(100% - 104px)); background: rgba(24,12,16,.94); backdrop-filter: blur(10px); border: 1px solid rgba(230,170,178,.18); padding: 24px; display: flex; flex-direction: column; gap: 18px">
-      <div style="display: flex; justify-content: space-between; align-items: center">
-        <span style="font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; color: {{ accent }}">■ {{ sel.type }}</span>
-        <button type="button" onClick="{{ closeSel }}" aria-label="Close details" style="width: 36px; height: 36px; background: rgba(244,228,230,.08); border: none; color: #F4E4E6; cursor: pointer; display: flex; align-items: center; justify-content: center">
-          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1l-8 8" stroke="currentColor" stroke-width="1.6"></path></svg>
-        </button>
-      </div>
-      <h3 style="margin: 0; font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 700; font-size: 44px; line-height: .92; text-transform: uppercase">{{ sel.name }}</h3>
-      <dl style="margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .1em">
-        <dt>CITY</dt><dd style="margin: 0; color: #A8939A">{{ sel.cityU }}</dd>
-        <dt>DETAIL</dt><dd style="margin: 0; color: #A8939A">{{ sel.statusU }}</dd>
-        <dt>COORDS</dt><dd style="margin: 0; color: #A8939A">{{ sel.coords }}</dd>
-      </dl>
-      <p style="margin: 0; font-size: 14px; line-height: 1.65; color: #BBA5A9">{{ sel.desc }}</p>
-      <a href="contact.html" class="ah-chamfer-cta ah-btn" style="align-self: flex-start; text-decoration: none; background: rgba(50,22,30,.8); border: 1px solid rgba(230,170,178,.2); padding: 0 20px; height: 42px; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; display: flex; align-items: center; gap: 10px">
-        <svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>
-        ENQUIRE
-      </a>
-    </article>
-  </sc-if>
-
-  <!-- intro: how to use the map -->
-  <sc-if value="{{ introOpen }}" hint-placeholder-val="{{ false }}">
-    <div style="position: absolute; inset: 0; z-index: 9; background: rgba(11,7,9,.72); backdrop-filter: blur(4px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px; padding: 120px 40px; box-sizing: border-box">
-      <h1 class="ah-fade" style="margin: 0; text-align: center; font-weight: 700; font-size: clamp(40px, 4.4vw, 64px); line-height: 1; text-transform: uppercase">How to use<br>the map</h1>
-      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 230px)); gap: 12px">
-        <sc-for list="{{ howCards }}" as="h" hint-placeholder-count="3">
-          <div class="{{ h.cls }}" style="background: rgba(32,16,21,.82); border: 1px solid rgba(230,170,178,.12); padding: 16px; min-height: 270px; display: flex; flex-direction: column; justify-content: space-between; {{ h.anim }}">
-            <span style="align-self: flex-end; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .1em">■ {{ h.n }}</span>
-            <span aria-hidden="true" style="align-self: center; width: 96px; height: 96px; border-radius: 50%; background: rgba(244,228,230,.06); display: flex; align-items: center; justify-content: center">
-              <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#F4E4E6" stroke-width="1.6"><path d="M12 9l14 6-6 2-2 6z"></path><path d="{{ h.icon }}"></path></svg>
-            </span>
-            <span style="display: flex; flex-direction: column; gap: 4px">
-              <span style="font-weight: 800; font-size: 20px">{{ h.title }}</span>
-              <span style="font-size: 14px; color: #A8939A">{{ h.body }}</span>
-            </span>
-          </div>
-        </sc-for>
-      </div>
-      <button type="button" onClick="{{ enterMap }}" class="ah-chamfer-cta" style="background: #F4E4E6; color: #0B0709; border: none; height: 46px; padding: 0 26px; font: 700 11px 'JetBrains Mono', monospace; letter-spacing: .14em; cursor: pointer; display: flex; align-items: center; gap: 10px">
-        <svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><rect x="0" y="0" width="3" height="3" fill="currentColor"></rect><rect x="3" y="3" width="3" height="3" fill="currentColor"></rect><rect x="0" y="6" width="3" height="3" fill="currentColor"></rect></svg>
-        ENTER THE MAP
-      </button>
-    </div>
-  </sc-if>
+  <a href="contact.html" style="font-size: 14px; padding: 12px 18px; border: 1px solid #CFC7BB; border-radius: 6px; color: #17140F; text-decoration: none">Get a quote</a>
+</header>
 </div>
-</template>
-<div id="dc-root"></div>
+
+<section style="padding: clamp(80px, 9vw, 140px) clamp(20px, 3vw, 40px) 56px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 32px">
+  <div style="flex: 1 1 560px; min-width: 0">
+    <p data-intro="1" style="margin: 0 0 28px; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase">Our portfolio</p>
+    <h1 style="margin: 0; font-size: clamp(52px, 6.6vw, 100px); line-height: 1; letter-spacing: -0.04em; font-weight: 500">
+      <span data-line="1" style="display: block"><span>Homes we've <em data-blurword="1" style="font-family: 'Playfair Display', Georgia, serif; font-weight: 400"><span>b</span><span>u</span><span>i</span><span>l</span><span>t</span></em>,</span></span>
+      <span data-line="2" style="display: block"><span>and the ones</span></span>
+      <span data-line="3" style="display: block"><span>we're building</span></span>
+    </h1>
+  </div>
+  <p data-intro="2" style="flex: 0 1 340px; margin: 0; font-size: 17px; line-height: 1.55; color: #6B645B">Every Prashi project is RERA, BBMP and A-Katha approved, with Vastu-compliant layouts across East Bengaluru.</p>
+</section>
+
+<div data-intro="3" style="padding: 0 clamp(20px, 3vw, 40px)">
+  <div role="group" aria-label="Filter projects by status" style="display: flex; flex-wrap: wrap; gap: 8px; padding-bottom: 24px">
+    
+      <button type="button" aria-pressed="true" style="height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #0D1D4A; background: #0D1D4A; color: #FFFFFF; transition: background .3s, color .3s">All <span style="opacity: 0.7; margin-left: 4px">5</span></button>
+    
+      <button type="button" aria-pressed="false" style="height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #CFC7BB; background: #FFFFFF; color: #17140F; transition: background .3s, color .3s">Ongoing <span style="opacity: 0.7; margin-left: 4px">1</span></button>
+    
+      <button type="button" aria-pressed="false" style="height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #CFC7BB; background: #FFFFFF; color: #17140F; transition: background .3s, color .3s">Completed <span style="opacity: 0.7; margin-left: 4px">2</span></button>
+    
+      <button type="button" aria-pressed="false" style="height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #CFC7BB; background: #FFFFFF; color: #17140F; transition: background .3s, color .3s">Upcoming <span style="opacity: 0.7; margin-left: 4px">2</span></button>
+    
+  </div>
+  <div data-draw="x" style="height: 1px; background: #DCD5CA"></div>
+</div>
+
+<section style="padding: 48px clamp(20px, 3vw, 40px) clamp(96px, 10vw, 140px); display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 56px 24px">
+
+  <a href="project.html" data-reveal="up" style="display: flex; flex-direction: column; gap: 18px">
+    <span class="zoom" style="position: relative; display: block; aspect-ratio: 4 / 3">
+      <img src="assets/img/prashi-residency.jpg" alt="Prashi Residency elevation" style="width: 100%; height: 100%; object-fit: cover; display: block">
+      <span style="position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px">Ongoing</span>
+    </span>
+    <span class="nudge" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px">
+      <span style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 28px; letter-spacing: -0.02em">Prashi Residency</span><span style="font-size: 15px; color: #6B645B">Belathur, Whitefield</span></span>
+      <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="flex: none; margin-top: 6px"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+    </span>
+    <span style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B"><span>2 &amp; 3 BHK apartments</span><span>1045–1630 sq ft</span><span>Possession Dec 2026</span></span>
+  </a>
+
+  <a href="project.html" data-reveal="up" data-d="2" style="display: flex; flex-direction: column; gap: 18px">
+    <span class="zoom" style="position: relative; display: block; aspect-ratio: 4 / 3">
+      <img src="assets/img/sanvi-sankalpam.jpg" alt="Sanvi Sankalpam at dusk" style="width: 100%; height: 100%; object-fit: cover; display: block">
+      <span style="position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px">Delivered</span>
+    </span>
+    <span class="nudge" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px">
+      <span style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 28px; letter-spacing: -0.02em">Sanvi Sankalpam</span><span style="font-size: 15px; color: #6B645B">Nagondanahalli, near Whitefield</span></span>
+      <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="flex: none; margin-top: 6px"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+    </span>
+    <span style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B"><span>70 apartments · 2 &amp; 3 BHK</span><span>1100–1460 sq ft</span><span>Ready to move</span></span>
+  </a>
+
+  <a href="project.html" data-reveal="up" style="display: flex; flex-direction: column; gap: 18px">
+    <span class="zoom" style="position: relative; display: block; aspect-ratio: 4 / 3">
+      <img src="assets/img/sanvi-residency.jpg" alt="Sanvi Residency apartments" style="width: 100%; height: 100%; object-fit: cover; object-position: 30% center; display: block">
+      <span style="position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px">Delivered</span>
+    </span>
+    <span class="nudge" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px">
+      <span style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 28px; letter-spacing: -0.02em">Sanvi Residency</span><span style="font-size: 15px; color: #6B645B">Horamavu Agara Road</span></span>
+      <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="flex: none; margin-top: 6px"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+    </span>
+    <span style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B"><span>48 apartments · G+3</span><span>1100–1460 sq ft</span><span>Ready to move</span></span>
+  </a>
+
+  <a href="project.html" data-reveal="up" data-d="2" style="display: flex; flex-direction: column; gap: 18px">
+    <span class="zoom" style="position: relative; display: block; aspect-ratio: 4 / 3">
+      <img src="assets/img/budigere-villas.jpg" alt="Villa community with a pool" style="width: 100%; height: 100%; object-fit: cover; display: block">
+      <span style="position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px">Upcoming</span>
+    </span>
+    <span class="nudge" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px">
+      <span style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 28px; letter-spacing: -0.02em">Budigere Road Villas</span><span style="font-size: 15px; color: #6B645B">Budigere Road · name to be announced</span></span>
+      <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="flex: none; margin-top: 6px"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+    </span>
+    <span style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B"><span>Residential villas</span><span>13 acres</span><span>Under development</span></span>
+  </a>
+
+  <a href="project.html" data-reveal="up" style="display: flex; flex-direction: column; gap: 18px">
+    <span class="zoom" style="position: relative; display: block; aspect-ratio: 4 / 3">
+      <img src="assets/img/soukya-tower.jpg" alt="Apartment tower with balconies" style="width: 100%; height: 100%; object-fit: cover; display: block">
+      <span style="position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px">Upcoming</span>
+    </span>
+    <span class="nudge" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px">
+      <span style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 28px; letter-spacing: -0.02em">Soukya Road Apartments</span><span style="font-size: 15px; color: #6B645B">Soukya Road, Whitefield · name to be announced</span></span>
+      <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="flex: none; margin-top: 6px"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+    </span>
+    <span style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B"><span>Residential apartments</span><span>2 acres</span><span>Under development</span></span>
+  </a>
+</section>
+
+<section style="position: relative; overflow: hidden; background: #0D1D4A; color: #FFFFFF; padding: clamp(96px, 10vw, 160px) clamp(20px, 3vw, 40px)">
+  <div style="position: absolute; inset: 0; overflow: hidden; opacity: 0.22">
+    <img data-parallax="0.2" data-scale="1.3" src="assets/img/villa-dusk.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.3)">
+  </div>
+  <div style="position: relative; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 32px">
+    <h2 data-reveal="blur" style="margin: 0; flex: 1 1 520px; font-size: clamp(40px, 5vw, 72px); line-height: 1; letter-spacing: -0.04em; font-weight: 500">Ready to find your <em style="font-family: 'Playfair Display', Georgia, serif; font-weight: 400">home</em>?</h2>
+    <div data-reveal="up" data-d="2" style="display: flex; flex-wrap: wrap; gap: 12px">
+      <a href="contact.html" class="lift" style="padding: 14px 22px; background: #FFFFFF; color: #0D1D4A; border-radius: 6px; font-size: 15px">Schedule a site visit</a>
+      <a href="contact.html" class="lift" style="padding: 14px 22px; border: 1px solid rgba(255,255,255,0.6); border-radius: 6px; font-size: 15px">Talk to sales</a>
+    </div>
+  </div>
+</section>
+
+
+
+<footer style="font-family: 'Instrument Sans', Arial, sans-serif; color: #FFFFFF; background: #0D1D4A; font-weight: 500; overflow: hidden">
+  <div style="padding: 80px clamp(20px, 3vw, 40px) 0; display: flex; flex-wrap: wrap; gap: 56px; justify-content: space-between">
+    <div data-reveal="up" style="flex: 1 1 280px; max-width: 340px; display: flex; flex-direction: column; gap: 20px">
+      <p style="margin: 0; font-size: 15px; line-height: 1.6">21, Whitefield – Hoskote Rd, Vastu Bhoomi,<br>Krishnarajapuram, Bengaluru,<br>Karnataka 560067</p>
+      <p style="margin: 0; font-size: 15px; line-height: 1.6">+91 96064 71392<br>+91 93460 70797</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px">
+        <a href="contact.html" style="padding: 10px 14px; background: #FFFFFF; color: #0D1D4A; border-radius: 6px; font-size: 13px; text-decoration: none">Book a site visit</a>
+        <a href="contact.html" style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.6); color: #FFFFFF; border-radius: 6px; font-size: 13px; text-decoration: none">Get a quote</a>
+      </div>
+    </div>
+    <div data-reveal="up" data-d="2" style="flex: 3 1 640px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 40px 24px">
+      <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px">
+        <span style="font-size: 13px; color: #C9A24B">Company</span>
+        <a href="about.html" style="color: rgba(255,255,255,0.82); text-decoration: none">About us</a>
+        <a href="about.html" style="color: rgba(255,255,255,0.82); text-decoration: none">Our journey</a>
+        <a href="news.html" style="color: rgba(255,255,255,0.82); text-decoration: none">News</a>
+        <a href="contact.html" style="color: rgba(255,255,255,0.82); text-decoration: none">Contact</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px">
+        <span style="font-size: 13px; color: #C9A24B">Projects</span>
+        <a href="projects.html" style="color: rgba(255,255,255,0.82); text-decoration: none">Ongoing</a>
+        <a href="projects.html" style="color: rgba(255,255,255,0.82); text-decoration: none">Completed</a>
+        <a href="projects.html" style="color: rgba(255,255,255,0.82); text-decoration: none">Upcoming</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px">
+        <span style="font-size: 13px; color: #C9A24B">Neighbourhoods</span>
+        <a href="projects.html" style="color: rgba(255,255,255,0.82); text-decoration: none">Whitefield</a>
+        <a href="projects.html" style="color: rgba(255,255,255,0.82); text-decoration: none">Nagondanahalli</a>
+        <a href="projects.html" style="color: rgba(255,255,255,0.82); text-decoration: none">Horamavu</a>
+        <a href="projects.html" style="color: rgba(255,255,255,0.82); text-decoration: none">Budigere Road</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px">
+        <span style="font-size: 13px; color: #C9A24B">Get in touch</span>
+        <a href="mailto:info@prashigroup.com" style="color: rgba(255,255,255,0.82); text-decoration: none">info@prashigroup.com</a>
+        <a href="mailto:sales@prashigroup.com" style="color: rgba(255,255,255,0.82); text-decoration: none">sales@prashigroup.com</a>
+        <span style="color: rgba(255,255,255,0.82)">Everyday, 9 AM – 6 PM</span>
+      </div>
+    </div>
+  </div>
+  <div style="margin: 64px clamp(20px, 3vw, 40px) 0; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.22); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 12px; color: rgba(255,255,255,0.78)">
+    <span style="display: flex; gap: 20px; flex-wrap: wrap">
+      <a href="index.html" style="color: rgba(255,255,255,0.78); text-decoration: none">Privacy policy</a>
+      <a href="index.html" style="color: rgba(255,255,255,0.78); text-decoration: none">Terms of service</a>
+      <span>All projects RERA registered</span>
+    </span>
+    <span>© 2026 Prashi Group · Your heart's destination</span>
+  </div>
+  <div aria-hidden="true" style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(120px, 22vw, 320px); line-height: 0.95; letter-spacing: -0.04em; padding: 24px clamp(10px, 2vw, 30px) 0.04em; white-space: nowrap; text-align: center; overflow: hidden"><span data-letters="1" style="display: inline-block"><span>P</span><span>r</span><span>a</span><span>s</span><span>h</span><span>i</span></span></div>
+</footer>
+
+</div>
+
 <script>
-
-var PJ_PINS = [
-  { id: 'svc', lab: 'R', name: 'Audioheads Service Centre', short: 'SERVICE CENTRE', type: 'SERVICE', status: 'Authorised service · Pioneer DJ & more', city: 'Bengaluru', lon: 77.652, lat: 12.973, desc: 'Authorised repair and service for Pioneer DJ, Turbosound, Lab Gruppen, TC Electronic, Yamaha, Grundig and Kenwood, at 657, 6th Cross Road, HAL 3rd Stage, New Tippasandra.' },
-  { id: 'digweed', lab: 'L', name: 'John Digweed', short: 'JOHN DIGWEED · 2011', type: 'SHOW', status: 'Show production · 2011', city: 'Bengaluru', lon: 77.585, lat: 12.948, desc: 'Live show production for John Digweed in Bangalore in 2011.' },
-  { id: 'tiesto', lab: 'R', name: 'Tiësto After Party', short: 'TIËSTO AFTER PARTY · 2008', type: 'SHOW', status: 'Show production · 2008', city: 'Hyderabad', lon: 78.476, lat: 17.395, desc: 'After-party production for Tiësto in Hyderabad in 2008.' },
-  { id: 'sultan', lab: 'L', name: 'SULTAN by Submerge', short: 'SULTAN BY SUBMERGE · 2009', type: 'SHOW', status: 'Show production · 2009', city: 'Hyderabad', lon: 78.405, lat: 17.445, desc: 'Show production for SULTAN by Submerge in Hyderabad in 2009.' },
-  { id: 'blr', lab: 'T', name: 'Bengaluru talent hub', short: 'TALENT · BENGALURU', type: 'TALENT', status: 'Artist & DJ management', city: 'Bengaluru', lon: 77.61, lat: 12.995, desc: 'Home base for our artist and DJ management in India and abroad.' },
-  { id: 'goa', name: 'Goa', short: 'TALENT · GOA', type: 'TALENT', status: 'Artist & DJ management', city: 'Goa', lon: 74.12, lat: 15.30, desc: 'Talent operations for artists and DJs in Goa.' },
-  { id: 'dxb', name: 'Dubai', short: 'TALENT · DUBAI', type: 'TALENT', status: 'Artist & DJ management', city: 'Dubai', lon: 55.27, lat: 25.20, desc: 'Talent operations for artists and DJs in Dubai.' },
-  { id: 'doh', lab: 'L', name: 'Qatar', short: 'TALENT · QATAR', type: 'TALENT', status: 'Artist & DJ management', city: 'Doha, Qatar', lon: 51.53, lat: 25.29, desc: 'Talent operations for artists and DJs in Qatar.' },
-  { id: 'lon', name: 'London', short: 'TALENT · LONDON', type: 'TALENT', status: 'Artist & DJ management', city: 'London', lon: -0.13, lat: 51.51, desc: 'Talent operations for artists and DJs in London.' },
-  { id: 'tor', name: 'Toronto', short: 'TALENT · TORONTO', type: 'TALENT', status: 'Artist & DJ management', city: 'Toronto', lon: -79.38, lat: 43.65, desc: 'Talent operations for artists and DJs in Toronto.' },
-  { id: 'mtl', name: 'Montreal', short: 'TALENT · MONTREAL', type: 'TALENT', status: 'Artist & DJ management', city: 'Montreal', lon: -73.57, lat: 45.50, desc: 'Talent operations for artists and DJs in Montreal.' },
-  { id: 'mnl', name: 'Manila', short: 'TALENT · MANILA', type: 'TALENT', status: 'Artist & DJ management', city: 'Manila', lon: 120.98, lat: 14.60, desc: 'Talent operations for artists and DJs in Manila.' }
-];
-var PJ_CITIES = [[77.61, 12.97, 1], [78.45, 17.41, 2], [74.05, 15.35, 3], [55.27, 25.2, 4], [51.53, 25.29, 5], [-0.13, 51.51, 6], [-79.38, 43.65, 7], [-73.57, 45.5, 8], [120.98, 14.6, 9]];
-var PJ_REGIONS = [['BENGALURU', 77.61, 12.97, 520], ['HYDERABAD', 78.44, 17.42, 520], ['GOA', 74.08, 15.33, 420], ['INDIA', 77.5, 16.5, 70], ['WORLD', 25, 33, 6.2]];
-
-class Component extends DCLogic {
-  constructor(props) {
-    super(props);
-    this.state = { intro: true, list: false, filters: false, sel: null, filter: 'ALL', sound: false, region: 0, pinPos: {}, s: 520, dragging: false };
-    this.v = { cx: 77.61, cy: -12.97, s: 520 };
-    this.vt = null;
-  }
-  componentDidMount() {
-    this.alive = true;
-    var cv = document.getElementById('pj-map');
-    this.cv = cv; this.ctx = cv.getContext('2d');
-    this.buildWorld();
-    this.onWheel = (e) => {
-      e.preventDefault();
-      var r = cv.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
-      var v = this.v, w = r.width, h = r.height;
-      var wx = v.cx + (mx - w / 2) / v.s, wy = v.cy + (my - h / 2) / v.s;
-      var ns = Math.max(4, Math.min(1400, v.s * Math.exp(-e.deltaY * 0.0016)));
-      v.s = ns; v.cx = wx - (mx - w / 2) / ns; v.cy = wy - (my - h / 2) / ns; this.vt = null;
-    };
-    this.onDown = (e) => { this.drag = { x: e.clientX, y: e.clientY, cx: this.v.cx, cy: this.v.cy, moved: false }; this.vt = null; try { cv.setPointerCapture(e.pointerId); } catch (er) {} this.setState({ dragging: true }); };
-    this.onMoveP = (e) => { var d = this.drag; if (!d) return; var dx = e.clientX - d.x, dy = e.clientY - d.y; if (Math.abs(dx) + Math.abs(dy) > 3) d.moved = true; this.v.cx = d.cx - dx / this.v.s; this.v.cy = d.cy - dy / this.v.s; };
-    this.onUp = () => { this.drag = null; this.setState({ dragging: false }); };
-    cv.addEventListener('wheel', this.onWheel, { passive: false });
-    cv.addEventListener('pointerdown', this.onDown);
-    cv.addEventListener('pointermove', this.onMoveP);
-    cv.addEventListener('pointerup', this.onUp);
-    cv.addEventListener('pointercancel', this.onUp);
-    this.start = performance.now();
-    this.raf = requestAnimationFrame(() => this.tick());
-  }
-  componentWillUnmount() {
-    this.alive = false; cancelAnimationFrame(this.raf);
-    var cv = this.cv; if (cv) { cv.removeEventListener('wheel', this.onWheel); cv.removeEventListener('pointerdown', this.onDown); cv.removeEventListener('pointermove', this.onMoveP); cv.removeEventListener('pointerup', this.onUp); cv.removeEventListener('pointercancel', this.onUp); }
-    try { this.ac && this.ac.close(); } catch (e) {}
-  }
-  buildWorld() {
-    function rng(seed) { var s = seed * 9301 + 49297; return function () { s = (s * 9301 + 49297) % 233280; return s / 233280; }; }
-    function hash(x, z) { var s = Math.sin(x * 127.1 + z * 311.7) * 43758.5453; return s - Math.floor(s); }
-    function vn(x, z) { var xi = Math.floor(x), zi = Math.floor(z), xf = x - xi, zf = z - zi, u = xf * xf * (3 - 2 * xf), v = zf * zf * (3 - 2 * zf); var a = hash(xi, zi), b = hash(xi + 1, zi), c = hash(xi, zi + 1), d = hash(xi + 1, zi + 1); return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v; }
-    function fbm(x, z) { var s = 0, a = 0.5, f = 1; for (var i = 0; i < 4; i++) { s += a * vn(x * f, z * f); f *= 2.1; a *= 0.5; } return s; }
-    // contour texture over lon -110..150, lat -5..65
-    var TW = 1040, TH = 280, tex = document.createElement('canvas'); tex.width = TW; tex.height = TH;
-    var tc = tex.getContext('2d'), img = tc.createImageData(TW, TH), d = img.data;
-    for (var y = 0; y < TH; y++) for (var x = 0; x < TW; x++) {
-      var lon = -110 + x / TW * 260, lat = 65 - y / TH * 70;
-      var f = fbm(lon * 0.09 + 3.3, lat * 0.09 + 1.7);
-      var band = (f * 14) % 1; var line = band < 0.07 ? 1 : 0;
-      var i4 = (y * TW + x) * 4; d[i4] = 255; d[i4 + 1] = 255; d[i4 + 2] = 255; d[i4 + 3] = line ? 46 : Math.floor(f * 10);
-    }
-    tc.putImageData(img, 0, 0);
-    this.tex = tex;
-    // street networks per city
-    this.cities = PJ_CITIES.map(function (c) {
-      var R = rng(c[2] * 17 + 3), roads = [], R0 = 0.34;
-      function walk(x, y, h, n, step, drift, major) { var pts = [[x, y]]; for (var k = 0; k < n; k++) { h += (R() - 0.5) * drift; x += Math.cos(h) * step; y += Math.sin(h) * step; pts.push([x, y]); } roads.push({ pts: pts, major: major }); }
-      for (var a = 0; a < 7; a++) { var h0 = a / 7 * Math.PI * 2 + R() * 0.5; walk(c[0], -c[1], h0, 70, 0.012, 0.25, 2); }
-      for (var rr = 0; rr < 2; rr++) { var rad = R0 * (0.42 + rr * 0.45), pts = []; for (var k = 0; k <= 90; k++) { var an = k / 90 * Math.PI * 2, wob = 1 + (R() - 0.5) * 0.06; pts.push([c[0] + Math.cos(an) * rad * wob, -c[1] + Math.sin(an) * rad * 0.9 * wob]); } roads.push({ pts: pts, major: 1 }); }
-      for (var l = 0; l < 210; l++) { var r = R0 * Math.pow(R(), 0.8), an2 = R() * Math.PI * 2; walk(c[0] + Math.cos(an2) * r, -c[1] + Math.sin(an2) * r, R() * Math.PI * 2, 6 + Math.floor(R() * 16), 0.0045, 0.6, 0); }
-      return { x: c[0], y: -c[1], roads: roads };
-    });
-  }
-  flyTo(cx, cy, s) { this.vt = { cx: cx, cy: cy, s: s }; }
-  tick() {
-    if (!this.alive) return;
-    this.raf = requestAnimationFrame(() => this.tick());
-    var cv = this.cv, ctx = this.ctx; if (!cv || !ctx) return;
-    var PR = Math.min(window.devicePixelRatio || 1, 2), w = cv.clientWidth, h = cv.clientHeight;
-    if (w < 2 || h < 2) return;
-    if (cv.width !== Math.floor(w * PR) || cv.height !== Math.floor(h * PR)) { cv.width = Math.floor(w * PR); cv.height = Math.floor(h * PR); }
-    var v = this.v;
-    if (this.vt) {
-      var k = 0.075; var ls = Math.log(v.s), lt = Math.log(this.vt.s);
-      v.cx += (this.vt.cx - v.cx) * k; v.cy += (this.vt.cy - v.cy) * k; v.s = Math.exp(ls + (lt - ls) * k);
-      if (Math.abs(this.vt.cx - v.cx) * v.s < 0.5 && Math.abs(this.vt.cy - v.cy) * v.s < 0.5 && Math.abs(lt - ls) < 0.003) this.vt = null;
-    }
-    var t = (performance.now() - this.start) / 1000;
-    var acc = this.props.accent ?? '#C2525E';
-    var ar = parseInt(acc.slice(1, 3), 16), ag = parseInt(acc.slice(3, 5), 16), ab = parseInt(acc.slice(5, 7), 16);
-    var A = function (a) { return 'rgba(' + ar + ',' + ag + ',' + ab + ',' + a + ')'; };
-    var X = function (x) { return (x - v.cx) * v.s + w / 2; }, Y = function (y) { return (y - v.cy) * v.s + h / 2; };
-    ctx.setTransform(PR, 0, 0, PR, 0, 0);
-    ctx.fillStyle = '#0B0709'; ctx.fillRect(0, 0, w, h);
-    var sm = function (a, b, x) { var q = Math.max(0, Math.min(1, (x - a) / (b - a))); return q * q * (3 - 2 * q); };
-    // contours
-    var ca = 0.9 * (1 - sm(160, 520, v.s));
-    if (ca > 0.01 && this.tex) { ctx.globalAlpha = ca; ctx.drawImage(this.tex, X(-110), Y(-65), 260 * v.s, 70 * v.s); ctx.globalAlpha = 1; }
-    // graticule
-    var step = v.s < 40 ? 10 : (v.s < 300 ? 1 : 0.1);
-    ctx.strokeStyle = 'rgba(244,228,230,0.045)'; ctx.lineWidth = 1; ctx.beginPath();
-    var x0 = v.cx - w / 2 / v.s, x1 = v.cx + w / 2 / v.s, y0 = v.cy - h / 2 / v.s, y1 = v.cy + h / 2 / v.s;
-    for (var gx = Math.floor(x0 / step) * step; gx <= x1; gx += step) { ctx.moveTo(X(gx), 0); ctx.lineTo(X(gx), h); }
-    for (var gy = Math.floor(y0 / step) * step; gy <= y1; gy += step) { ctx.moveTo(0, Y(gy)); ctx.lineTo(w, Y(gy)); }
-    ctx.stroke();
-    // streets
-    var sa = sm(60, 260, v.s);
-    if (sa > 0.01) {
-      this.cities.forEach(function (c) {
-        if (X(c.x) < -0.8 * v.s - 50 || X(c.x) > w + 0.8 * v.s + 50 || Y(c.y) < -0.8 * v.s - 50 || Y(c.y) > h + 0.8 * v.s + 50) return;
-        var g = ctx.createRadialGradient(X(c.x), Y(c.y), 0, X(c.x), Y(c.y), 0.5 * v.s);
-        g.addColorStop(0, A(0.16 * sa)); g.addColorStop(1, A(0)); ctx.fillStyle = g; ctx.fillRect(X(c.x) - 0.5 * v.s, Y(c.y) - 0.5 * v.s, v.s, v.s);
-        [0, 1, 2].forEach(function (lvl) {
-          ctx.beginPath();
-          c.roads.forEach(function (r) { if (r.major !== lvl) return; var p = r.pts; ctx.moveTo(X(p[0][0]), Y(p[0][1])); for (var k2 = 1; k2 < p.length; k2++) ctx.lineTo(X(p[k2][0]), Y(p[k2][1])); });
-          ctx.strokeStyle = A(sa * (lvl === 2 ? 0.95 : lvl === 1 ? 0.6 : 0.42)); ctx.lineWidth = lvl === 2 ? 2.2 : lvl === 1 ? 1.4 : 0.8;
-          if (lvl === 2) { ctx.shadowColor = A(0.9); ctx.shadowBlur = 10; }
-          ctx.stroke(); ctx.shadowBlur = 0;
-        });
-      });
-    }
-    // routes from Bengaluru
-    var hub = this.cities[0];
-    ctx.lineWidth = 1.6; ctx.shadowColor = A(0.9); ctx.shadowBlur = 12;
-    this.cities.slice(1).forEach(function (c, i) {
-      var mx = (hub.x + c.x) / 2, my = (hub.y + c.y) / 2, dx = c.x - hub.x, dy = c.y - hub.y, dl = Math.sqrt(dx * dx + dy * dy) || 1;
-      var qx = mx - dy / dl * dl * 0.22, qy = my + dx / dl * dl * 0.22 - dl * 0.12;
-      ctx.beginPath(); ctx.moveTo(X(hub.x), Y(hub.y)); ctx.quadraticCurveTo(X(qx), Y(qy), X(c.x), Y(c.y));
-      ctx.setLineDash([]); ctx.strokeStyle = A(0.28); ctx.stroke();
-      ctx.setLineDash([10, 22]); ctx.lineDashOffset = -t * 40 - i * 13; ctx.strokeStyle = A(0.95); ctx.stroke();
-    });
-    ctx.setLineDash([]); ctx.shadowBlur = 0;
-    // city glows (world view)
-    var wa = 1 - sm(60, 200, v.s);
-    if (wa > 0.01) this.cities.forEach(function (c) { var g2 = ctx.createRadialGradient(X(c.x), Y(c.y), 0, X(c.x), Y(c.y), 26); g2.addColorStop(0, A(0.7 * wa)); g2.addColorStop(1, A(0)); ctx.fillStyle = g2; ctx.fillRect(X(c.x) - 26, Y(c.y) - 26, 52, 52); });
-
-    // pins + UI state (throttled)
-    var pos = {}, changed = false, prev = this.state.pinPos;
-    PJ_PINS.forEach(function (p) { var px = Math.round(X(p.lon)), py = Math.round(Y(-p.lat)); pos[p.id] = [px, py]; if (!prev[p.id] || prev[p.id][0] !== px || prev[p.id][1] !== py) changed = true; });
-    var reg = 0, best = 1e9; PJ_REGIONS.forEach(function (r, i) { var dd = Math.abs(Math.log(v.s / r[3])) * 3 + Math.hypot(v.cx - r[1], v.cy + r[2]) * v.s / 400; if (dd < best) { best = dd; reg = i; } });
-    if (changed || Math.abs(this.state.s - v.s) > 0.5 || reg !== this.state.region) this.setState({ pinPos: pos, s: v.s, region: reg });
-  }
-  toggleSound() {
-    try {
-      if (!this.ac) {
-        var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
-        var ac = new AC(); this.ac = ac;
-        var master = ac.createGain(); master.gain.value = 0; master.connect(ac.destination); this.master = master;
-        var filter = ac.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 520; filter.connect(master);
-        [[55, 'sine', 0.55], [82.41, 'sawtooth', 0.1], [110, 'triangle', 0.2]].forEach(function (o) { var osc = ac.createOscillator(); osc.type = o[1]; osc.frequency.value = o[0]; var gg = ac.createGain(); gg.gain.value = o[2]; osc.connect(gg); gg.connect(filter); osc.start(); });
-      }
-      var on = !this.state.sound;
-      if (on) { this.ac.resume(); this.master.gain.setTargetAtTime(0.08, this.ac.currentTime, 0.8); } else this.master.gain.setTargetAtTime(0, this.ac.currentTime, 0.25);
-      this.setState({ sound: on });
-    } catch (e) {}
-  }
-  pick(p) {
-    this.setState({ sel: p.id, list: false, filters: false, intro: false });
-    this.flyTo(p.lon, -p.lat, Math.max(this.v.s, p.type === 'TALENT' && p.id !== 'blr' ? 380 : 900));
-  }
-  renderVals() {
-    var s = this.state, acc = this.props.accent ?? '#C2525E';
-    var visible = PJ_PINS.filter((p) => s.filter === 'ALL' || p.type === s.filter);
-    var pins = PJ_PINS.map((p) => {
-      var pp = s.pinPos[p.id] || [-999, -999];
-      var on = visible.indexOf(p) >= 0, isSel = s.sel === p.id;
-      var primary = p.type !== 'TALENT' || p.id === 'blr';
-      return {
-        show: on && pp[0] > -40 && pp[1] > -40,
-        aria: p.name + ', ' + p.city,
-        pos: 'left: ' + pp[0] + 'px; top: ' + pp[1] + 'px',
-        labelOn: isSel || (s.s > (primary ? 260 : 30) && s.s < 1400) || (s.s < 30 && primary === false),
-        short: p.short,
-        z: isSel ? 4 : 3,
-        labPos: p.lab === 'L' ? 'right: 22px; top: -7px;' : (p.lab === 'R' ? 'left: 22px; top: -7px;' : 'bottom: 22px; left: 50%; transform: translateX(-50%);'),
-        tag: isSel ? 'background: ' + acc + '; color: #0B0709' : 'background: rgba(24,12,16,.88); color: #F4E4E6; border: 1px solid rgba(230,170,178,.2)',
-        dot: 'background: ' + (p.type === 'SHOW' ? '#F4E4E6' : acc),
-        pick: () => this.pick(p)
-      };
-    });
-    var types = ['ALL', 'SHOW', 'SERVICE', 'TALENT'];
-    var chipFor = (light) => types.map((tt) => {
-      var on = s.filter === tt;
-      return {
-        label: tt === 'SHOW' ? 'SHOWS' : tt, pressed: on ? 'true' : 'false',
-        st: light ? (on ? 'background: #0B0709; color: #F4E4E6; border: 1px solid #0B0709' : 'background: transparent; color: #0B0709; border: 1px solid rgba(11,7,9,.3)')
-                  : (on ? 'background: ' + acc + '; color: #0B0709; border: 1px solid ' + acc : 'background: transparent; color: #F4E4E6; border: 1px solid rgba(230,170,178,.25)'),
-        pick: () => this.setState({ filter: tt })
-      };
-    });
-    var sel = PJ_PINS.find((p) => p.id === s.sel);
-    var kmPerPx = 111 * Math.cos(Math.abs(this.v.cy) * Math.PI / 180) / s.s;
-    var targetKm = kmPerPx * 120, nice = [0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000];
-    var km = nice[0]; nice.forEach((n) => { if (n <= targetKm) km = n; });
-    var px = Math.max(40, Math.round(km / kmPerPx));
-    var regions = PJ_REGIONS.map((r, i) => ({ label: r[0], st: 'color: ' + (i === s.region ? '#F4E4E6' : '#5E4950'), dot: 'background: ' + (i === s.region ? '#F4E4E6' : 'transparent'), go: () => { this.setState({ sel: null }); this.flyTo(r[1], -r[2], r[3]); } }));
-    return {
-      accent: acc,
-      pins, regions,
-      mapCursor: s.dragging ? 'grabbing' : 'grab',
-      zoomLabel: (s.s / 520).toFixed(2) + 'X',
-      scaleLabel: km >= 1 ? km + 'KM' : (km * 1000) + 'M',
-      scaleW: px + 'px',
-      introOpen: s.intro,
-      enterMap: () => this.setState({ intro: false }),
-      howCards: [
-        { n: '001', title: 'SCROLL', body: 'Zoom in and out of the map', icon: 'M6 8h6M9 5v6M6 22h6', cls: 'ah-card-b ah-fade', anim: 'animation-delay: .05s' },
-        { n: '002', title: 'DRAG', body: 'Move around', icon: 'M5 22h8M9 18v8', cls: 'ah-card-b ah-fade', anim: 'animation-delay: .15s' },
-        { n: '003', title: 'CLICK', body: 'View project details', icon: 'M8 6a3 3 0 1 0 0.1 0', cls: 'ah-card-b ah-fade', anim: 'animation-delay: .25s' }
-      ],
-      listOpen: s.list,
-      openList: () => this.setState({ list: true, filters: false, intro: false }),
-      closeList: () => this.setState({ list: false }),
-      rows: visible.map((p) => ({ name: p.name, status: p.status, cityU: p.city.toUpperCase(), pick: () => this.pick(p) })),
-      filtersOpen: s.filters,
-      filtersExpanded: s.filters ? 'true' : 'false',
-      toggleFilters: () => this.setState({ filters: !s.filters }),
-      filterCount: String(visible.length).padStart(2, '0'),
-      chips: chipFor(false), chipsLight: chipFor(true),
-      hasSel: !!sel,
-      sel: sel ? { type: sel.type, name: sel.name, cityU: sel.city.toUpperCase(), statusU: sel.status.toUpperCase(), coords: Math.abs(sel.lat).toFixed(2) + '°' + (sel.lat >= 0 ? 'N' : 'S') + ' ' + Math.abs(sel.lon).toFixed(2) + '°' + (sel.lon >= 0 ? 'E' : 'W'), desc: sel.desc } : { type: '', name: '', cityU: '', statusU: '', coords: '', desc: '' },
-      closeSel: () => this.setState({ sel: null }),
-      soundLabel: s.sound ? 'SOUND ON' : 'SOUND OFF', soundPressed: s.sound ? 'true' : 'false',
-      soundIconPath: s.sound ? 'M11 3.5c1.2 1 1.2 4 0 5M13 1.5c2.3 2 2.3 7 0 9' : 'M11 4l4 4M15 4l-4 4',
-      toggleSound: () => this.toggleSound()
-    };
-  }
-}
-
+(function(){
+  var V=[["\n    \n      <button type=\"button\" aria-pressed=\"true\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #0D1D4A; background: #0D1D4A; color: #FFFFFF; transition: background .3s, color .3s\">All <span style=\"opacity: 0.7; margin-left: 4px\">5</span></button>\n    \n      <button type=\"button\" aria-pressed=\"false\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #CFC7BB; background: #FFFFFF; color: #17140F; transition: background .3s, color .3s\">Ongoing <span style=\"opacity: 0.7; margin-left: 4px\">1</span></button>\n    \n      <button type=\"button\" aria-pressed=\"false\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #CFC7BB; background: #FFFFFF; color: #17140F; transition: background .3s, color .3s\">Completed <span style=\"opacity: 0.7; margin-left: 4px\">2</span></button>\n    \n      <button type=\"button\" aria-pressed=\"false\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #CFC7BB; background: #FFFFFF; color: #17140F; transition: background .3s, color .3s\">Upcoming <span style=\"opacity: 0.7; margin-left: 4px\">2</span></button>\n    \n  ","\n\n  <a href=\"project.html\" data-reveal=\"up\" style=\"display: flex; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/prashi-residency.jpg\" alt=\"Prashi Residency elevation\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Ongoing</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Prashi Residency</span><span style=\"font-size: 15px; color: #6B645B\">Belathur, Whitefield</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>2 &amp; 3 BHK apartments</span><span>1045–1630 sq ft</span><span>Possession Dec 2026</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" data-d=\"2\" style=\"display: flex; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/sanvi-sankalpam.jpg\" alt=\"Sanvi Sankalpam at dusk\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Delivered</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Sanvi Sankalpam</span><span style=\"font-size: 15px; color: #6B645B\">Nagondanahalli, near Whitefield</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>70 apartments · 2 &amp; 3 BHK</span><span>1100–1460 sq ft</span><span>Ready to move</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" style=\"display: flex; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/sanvi-residency.jpg\" alt=\"Sanvi Residency apartments\" style=\"width: 100%; height: 100%; object-fit: cover; object-position: 30% center; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Delivered</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Sanvi Residency</span><span style=\"font-size: 15px; color: #6B645B\">Horamavu Agara Road</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>48 apartments · G+3</span><span>1100–1460 sq ft</span><span>Ready to move</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" data-d=\"2\" style=\"display: flex; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/budigere-villas.jpg\" alt=\"Villa community with a pool\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Upcoming</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Budigere Road Villas</span><span style=\"font-size: 15px; color: #6B645B\">Budigere Road · name to be announced</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>Residential villas</span><span>13 acres</span><span>Under development</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" style=\"display: flex; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/soukya-tower.jpg\" alt=\"Apartment tower with balconies\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Upcoming</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Soukya Road Apartments</span><span style=\"font-size: 15px; color: #6B645B\">Soukya Road, Whitefield · name to be announced</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>Residential apartments</span><span>2 acres</span><span>Under development</span></span>\n  </a>\n"],["\n    \n      <button type=\"button\" aria-pressed=\"false\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #CFC7BB; background: #FFFFFF; color: #17140F; transition: background .3s, color .3s\">All <span style=\"opacity: 0.7; margin-left: 4px\">5</span></button>\n    \n      <button type=\"button\" aria-pressed=\"true\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #0D1D4A; background: #0D1D4A; color: #FFFFFF; transition: background .3s, color .3s\">Ongoing <span style=\"opacity: 0.7; margin-left: 4px\">1</span></button>\n    \n      <button type=\"button\" aria-pressed=\"false\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #CFC7BB; background: #FFFFFF; color: #17140F; transition: background .3s, color .3s\">Completed <span style=\"opacity: 0.7; margin-left: 4px\">2</span></button>\n    \n      <button type=\"button\" aria-pressed=\"false\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #CFC7BB; background: #FFFFFF; color: #17140F; transition: background .3s, color .3s\">Upcoming <span style=\"opacity: 0.7; margin-left: 4px\">2</span></button>\n    \n  ","\n\n  <a href=\"project.html\" data-reveal=\"up\" style=\"display: flex; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/prashi-residency.jpg\" alt=\"Prashi Residency elevation\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Ongoing</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Prashi Residency</span><span style=\"font-size: 15px; color: #6B645B\">Belathur, Whitefield</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>2 &amp; 3 BHK apartments</span><span>1045–1630 sq ft</span><span>Possession Dec 2026</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" data-d=\"2\" style=\"display: none; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/sanvi-sankalpam.jpg\" alt=\"Sanvi Sankalpam at dusk\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Delivered</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Sanvi Sankalpam</span><span style=\"font-size: 15px; color: #6B645B\">Nagondanahalli, near Whitefield</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>70 apartments · 2 &amp; 3 BHK</span><span>1100–1460 sq ft</span><span>Ready to move</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" style=\"display: none; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/sanvi-residency.jpg\" alt=\"Sanvi Residency apartments\" style=\"width: 100%; height: 100%; object-fit: cover; object-position: 30% center; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Delivered</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Sanvi Residency</span><span style=\"font-size: 15px; color: #6B645B\">Horamavu Agara Road</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>48 apartments · G+3</span><span>1100–1460 sq ft</span><span>Ready to move</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" data-d=\"2\" style=\"display: none; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/budigere-villas.jpg\" alt=\"Villa community with a pool\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Upcoming</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Budigere Road Villas</span><span style=\"font-size: 15px; color: #6B645B\">Budigere Road · name to be announced</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>Residential villas</span><span>13 acres</span><span>Under development</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" style=\"display: none; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/soukya-tower.jpg\" alt=\"Apartment tower with balconies\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Upcoming</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Soukya Road Apartments</span><span style=\"font-size: 15px; color: #6B645B\">Soukya Road, Whitefield · name to be announced</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>Residential apartments</span><span>2 acres</span><span>Under development</span></span>\n  </a>\n"],["\n    \n      <button type=\"button\" aria-pressed=\"false\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #CFC7BB; background: #FFFFFF; color: #17140F; transition: background .3s, color .3s\">All <span style=\"opacity: 0.7; margin-left: 4px\">5</span></button>\n    \n      <button type=\"button\" aria-pressed=\"false\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #CFC7BB; background: #FFFFFF; color: #17140F; transition: background .3s, color .3s\">Ongoing <span style=\"opacity: 0.7; margin-left: 4px\">1</span></button>\n    \n      <button type=\"button\" aria-pressed=\"true\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #0D1D4A; background: #0D1D4A; color: #FFFFFF; transition: background .3s, color .3s\">Completed <span style=\"opacity: 0.7; margin-left: 4px\">2</span></button>\n    \n      <button type=\"button\" aria-pressed=\"false\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #CFC7BB; background: #FFFFFF; color: #17140F; transition: background .3s, color .3s\">Upcoming <span style=\"opacity: 0.7; margin-left: 4px\">2</span></button>\n    \n  ","\n\n  <a href=\"project.html\" data-reveal=\"up\" style=\"display: none; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/prashi-residency.jpg\" alt=\"Prashi Residency elevation\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Ongoing</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Prashi Residency</span><span style=\"font-size: 15px; color: #6B645B\">Belathur, Whitefield</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>2 &amp; 3 BHK apartments</span><span>1045–1630 sq ft</span><span>Possession Dec 2026</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" data-d=\"2\" style=\"display: flex; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/sanvi-sankalpam.jpg\" alt=\"Sanvi Sankalpam at dusk\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Delivered</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Sanvi Sankalpam</span><span style=\"font-size: 15px; color: #6B645B\">Nagondanahalli, near Whitefield</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>70 apartments · 2 &amp; 3 BHK</span><span>1100–1460 sq ft</span><span>Ready to move</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" style=\"display: flex; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/sanvi-residency.jpg\" alt=\"Sanvi Residency apartments\" style=\"width: 100%; height: 100%; object-fit: cover; object-position: 30% center; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Delivered</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Sanvi Residency</span><span style=\"font-size: 15px; color: #6B645B\">Horamavu Agara Road</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>48 apartments · G+3</span><span>1100–1460 sq ft</span><span>Ready to move</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" data-d=\"2\" style=\"display: none; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/budigere-villas.jpg\" alt=\"Villa community with a pool\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Upcoming</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Budigere Road Villas</span><span style=\"font-size: 15px; color: #6B645B\">Budigere Road · name to be announced</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>Residential villas</span><span>13 acres</span><span>Under development</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" style=\"display: none; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/soukya-tower.jpg\" alt=\"Apartment tower with balconies\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Upcoming</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Soukya Road Apartments</span><span style=\"font-size: 15px; color: #6B645B\">Soukya Road, Whitefield · name to be announced</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>Residential apartments</span><span>2 acres</span><span>Under development</span></span>\n  </a>\n"],["\n    \n      <button type=\"button\" aria-pressed=\"false\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #CFC7BB; background: #FFFFFF; color: #17140F; transition: background .3s, color .3s\">All <span style=\"opacity: 0.7; margin-left: 4px\">5</span></button>\n    \n      <button type=\"button\" aria-pressed=\"false\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #CFC7BB; background: #FFFFFF; color: #17140F; transition: background .3s, color .3s\">Ongoing <span style=\"opacity: 0.7; margin-left: 4px\">1</span></button>\n    \n      <button type=\"button\" aria-pressed=\"false\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #CFC7BB; background: #FFFFFF; color: #17140F; transition: background .3s, color .3s\">Completed <span style=\"opacity: 0.7; margin-left: 4px\">2</span></button>\n    \n      <button type=\"button\" aria-pressed=\"true\" style=\"height: 44px; padding: 0 18px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; border: 1px solid #0D1D4A; background: #0D1D4A; color: #FFFFFF; transition: background .3s, color .3s\">Upcoming <span style=\"opacity: 0.7; margin-left: 4px\">2</span></button>\n    \n  ","\n\n  <a href=\"project.html\" data-reveal=\"up\" style=\"display: none; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/prashi-residency.jpg\" alt=\"Prashi Residency elevation\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Ongoing</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Prashi Residency</span><span style=\"font-size: 15px; color: #6B645B\">Belathur, Whitefield</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>2 &amp; 3 BHK apartments</span><span>1045–1630 sq ft</span><span>Possession Dec 2026</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" data-d=\"2\" style=\"display: none; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/sanvi-sankalpam.jpg\" alt=\"Sanvi Sankalpam at dusk\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Delivered</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Sanvi Sankalpam</span><span style=\"font-size: 15px; color: #6B645B\">Nagondanahalli, near Whitefield</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>70 apartments · 2 &amp; 3 BHK</span><span>1100–1460 sq ft</span><span>Ready to move</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" style=\"display: none; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/sanvi-residency.jpg\" alt=\"Sanvi Residency apartments\" style=\"width: 100%; height: 100%; object-fit: cover; object-position: 30% center; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Delivered</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Sanvi Residency</span><span style=\"font-size: 15px; color: #6B645B\">Horamavu Agara Road</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>48 apartments · G+3</span><span>1100–1460 sq ft</span><span>Ready to move</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" data-d=\"2\" style=\"display: flex; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/budigere-villas.jpg\" alt=\"Villa community with a pool\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Upcoming</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Budigere Road Villas</span><span style=\"font-size: 15px; color: #6B645B\">Budigere Road · name to be announced</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>Residential villas</span><span>13 acres</span><span>Under development</span></span>\n  </a>\n\n  <a href=\"project.html\" data-reveal=\"up\" style=\"display: flex; flex-direction: column; gap: 18px\">\n    <span class=\"zoom\" style=\"position: relative; display: block; aspect-ratio: 4 / 3\">\n      <img src=\"assets/img/soukya-tower.jpg\" alt=\"Apartment tower with balconies\" style=\"width: 100%; height: 100%; object-fit: cover; display: block\">\n      <span style=\"position: absolute; left: 12px; top: 12px; font-size: 12px; background: #0D1D4A; color: #FFFFFF; padding: 6px 12px; border-radius: 999px\">Upcoming</span>\n    </span>\n    <span class=\"nudge\" style=\"display: flex; justify-content: space-between; align-items: flex-start; gap: 16px\">\n      <span style=\"display: flex; flex-direction: column; gap: 6px\"><span style=\"font-size: 28px; letter-spacing: -0.02em\">Soukya Road Apartments</span><span style=\"font-size: 15px; color: #6B645B\">Soukya Road, Whitefield · name to be announced</span></span>\n      <svg width=\"22\" height=\"22\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" aria-hidden=\"true\" style=\"flex: none; margin-top: 6px\"><path d=\"M5 12h14M13 6l6 6-6 6\"></path></svg>\n    </span>\n    <span style=\"display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 16px; border-top: 1px solid #DCD5CA; font-size: 14px; color: #6B645B\"><span>Residential apartments</span><span>2 acres</span><span>Under development</span></span>\n  </a>\n"]];
+  var R=["[role=\"group\"]","section[style*=\"grid-template-columns: repeat(auto-fill, minmax(400px\"]"];
+  var box=document.querySelector("[role=\"group\"]");
+  function show(i){ R.forEach(function(sel,k){ var el=document.querySelector(sel); if(el) el.innerHTML=V[i][k]; }); }
+  document.addEventListener('click',function(e){
+    var c=document.querySelector("[role=\"group\"]"); if(!c) return;
+    var b=e.target.closest("[role=\"group\"] button"); if(!b) return;
+    var i=[].indexOf.call(c.querySelectorAll("button"),b); if(i>-1) show(i);
+  });
+})();
 </script>
-<script>DC.mount(Component, {"accent": "#C2525E"});</script>
 </body>
 </html>

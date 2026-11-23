@@ -1,33 +1,24 @@
-# Audioheads — website concept
+# Prashi Group — Website Redesign
 
-A scroll-driven, 3D website concept for **Audioheads**, Bengaluru's live event and pro-audio specialists (since 2008): live show production, A/V rental and integration, an authorised Pioneer DJ service centre, and artist management.
+A static redesign of [prashigroup.com](https://prashigroup.com), styled after the Stellar Management site: big editorial type, full-screen imagery and scroll-driven motion.
 
 ## Pages
+- `index.html`: Home
+- `projects.html`: All projects, with status filters
+- `project.html`: Project page (Prashi Residency)
+- `about.html`: About
+- `contact.html`: Contact
+- `news.html`: News & insights
 
-| Page | File | What it is |
-| --- | --- | --- |
-| Home | `index.html` | A 3D scroll journey: the speaker, the dive into the canyon, glowing lines that draw as you scroll, the cabinet field and the valley |
-| Home — option B | `home-b.html` | An alternative home page in the About page's style: flowing light ribbons and scroll-revealed cards |
-| About us | `about.html` | Story, numbers, values and crew |
-| Projects | `projects.html` | Interactive map of shows, the service centre and talent cities |
-| Contact | `contact.html` | Contact details, enquiry form and address |
-
-## Running it
-
-It's a static site with no build step. Open `index.html` through any static server, for example:
+## Run locally
+Open `index.html` in a browser, or serve the folder:
 
 ```
-python3 -m http.server
+python3 -m http.server 8000
 ```
 
-## How it's built
-
-- Each page keeps its markup in a `<template>` with `{{ holes }}`, `<sc-if>` and `<sc-for>`, plus a small component class. `dc-lite.js` renders it and patches updates with [morphdom](https://github.com/patrick-steele-idem/morphdom).
-- 3D scenes use [three.js](https://threejs.org) r128 (`vendor/three.min.js`).
-- Fonts load from Google Fonts: Schibsted Grotesk, JetBrains Mono, Tektur, Barlow Semi Condensed.
-
-## Before going live
-
-The contact form doesn't send anything yet. Connect it to a form service or backend before launch; until then, submitting shows a thank-you card with a WhatsApp link.
-
-Third-party code: three.js and morphdom, both MIT licensed.
+## Notes
+- Scroll effects live in `assets/fx.js` and `assets/fx.css`. They turn off for visitors who prefer reduced motion.
+- Some photos are Unsplash stock (free for commercial use) standing in for real project photography. Prashi project renders and the logo are the client's own.
+- Contact and enquiry forms are visual only and aren't wired to a backend.
+- Placeholders still to fill: starting price, floor plan, map embeds.
