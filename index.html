@@ -13,10 +13,8 @@ body{margin:0}
 a{color:inherit;text-decoration:none}
 a:hover{opacity:.85}
 .scroller::-webkit-scrollbar{height:0}
-@keyframes hnClipA{from{clip-path:inset(100% 100% 0% 0%)}to{clip-path:inset(0% 0% 0% 0%)}}
-@keyframes hnClipB{from{clip-path:inset(100% 100% 0% 0%)}to{clip-path:inset(0% 0% 0% 0%)}}
-@keyframes hnZoomA{from{transform:scale(1.18)}to{transform:scale(1)}}
-@keyframes hnZoomB{from{transform:scale(1.18)}to{transform:scale(1)}}
+@keyframes hnGrowA{from{transform:scale(0.04)}to{transform:scale(1)}}
+@keyframes hnGrowB{from{transform:scale(0.04)}to{transform:scale(1)}}
 @media (prefers-reduced-motion: reduce){[data-hn]{animation:none!important}}
 </style>
 
@@ -145,11 +143,11 @@ body{margin:0}
   </div>
   <div data-reveal="scale" data-tall="1" style="flex: 1 1 520px; max-width: 610px; position: relative; min-height: 620px; overflow: hidden; background: #A89D8C">
     <div data-parallax="0.08" data-scale="1.1" style="position: absolute; inset: 0; transform: scale(1.1)">
-      <img data-hn="0" src="assets/img/n-whitefield.jpg" alt="Glass office towers in a tech corridor" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transform-origin: 0% 100%; animation: none; backface-visibility: hidden">
-      <img data-hn="1" src="assets/img/n-nagondanahalli.jpg" alt="Apartment building framed by trees" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transform-origin: 0% 100%; animation: none; backface-visibility: hidden">
-      <img data-hn="2" src="assets/img/n-horamavu.jpg" alt="Apartments with glass balconies" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transform-origin: 0% 100%; animation: none; backface-visibility: hidden">
-      <img data-hn="3" src="assets/img/n-budigere.jpg" alt="Villa with a swimming pool" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transform-origin: 0% 100%; animation: none; backface-visibility: hidden">
-      <img data-hn="4" src="assets/img/n-soukya.jpg" alt="Apartment tower at sunset" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transform-origin: 0% 100%; animation: none; backface-visibility: hidden">
+      <img data-hn="0" src="assets/img/n-whitefield.jpg" alt="Glass office towers in a tech corridor" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transform-origin: 0% 100%; animation: none; backface-visibility: hidden; will-change: transform">
+      <img data-hn="1" src="assets/img/n-nagondanahalli.jpg" alt="Apartment building framed by trees" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transform-origin: 0% 100%; animation: none; backface-visibility: hidden; will-change: transform">
+      <img data-hn="2" src="assets/img/n-horamavu.jpg" alt="Apartments with glass balconies" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transform-origin: 0% 100%; animation: none; backface-visibility: hidden; will-change: transform">
+      <img data-hn="3" src="assets/img/n-budigere.jpg" alt="Villa with a swimming pool" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transform-origin: 0% 100%; animation: none; backface-visibility: hidden; will-change: transform">
+      <img data-hn="4" src="assets/img/n-soukya.jpg" alt="Apartment tower at sunset" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transform-origin: 0% 100%; animation: none; backface-visibility: hidden; will-change: transform">
     </div>
     <span style="position: absolute; left: 16px; bottom: 16px; font-size: 13px; background: #FFFFFF; padding: 8px 12px; border-radius: 999px">Whitefield · tech corridor</span>
   </div>
@@ -390,7 +388,7 @@ body{margin:0}
     });
     if(cap && caps[cur]) cap.textContent=caps[cur];
   }
-  // The chosen photo moves to the top of the stack and grows out of the bottom-left corner.
+  // The chosen photo moves to the top of the stack and scales up out of the bottom-left corner.
   // Photos underneath keep finishing their own reveal, so quick hovers never flash the background.
   function show(i){
     if(i===cur) return;
@@ -398,7 +396,7 @@ body{margin:0}
     var s=set[i]==='A'?'B':'A'; set[i]=s;
     var im=imgs[i];
     im.style.zIndex=String(tick);
-    im.style.animation='hnClip'+s+' .9s cubic-bezier(.77,0,.18,1) both, hnZoom'+s+' 1.4s cubic-bezier(.2,.7,.2,1) both';
+    im.style.animation='hnGrow'+s+' .7s cubic-bezier(.22,1,.36,1) both';
     rowsPaint();
   }
   rows.forEach(function(r,i){
